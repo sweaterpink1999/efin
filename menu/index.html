@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Menu</title>
+<title>Menu Besar</title>
 
 <style>
   body{
@@ -14,100 +14,79 @@
 
   h2{text-align:center; margin-bottom:24px;}
 
-  .menu-grid{
-    display:grid;
-    gap:15px;
-    max-width:900px;
+  .menu-list{
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+    max-width:500px;
     margin:auto;
-    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-  }
-
-  /* HP: tetap 4 kolom tetapi gambar lebih besar */
-  @media (max-width: 480px){
-    .menu-grid{
-      grid-template-columns: repeat(4, 1fr);
-      gap:12px;
-    }
-    .menu-card img{
-      aspect-ratio: 3/5;   /* PERBESAR gambar */
-      border-radius:8px;
-    }
-    .menu-title{
-      font-size:11px;
-      margin-top:6px;
-    }
-    .menu-card{
-      padding:6px;
-    }
   }
 
   .menu-card{
     background:#17181c;
-    border-radius:14px;
-    padding:12px;
+    border-radius:16px;
+    padding:14px;
     box-shadow:0 8px 22px rgba(0,0,0,.35);
-    transition:transform .2s ease, box-shadow .2s ease;
-    text-align:center;
-    overflow:hidden;
+    transition:transform .2s ease;
   }
 
   .menu-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 12px 26px rgba(0,0,0,.45);
+    transform:translateY(-4px);
   }
 
   .menu-card img{
     width:100%;
-    aspect-ratio:3/4;
+    aspect-ratio:3/4;       /* ukuran portrait sama seperti Manaka */
     object-fit:cover;
-    border-radius:10px;
+    border-radius:14px;
   }
 
   .menu-title{
-    margin-top:10px;
-    font-size:16px;
+    margin-top:12px;
+    font-size:18px;
     font-weight:600;
+    text-align:center;
     color:#7aa2ff;
   }
 
-  a{ text-decoration:none; }
+  a{ text-decoration:none; color:inherit; }
 </style>
 </head>
 <body>
 
 <h2>Menu</h2>
 
-<div class="menu-grid">
+<div class="menu-list">
 
-  <a href="https://sweaterpink1999.github.io/efin/Efin" target="_blank" rel="noopener">
+  <a href="https://sweaterpink1999.github.io/efin/Efin" target="_blank">
     <div class="menu-card">
       <img src="https://i.postimg.cc/g2RPKbLW/1000165616.jpg">
       <div class="menu-title">Efin</div>
     </div>
   </a>
 
-  <a href="https://sweaterpink1999.github.io/efin/Anal-All" target="_blank" rel="noopener">
+  <a href="https://sweaterpink1999.github.io/efin/Anal-All" target="_blank">
     <div class="menu-card">
       <img src="https://picsum.photos/300/400?random=22">
       <div class="menu-title">Anal All</div>
     </div>
   </a>
 
-  <a href="https://sweaterpink1999.github.io/efin/Manaka-Hoshina" target="_blank" rel="noopener">
+  <a href="https://sweaterpink1999.github.io/efin/Manaka-Hoshina" target="_blank">
     <div class="menu-card">
       <img src="https://i.postimg.cc/Y0cP0h84/1722571214.webp">
       <div class="menu-title">Manaka Hoshina</div>
     </div>
   </a>
 
-  <a href="https://sweaterpink1999.github.io/efin/Ai-Uehara" target="_blank" rel="noopener">
+  <a href="https://sweaterpink1999.github.io/efin/Ai-Uehara" target="_blank">
     <div class="menu-card">
       <img src="https://i.postimg.cc/9XR10d4z/cover.jpg">
       <div class="menu-title">Ai Uehara</div>
     </div>
   </a>
 
-  <a href="https://sweaterpink1999.github.io/efin/Sanae-Momo" target="_blank" rel="noopener">
+  <a href="https://sweaterpink1999.github.io/efin/Sanae-Momo" target="_blank">
     <div class="menu-card">
       <img src="https://i.postimg.cc/LXztkTzF/Screenshot-2025-12-04-125136.png">
       <div class="menu-title">Sanae Momo</div>

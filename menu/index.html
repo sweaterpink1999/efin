@@ -16,10 +16,34 @@
 
   .menu-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
     gap:20px;
     max-width:900px;
     margin:auto;
+    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  /* HP & layar kecil → tetap 4 kolom */
+  @media (max-width: 480px){
+    .menu-grid{
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
+    }
+    .menu-card img{
+      aspect-ratio: 2/3;   /* sedikit lebih ramping agar muat di HP */
+    }
+    .menu-title{
+      font-size:12px;
+    }
+    .menu-card{
+      padding:8px;
+    }
+  }
+
+  /* Tablet → tetap 4 kolom */
+  @media (max-width: 768px){
+    .menu-grid{
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   .menu-card{
@@ -39,7 +63,7 @@
 
   .menu-card img{
     width:100%;
-    aspect-ratio:3/4;      /* ukuran portrait seperti Efin & Manaka */
+    aspect-ratio:3/4;
     object-fit:cover;
     border-radius:10px;
   }

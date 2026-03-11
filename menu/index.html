@@ -3,111 +3,295 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Menu Besar</title>
+<title>HOME</title>
 
 <style>
-  body{
-    margin:0; padding:24px;
-    background:#0e0f12; color:#e8edf2;
-    font-family:system-ui, sans-serif;
-  }
 
-  h2{text-align:center; margin-bottom:24px;}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,Helvetica,sans-serif;
+}
 
-  .menu-list{
-    display:flex;
-    flex-direction:column;
-    gap:26px;
-    max-width:500px;
-    margin:auto;
-  }
+body{
+background:#141414;
+color:white;
+}
 
-  .menu-card{
-    background:#17181c;
-    border-radius:16px;
-    padding:14px;
-    box-shadow:0 8px 22px rgba(0,0,0,.35);
-    transition:transform .2s ease;
-  }
+/* HEADER */
 
-  .menu-card:hover{
-    transform:translateY(-4px);
-  }
+.header{
+padding:20px;
+max-width:1100px;
+margin:auto;
+text-align:center;
+}
 
-  .menu-card img{
-    width:100%;
-    aspect-ratio:3/4;       /* ukuran portrait sama seperti Manaka */
-    object-fit:cover;
-    border-radius:14px;
-  }
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#e50914;
+margin-bottom:15px;
+}
 
-  .menu-title{
-    margin-top:12px;
-    font-size:18px;
-    font-weight:600;
-    text-align:center;
-    color:#7aa2ff;
-  }
+/* SEARCH */
 
-  a{ text-decoration:none; color:inherit; }
+.search{
+margin-bottom:25px;
+}
+
+.search input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:4px;
+background:#222;
+color:white;
+}
+
+/* GRID */
+
+.grid{
+max-width:1100px;
+margin:auto;
+padding:10px 20px 40px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+gap:20px;
+}
+
+/* CARD */
+
+.card{
+position:relative;
+overflow:hidden;
+border-radius:6px;
+transition:.3s;
+}
+
+.card:hover{
+transform:scale(1.08);
+z-index:5;
+}
+
+/* POSTER */
+
+.poster img{
+width:100%;
+aspect-ratio:2/3;
+object-fit:cover;
+display:block;
+}
+
+/* PLAY */
+
+.play{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:38px;
+opacity:0;
+transition:.3s;
+}
+
+.card:hover .play{
+opacity:1;
+}
+
+/* TITLE */
+
+.title{
+position:absolute;
+bottom:0;
+width:100%;
+padding:12px;
+font-size:14px;
+background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+text-align:center;
+}
+
+/* BADGE */
+
+.badge{
+position:absolute;
+top:8px;
+left:8px;
+background:#e50914;
+padding:3px 7px;
+font-size:11px;
+border-radius:3px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.card:hover{
+transform:none;
+}
+
+}
+
+a{
+text-decoration:none;
+color:white;
+}
+
 </style>
 </head>
+
 <body>
 
-<h2>Menu</h2>
+<div class="header">
 
-<div class="menu-list">
+<div class="logo">
+HOME
+</div>
 
-  <a href="https://sweaterpink1999.github.io/efin/Efin" target="_blank">
-    <div class="menu-card">
-      <img src="https://sweaterpink.web.id/icon/efinpp.jpg">
-      <div class="menu-title">Efin</div>
-    </div>
-  </a>
-
-  <a href="https://sweaterpink1999.github.io/efin/Anal-All" target="_blank">
-    <div class="menu-card">
-      <img src="https://picsum.photos/300/400?random=22">
-      <div class="menu-title">Anal All</div>
-    </div>
-  </a>
-
-  <a href="https://sweaterpink1999.github.io/efin/Manaka-Hoshina" target="_blank">
-    <div class="menu-card">
-      <img src="https://sweaterpink.web.id/icon/manaka.webp">
-      <div class="menu-title">Manaka Hoshina</div>
-    </div>
-  </a>
-
-  <a href="https://sweaterpink1999.github.io/efin/Ai-Uehara" target="_blank">
-    <div class="menu-card">
-      <img src="https://sweaterpink.web.id/icon/Ai.jpg">
-      <div class="menu-title">Ai Uehara</div>
-    </div>
-  </a>
-
-  <a href="https://sweaterpink1999.github.io/efin/Sanae-Momo" target="_blank">
-    <div class="menu-card">
-      <img src="https://sweaterpink.web.id/icon/momo.png">
-      <div class="menu-title">Sanae Momo</div>
-    </div>
-  </a>
-
-  <a href="https://sweaterpink1999.github.io/efin/BbwThaixxx" target="_blank">
-    <div class="menu-card">
-      <img src="https://sweaterpink.web.id/icon/bbwthaixxx.jpg">
-      <div class="menu-title">BbwThaixxx</div>
-    </div>
-  </a>
-
-    <a href="https://sweaterpink1999.github.io/efin/BbwThaixxx-Kumpulan" target="_blank">
-    <div class="menu-card">
-      <img src="https://sweaterpink.web.id/icon/bbwthaixxx.jpg">
-      <div class="menu-title">BbwThaixxx Kumpulan</div>
-    </div>
-  </a>
+<div class="search">
+<input type="text" id="searchInput" placeholder="Cari video...">
+</div>
 
 </div>
+
+<div class="grid" id="grid">
+
+<a href="https://sweaterpink1999.github.io/efin/Efin" class="item">
+<div class="card">
+
+<div class="poster">
+<span class="badge">HD</span>
+<img src="https://sweaterpink.web.id/icon/efinpp.jpg">
+<div class="play">▶</div>
+</div>
+
+<div class="title">Efin</div>
+
+</div>
+</a>
+
+
+<a href="https://sweaterpink1999.github.io/efin/Anal-All" class="item">
+<div class="card">
+
+<div class="poster">
+<span class="badge">HD</span>
+<img src="https://picsum.photos/400/600?22">
+<div class="play">▶</div>
+</div>
+
+<div class="title">Anal All</div>
+
+</div>
+</a>
+
+
+<a href="https://sweaterpink1999.github.io/efin/Manaka-Hoshina" class="item">
+<div class="card">
+
+<div class="poster">
+<span class="badge">HD</span>
+<img src="https://sweaterpink.web.id/icon/manaka.webp">
+<div class="play">▶</div>
+</div>
+
+<div class="title">Manaka Hoshina</div>
+
+</div>
+</a>
+
+
+<a href="https://sweaterpink1999.github.io/efin/Ai-Uehara" class="item">
+<div class="card">
+
+<div class="poster">
+<span class="badge">HD</span>
+<img src="https://sweaterpink.web.id/icon/Ai.jpg">
+<div class="play">▶</div>
+</div>
+
+<div class="title">Ai Uehara</div>
+
+</div>
+</a>
+
+
+<a href="https://sweaterpink1999.github.io/efin/Sanae-Momo" class="item">
+<div class="card">
+
+<div class="poster">
+<span class="badge">HD</span>
+<img src="https://sweaterpink.web.id/icon/momo.png">
+<div class="play">▶</div>
+</div>
+
+<div class="title">Sanae Momo</div>
+
+</div>
+</a>
+
+
+<a href="https://sweaterpink1999.github.io/efin/BbwThaixxx" class="item">
+<div class="card">
+
+<div class="poster">
+<span class="badge">HD</span>
+<img src="https://sweaterpink.web.id/icon/bbwthaixxx.jpg">
+<div class="play">▶</div>
+</div>
+
+<div class="title">BbwThaixxx</div>
+
+</div>
+</a>
+
+
+<a href="https://sweaterpink1999.github.io/efin/BbwThaixxx-Kumpulan" class="item">
+<div class="card">
+
+<div class="poster">
+<span class="badge">HD</span>
+<img src="https://sweaterpink.web.id/icon/bbwthaixxx.jpg">
+<div class="play">▶</div>
+</div>
+
+<div class="title">BbwThaixxx Kumpulan</div>
+
+</div>
+</a>
+
+</div>
+
+<script>
+
+const searchInput = document.getElementById("searchInput");
+const items = document.querySelectorAll(".item");
+
+searchInput.addEventListener("keyup", function(){
+
+let value = this.value.toLowerCase();
+
+items.forEach(function(item){
+
+let text = item.innerText.toLowerCase();
+
+if(text.includes(value)){
+item.style.display="block";
+}else{
+item.style.display="none";
+}
+
+});
+
+});
+
+</script>
 
 </body>
 </html>

@@ -1,95 +1,211 @@
-<div class="separator" style="clear: both; text-align: center;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhb2tBmhIEBB4IM3U6SAr8wOgGURlcdm8lP7DpZkPgXTs01zhCAzOQ8E6SjggdNQzGn3Oz5f4-AplgD0MZzgFXQ65VgX06u4rOkDyPMmqaZHvGWxHMvDNcG-FTAdEiEQFMTqCHt6T8bU8leSSGcOgd1mFfTWdkUKh8P4qtX8agvdQi6zBGjx5JbGpZHmDk/s1280/1000165616.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1280" data-original-width="720" height="320" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhb2tBmhIEBB4IM3U6SAr8wOgGURlcdm8lP7DpZkPgXTs01zhCAzOQ8E6SjggdNQzGn3Oz5f4-AplgD0MZzgFXQ65VgX06u4rOkDyPMmqaZHvGWxHMvDNcG-FTAdEiEQFMTqCHt6T8bU8leSSGcOgd1mFfTWdkUKh8P4qtX8agvdQi6zBGjx5JbGpZHmDk/s320/1000165616.jpg" width="180" /></a></div><br>
+<div class="separator" style="clear: both; text-align: center">
+  <a
+    href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhb2tBmhIEBB4IM3U6SAr8wOgGURlcdm8lP7DpZkPgXTs01zhCAzOQ8E6SjggdNQzGn3Oz5f4-AplgD0MZzgFXQ65VgX06u4rOkDyPMmqaZHvGWxHMvDNcG-FTAdEiEQFMTqCHt6T8bU8leSSGcOgd1mFfTWdkUKh8P4qtX8agvdQi6zBGjx5JbGpZHmDk/s1280/1000165616.jpg"
+    imageanchor="1"
+    style="margin-left: 1em; margin-right: 1em"
+    ><img
+      border="0"
+      data-original-height="1280"
+      data-original-width="720"
+      height="320"
+      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhb2tBmhIEBB4IM3U6SAr8wOgGURlcdm8lP7DpZkPgXTs01zhCAzOQ8E6SjggdNQzGn3Oz5f4-AplgD0MZzgFXQ65VgX06u4rOkDyPMmqaZHvGWxHMvDNcG-FTAdEiEQFMTqCHt6T8bU8leSSGcOgd1mFfTWdkUKh8P4qtX8agvdQi6zBGjx5JbGpZHmDk/s320/1000165616.jpg"
+      width="180"
+  /></a>
+</div>
+<br />
 <!-- Ganti FILE_ID jika perlu; ini sudah pakai ID dari link kamu -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Video Gallery — Auto Preview (Play & Open)</title>
-  <style>
-    :root{
-      --bg:#0e0f12; --card:#17181c; --muted:#a9b0bb; --text:#e8edf2;
-      --btn:#2a2e36; --btn-hover:#3a404a; --accent:#7aa2ff;
-      --radius:14px; --gap:20px;
-    }
-    *{box-sizing:border-box}
-    body{ margin:0; padding:24px; background:var(--bg); color:var(--text);
-      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;}
-    h1,h2{margin:0 0 12px; text-align:center}
-    h1{font-size:clamp(20px,3vw,28px)}
-    h2{font-size:20px; color:var(--text)}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video Gallery — Auto Preview (Play & Open)</title>
+    <style>
+      :root {
+        --bg: #0e0f12;
+        --card: #17181c;
+        --muted: #a9b0bb;
+        --text: #e8edf2;
+        --btn: #2a2e36;
+        --btn-hover: #3a404a;
+        --accent: #7aa2ff;
+        --radius: 14px;
+        --gap: 20px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Ubuntu,
+          "Helvetica Neue",
+          Arial;
+      }
+      h1,
+      h2 {
+        margin: 0 0 12px;
+        text-align: center;
+      }
+      h1 {
+        font-size: clamp(20px, 3vw, 28px);
+      }
+      h2 {
+        font-size: 20px;
+        color: var(--text);
+      }
 
-    .gallery{ 
-      max-width:700px; 
-      margin:0 auto 32px; 
-      display:flex; 
-      flex-direction:column; 
-      gap:var(--gap);
-    }
+      .gallery {
+        max-width: 700px;
+        margin: 0 auto 32px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap);
+      }
 
-    .card{ background:var(--card); border-radius:var(--radius);
-      box-shadow:0 8px 24px rgba(0,0,0,.35); overflow:hidden;
-      display:flex; flex-direction:column; gap:12px; padding:14px; transition:transform .15s ease;}
-    .card:hover{ transform: translateY(-2px) }
-    .title{font-weight:600; font-size:15px; letter-spacing:.2px}
-    .preview{ width:100%; aspect-ratio:16/9; border-radius:10px; position:relative; overflow:hidden; background:linear-gradient(180deg,#1e2127,#111318);}
-    .skeleton{ position:absolute; inset:0; display:grid; place-items:center; color:#cfd7e6; font-size:14px;}
-    .skeleton::before{ content:""; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent); animation:shimmer 1.2s infinite; }
-    @keyframes shimmer{ 0%{ transform:translateX(-100%)} 100%{ transform:translateX(100%)}}
-    iframe{ width:100%; height:100%; border:0; display:block; border-radius:10px; }
-    .buttons{ display:flex; gap:10px; }
-    .btn{ appearance:none; border:1px solid transparent; background:var(--btn); color:var(--text);
-      padding:9px 14px; border-radius:10px; cursor:pointer; font-size:14px; font-weight:600;
-      transition:background .15s ease, border-color .15s ease, transform .02s ease; text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
-    .btn:hover{ background:var(--btn-hover); border-color:#434a57 }
-    .btn:active{ transform:translateY(1px) }
-    .btn.secondary{ background:transparent; border-color:#39404a; color:var(--accent) }
-  </style>
-</head>
-<body>
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px;
+        transition: transform 0.15s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+      }
+      .title {
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: 0.2px;
+      }
+      .preview {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(180deg, #1e2127, #111318);
+      }
+      .skeleton {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: #cfd7e6;
+        font-size: 14px;
+      }
+      .skeleton::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.06),
+          transparent
+        );
+        animation: shimmer 1.2s infinite;
+      }
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+        border-radius: 10px;
+      }
+      .buttons {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        appearance: none;
+        border: 1px solid transparent;
+        background: var(--btn);
+        color: var(--text);
+        padding: 9px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition:
+          background 0.15s ease,
+          border-color 0.15s ease,
+          transform 0.02s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn:hover {
+        background: var(--btn-hover);
+        border-color: #434a57;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn.secondary {
+        background: transparent;
+        border-color: #39404a;
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Section Efin -->
+    <section>
+      <h2>Efin</h2>
+      <div id="Efin" class="gallery" aria-live="polite"></div>
+    </section>
 
-  <!-- Section Efin -->
-  <section>
-    <h2>Efin</h2>
-    <div id="Efin" class="gallery" aria-live="polite"></div>
-  </section>
+    <script>
+      // Daftar video Efin
+      const videosEfin = [
+        { id: "vized", title: "Video 1" },
+        { id: "8mw55", title: "Video 2" },
+        { id: "6ltqy", title: "Video 3" },
+        { id: "ahy6n", title: "Video 4" },
+        { id: "hkslh", title: "Video 5" },
+        { id: "r36gs", title: "Video 6" },
+        { id: "nth8r", title: "Video 7" },
+        { id: "9vmtg", title: "Video 8" },
+        { id: "fu531", title: "Video 9" },
+        { id: "hkswg", title: "Video 10" },
+        { id: "5jvla", title: "Video 11" },
+        { id: "5jvld", title: "Video 12" },
+        { id: "6lt9c", title: "Video 13" },
+        { id: "xyozq", title: "Video 14" },
+        { id: "ysbpv", title: "Video 15" },
+        { id: "iwpyw", title: "Video 16" },
+      ];
+      const EMBED_BASE = "https://sweaterpink.4meplayer.com/#";
 
-  <script>
-    // Daftar video Efin
-    const videosEfin = [
-    { id: "stgs6", title: "Video 1" },
-    { id: "zjqzt", title: "Video 2" },
-    { id: "vuzvi", title: "Video 3" },
-    { id: "8gw8b", title: "Video 4" },
-    { id: "9fm9c", title: "Video 5" },
-    { id: "a1ya3", title: "Video 6" },
-    { id: "dv3do", title: "Video 7" },
-    { id: "h6shl", title: "Video 8" },
-    { id: "klfkd", title: "Video 9" },
-    { id: "cpac1", title: "Video 10" },
-    { id: "rm6re", title: "Video 11" },
-    { id: "p81pt", title: "Video 12" },
-    { id: "nrhnn", title: "Video 13" },
-    { id: "jbf11", title: "Video 14" },
-    { id: "esorj", title: "Video 15" },
-    { id: "9fb3o", title: "Video 16" },
-    { id: "h6c9o", title: "Video 17" },
-    { id: "8gu6g", title: "Video 18" },
-    { id: "x5hhm", title: "Video 19" },
-    { id: "icmmj", title: "Video 20" },
-    { id: "yjk1a", title: "Video 21" }
-  ];
+      // Galeri untuk Efin
+      const $galleryAi = document.getElementById("Efin");
 
-    const EMBED_BASE = "https://sweaterpink.4meplayer.com/#";
-
-    // Galeri untuk Efin
-    const $galleryAi = document.getElementById("Efin");
-
-    function createCard({ id, title }) {
-      const src = EMBED_BASE + id;
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
+      function createCard({ id, title }) {
+        const src = EMBED_BASE + id;
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
         <div class="title">${title}</div>
         <div class="preview" data-src="${src}">
           <div class="skeleton">Memuat preview…</div>
@@ -98,36 +214,38 @@
           <a class="btn secondary" href="${src}" target="_blank" rel="noopener">Open ↗</a>
         </div>
       `;
-      return card;
-    }
+        return card;
+      }
 
-    // Render galeri
-    videosEfin.forEach(v => $galleryAi.appendChild(createCard(v)));
+      // Render galeri
+      videosEfin.forEach((v) => $galleryAi.appendChild(createCard(v)));
 
-    // Lazy-load preview video
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const preview = entry.target;
-        if (preview.dataset.loaded) return;
+      // Lazy-load preview video
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const preview = entry.target;
+            if (preview.dataset.loaded) return;
 
-        const iframe = document.createElement("iframe");
-        iframe.src = preview.dataset.src;
-        iframe.allowFullscreen = true;
-        iframe.loading = "lazy";
-        iframe.addEventListener("load", () => {
-          const sk = preview.querySelector(".skeleton");
-          if (sk) sk.remove();
-        });
+            const iframe = document.createElement("iframe");
+            iframe.src = preview.dataset.src;
+            iframe.allowFullscreen = true;
+            iframe.loading = "lazy";
+            iframe.addEventListener("load", () => {
+              const sk = preview.querySelector(".skeleton");
+              if (sk) sk.remove();
+            });
 
-        preview.appendChild(iframe);
-        preview.dataset.loaded = "1";
-        io.unobserve(preview);
-      });
-    }, { rootMargin: "200px 0px", threshold: 0.2 });
+            preview.appendChild(iframe);
+            preview.dataset.loaded = "1";
+            io.unobserve(preview);
+          });
+        },
+        { rootMargin: "200px 0px", threshold: 0.2 },
+      );
 
-    document.querySelectorAll(".preview").forEach(p => io.observe(p));
-  </script>
-</body>
+      document.querySelectorAll(".preview").forEach((p) => io.observe(p));
+    </script>
+  </body>
 </html>
-

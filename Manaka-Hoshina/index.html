@@ -41,27 +41,15 @@
 
       h1 {
         text-align: center;
-
         margin: 0 0 25px;
-
         font-size: clamp(20px, 3vw, 28px);
-      }
-
-      h2 {
-        text-align: center;
-
-        margin: 0 0 12px;
-
-        font-size: 20px;
       }
 
       .gallery {
         max-width: 700px;
-
         margin: 0 auto 32px;
 
         display: flex;
-
         flex-direction: column;
 
         gap: var(--gap);
@@ -77,7 +65,6 @@
         overflow: hidden;
 
         display: flex;
-
         flex-direction: column;
 
         gap: 12px;
@@ -87,7 +74,6 @@
 
       .title {
         font-weight: 600;
-
         font-size: 15px;
 
         letter-spacing: 0.2px;
@@ -95,10 +81,14 @@
         word-break: break-word;
       }
 
+      /*
+      BINGKAI VIDEO 19:6
+    */
+
       .preview {
         width: 100%;
 
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 19 / 6;
 
         border-radius: 10px;
 
@@ -109,7 +99,18 @@
         background: #111318;
       }
 
-      .skeleton {
+      .preview iframe {
+        width: 100%;
+        height: 100%;
+
+        border: 0;
+
+        display: block;
+
+        border-radius: 10px;
+      }
+
+      .loading {
         position: absolute;
 
         inset: 0;
@@ -121,22 +122,14 @@
         color: #cfd7e6;
 
         font-size: 14px;
-      }
 
-      iframe {
-        width: 100%;
-        height: 100%;
+        pointer-events: none;
 
-        border: 0;
-
-        display: block;
-
-        border-radius: 10px;
+        z-index: 1;
       }
 
       .buttons {
         display: flex;
-
         gap: 10px;
       }
 
@@ -164,6 +157,8 @@
         display: inline-flex;
 
         align-items: center;
+
+        justify-content: center;
 
         gap: 8px;
       }
@@ -195,11 +190,67 @@
       .error {
         color: #ff7777;
       }
+
+      /*
+      FULLSCREEN
+    */
+
+      .fullscreen-btn {
+        position: absolute;
+
+        right: 10px;
+        bottom: 10px;
+
+        z-index: 5;
+
+        width: 40px;
+        height: 40px;
+
+        border: 0;
+
+        border-radius: 10px;
+
+        background: rgba(0, 0, 0, 0.75);
+
+        color: white;
+
+        font-size: 20px;
+
+        cursor: pointer;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+      }
+
+      .fullscreen-btn:hover {
+        background: rgba(0, 0, 0, 0.9);
+      }
+
+      /*
+      MOBILE
+    */
+
+      @media (max-width: 600px) {
+        body {
+          padding: 12px;
+        }
+
+        .card {
+          padding: 10px;
+        }
+
+        .gallery {
+          gap: 14px;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <h1>Video Gallery</h1>
+    <h1 id="pageTitle">Video Gallery</h1>
 
     <div id="app">
       <div class="status">Memuat video...</div>
@@ -207,16 +258,38 @@
 
     <script>
       /* =====================================================
-   GOOGLE APPS SCRIPT
+   PENGATURAN
 ===================================================== */
+
+      /*
+   CUKUP GANTI NAMA INI
+
+   Manaka:
+   "Manaka Hoshina"
+
+   Sanae:
+   "Sanae Momo"
+*/
+
+      const FOLDER_NAME = "Manaka Hoshina";
+
+      /*
+   APPS SCRIPT
+*/
 
       const API_URL =
         "https://script.google.com/macros/s/AKfycbxo1qNQzgMW4SJ67xtxZ7istZwIvD3KK59yZDts5K2qDU1UODNXN8uXx0XqYzAwsMgh/exec";
 
       const app = document.getElementById("app");
 
+      /*
+   Judul halaman otomatis
+*/
+
+      document.getElementById("pageTitle").textContent = FOLDER_NAME;
+
       /* =====================================================
-   AMANKAN JUDUL VIDEO
+   ESCAPE HTML
 ===================================================== */
 
       function escapeHTML(text) {
@@ -233,7 +306,7 @@
       }
 
       /* =====================================================
-   BUAT KARTU VIDEO
+   BUAT VIDEO
 ===================================================== */
 
       function createCard(video) {
@@ -250,22 +323,31 @@
         card.innerHTML = `
 
     <div class="title">
-
       ${escapeHTML(video.title)}
-
     </div>
 
 
-    <div
-      class="preview"
-      data-src="${drivePreview}"
-    >
+    <div class="preview">
 
-      <div class="skeleton">
-
-        Memuat preview…
-
+      <div class="loading">
+        Memuat preview...
       </div>
+
+
+      <iframe
+        src="${drivePreview}"
+        allow="fullscreen"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+
+
+      <button
+        class="fullscreen-btn"
+        type="button"
+        title="Fullscreen">
+        ⛶
+      </button>
 
     </div>
 
@@ -273,18 +355,12 @@
     <div class="buttons">
 
       <a
-
         class="btn secondary"
-
         href="${driveOpen}"
-
         target="_blank"
+        rel="noopener">
 
-        rel="noopener"
-
-      >
-
-        Open ↗
+        Open Drive ↗
 
       </a>
 
@@ -292,44 +368,63 @@
 
   `;
 
+        /*
+     Hilangkan loading
+  */
+
+        const iframe = card.querySelector("iframe");
+
+        iframe.addEventListener("load", function () {
+          const loading = card.querySelector(".loading");
+
+          if (loading) {
+            loading.remove();
+          }
+        });
+
+        /*
+     FULLSCREEN
+  */
+
+        const fullscreen = card.querySelector(".fullscreen-btn");
+
+        fullscreen.addEventListener("click", function () {
+          const preview = card.querySelector(".preview");
+
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          } else if (preview.requestFullscreen) {
+            preview.requestFullscreen();
+          }
+        });
+
         return card;
       }
 
       /* =====================================================
-   BUAT SECTION FOLDER
+   TAMPILKAN FOLDER
 ===================================================== */
 
-      function createSection(folder) {
-        const section = document.createElement("section");
-
-        const title = document.createElement("h2");
-
-        title.textContent = folder.name;
-
-        section.appendChild(title);
+      function showFolder(folder) {
+        app.innerHTML = "";
 
         const gallery = document.createElement("div");
 
         gallery.className = "gallery";
 
         /*
-     SEMUA FILE VIDEO
-     DARI APPS SCRIPT
-     AKAN DITAMPILKAN
+     SEMUA FILE DITAMPILKAN
   */
 
         folder.videos.forEach(function (video) {
           gallery.appendChild(createCard(video));
         });
 
-        section.appendChild(gallery);
-
-        return section;
+        app.appendChild(gallery);
       }
 
       /* =====================================================
-   LOAD DATA GOOGLE DRIVE
-   MENGGUNAKAN JSONP
+   LOAD GOOGLE DRIVE
 ===================================================== */
 
       function loadVideos() {
@@ -339,9 +434,42 @@
 
         window[callbackName] = function (folders) {
           try {
-            app.innerHTML = "";
+            /*
+           Cari folder berdasarkan NAMA
+        */
 
-            if (!Array.isArray(folders) || folders.length === 0) {
+            const folder = folders.find(function (item) {
+              return (
+                item.name.trim().toLowerCase() ===
+                FOLDER_NAME.trim().toLowerCase()
+              );
+            });
+
+            /*
+           Folder tidak ditemukan
+        */
+
+            if (!folder) {
+              app.innerHTML = `
+
+            <div class="status error">
+
+              Folder
+              <b>${escapeHTML(FOLDER_NAME)}</b>
+              tidak ditemukan.
+
+            </div>
+
+          `;
+
+              return;
+            }
+
+            /*
+           Tidak ada video
+        */
+
+            if (!folder.videos || folder.videos.length === 0) {
               app.innerHTML = `
 
             <div class="status">
@@ -356,34 +484,10 @@
             }
 
             /*
-           LOOP SEMUA FOLDER
+           Tampilkan video
         */
 
-            folders.forEach(function (folder) {
-              /*
-               Kalau folder tidak punya video
-            */
-
-              if (
-                !folder.videos ||
-                !Array.isArray(folder.videos) ||
-                folder.videos.length === 0
-              ) {
-                return;
-              }
-
-              /*
-               MASUKKAN FOLDER
-            */
-
-              app.appendChild(createSection(folder));
-            });
-
-            /*
-           Aktifkan lazy loading
-        */
-
-            setupLazyLoad();
+            showFolder(folder);
           } catch (error) {
             console.error(error);
 
@@ -399,7 +503,7 @@
           }
 
           /*
-         Bersihkan callback
+         Bersihkan JSONP
       */
 
           delete window[callbackName];
@@ -410,7 +514,7 @@
         };
 
         /*
-     Buat script JSONP
+     Buat JSONP
   */
 
         script = document.createElement("script");
@@ -418,7 +522,7 @@
         script.src = API_URL + "?callback=" + encodeURIComponent(callbackName);
 
         /*
-     Kalau gagal koneksi
+     Error
   */
 
         script.onerror = function () {
@@ -440,73 +544,6 @@
         };
 
         document.body.appendChild(script);
-      }
-
-      /* =====================================================
-   LAZY LOAD VIDEO
-===================================================== */
-
-      function setupLazyLoad() {
-        const io = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (entry) {
-              if (!entry.isIntersecting) {
-                return;
-              }
-
-              const preview = entry.target;
-
-              /*
-               Sudah dimuat?
-            */
-
-              if (preview.dataset.loaded) {
-                return;
-              }
-
-              /*
-               Buat iframe
-            */
-
-              const iframe = document.createElement("iframe");
-
-              iframe.src = preview.dataset.src;
-
-              iframe.allowFullscreen = true;
-
-              iframe.loading = "lazy";
-
-              /*
-               Hapus tulisan
-               Memuat preview
-            */
-
-              iframe.addEventListener("load", function () {
-                const skeleton = preview.querySelector(".skeleton");
-
-                if (skeleton) {
-                  skeleton.remove();
-                }
-              });
-
-              preview.appendChild(iframe);
-
-              preview.dataset.loaded = "1";
-
-              io.unobserve(preview);
-            });
-          },
-
-          {
-            rootMargin: "300px 0px",
-
-            threshold: 0.1,
-          },
-        );
-
-        document.querySelectorAll(".preview").forEach(function (preview) {
-          io.observe(preview);
-        });
       }
 
       /* =====================================================

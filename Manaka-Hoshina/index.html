@@ -24,18 +24,16 @@
   margin:0 auto !important;
   padding:35px 20px !important;
 
-  background:
-    linear-gradient(
-      145deg,
-      #1b1b21,
-      #101014
-    ) !important;
+  background:linear-gradient(
+    145deg,
+    #1b1b21,
+    #101014
+  ) !important;
 
   border:1px solid #303038 !important;
   border-radius:20px !important;
 
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.35) !important;
+  box-shadow:0 10px 30px rgba(0,0,0,.35) !important;
 
   text-align:center !important;
   overflow:hidden !important;
@@ -44,7 +42,6 @@
 .drive-title{
   margin:0 !important;
   padding:0 !important;
-
   color:#fff !important;
   font-size:32px !important;
   line-height:1.25 !important;
@@ -54,38 +51,35 @@
 .drive-subtitle{
   margin:10px 0 25px !important;
   padding:0 !important;
-
   color:#999 !important;
   font-size:17px !important;
   line-height:1.4 !important;
 }
 
+/* TOMBOL */
 .drive-button{
   appearance:none !important;
   -webkit-appearance:none !important;
 
   display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
 
   width:100% !important;
   max-width:100% !important;
-
   height:62px !important;
 
   margin:0 !important;
   padding:0 15px !important;
 
-  align-items:center !important;
-  justify-content:center !important;
-
   border:1px solid #45454f !important;
   border-radius:14px !important;
 
-  background:
-    linear-gradient(
-      135deg,
-      #303038,
-      #202026
-    ) !important;
+  background:linear-gradient(
+    135deg,
+    #303038,
+    #202026
+  ) !important;
 
   color:#fff !important;
 
@@ -99,31 +93,40 @@
 
   cursor:pointer !important;
 
-  box-shadow:
-    0 5px 15px rgba(0,0,0,.2) !important;
+  box-shadow:0 5px 15px rgba(0,0,0,.2) !important;
 
-  transition:
-    transform .2s ease,
-    background .2s ease,
-    box-shadow .2s ease !important;
+  transition:.2s !important;
 }
 
 .drive-button:hover{
-  background:
-    linear-gradient(
-      135deg,
-      #3a3a44,
-      #292930
-    ) !important;
+  background:linear-gradient(
+    135deg,
+    #3a3a44,
+    #292930
+  ) !important;
 
   transform:translateY(-2px) !important;
-
-  box-shadow:
-    0 8px 20px rgba(0,0,0,.3) !important;
 }
 
-.drive-button:active{
-  transform:scale(.98) !important;
+/* TOMBOL SALIN */
+.copy-button{
+  margin-top:12px !important;
+
+  background:linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  ) !important;
+
+  border-color:#3b82f6 !important;
+}
+
+.copy-button:hover{
+  background:linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb
+  ) !important;
 }
 
 
@@ -208,6 +211,8 @@
       Video Gallery
     </p>
 
+
+    <!-- BUKA FOLDER -->
     <button
       type="button"
       class="drive-button"
@@ -219,6 +224,25 @@
       "
     >
       📁&nbsp; Buka Folder Google Drive
+    </button>
+
+
+    <!-- SALIN URL -->
+    <button
+      type="button"
+      class="drive-button copy-button"
+      onclick="
+        navigator.clipboard.writeText(
+          'https://drive.google.com/drive/folders/1o5xtMfg8zCyar0xmkyDs5yOF8ygq1JWk?usp=sharing'
+        ).then(function(){
+          this.innerHTML='✅ URL Berhasil Disalin!';
+          setTimeout(function(){
+            document.querySelector('.copy-button').innerHTML='📋 Salin URL untuk Browser';
+          },2000);
+        }.bind(this));
+      "
+    >
+      📋&nbsp; Salin URL untuk Browser
     </button>
 
   </div>

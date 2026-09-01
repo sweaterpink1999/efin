@@ -1,8 +1,13 @@
 <!doctype html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
   <title>Video Gallery</title>
 
@@ -47,7 +52,6 @@
     h1 {
       text-align: center;
       margin: 0 0 25px;
-
       font-size: clamp(20px, 3vw, 28px);
       line-height: 1.2;
     }
@@ -55,121 +59,87 @@
     .gallery {
       width: 100%;
       max-width: 700px;
-
       margin: 0 auto 32px;
 
       display: flex;
       flex-direction: column;
-
       gap: var(--gap);
     }
 
     .card {
       width: 100%;
-
       background: var(--card);
-
       border-radius: var(--radius);
 
       box-shadow:
         0 8px 24px rgba(0, 0, 0, 0.35);
 
       overflow: hidden;
-
       padding: 14px;
 
       display: flex;
       flex-direction: column;
-
       gap: 12px;
     }
 
     .title {
       font-weight: 600;
-
       font-size: 15px;
-
       line-height: 1.4;
-
       letter-spacing: 0.2px;
-
       word-break: break-word;
     }
 
+    /*
+      PLAYER
 
-    /* =====================================================
-       PLAYER VIDEO
-    ===================================================== */
+      Tidak memakai rasio tetap.
+      Rasio akan mengikuti width/height
+      yang dikirim oleh Apps Script.
+    */
 
     .preview {
       position: relative;
-
       width: 100%;
-
-      /*
-        16:9
-        Tidak lagi memakai 19:6
-      */
 
       aspect-ratio: 16 / 9;
 
       background: #000;
-
       border-radius: 10px;
-
       overflow: hidden;
     }
 
     .preview iframe {
       position: absolute;
-
-      top: 0;
-      left: 0;
+      inset: 0;
 
       width: 100%;
       height: 100%;
 
       border: 0;
-
       display: block;
-
       background: #000;
     }
 
-
-    /* =====================================================
-       LOADING
-    ===================================================== */
-
     .loading {
       position: absolute;
-
       inset: 0;
 
       display: flex;
-
       align-items: center;
       justify-content: center;
 
       background: #111318;
-
       color: #cfd7e6;
 
       font-size: 14px;
 
       z-index: 1;
-
       pointer-events: none;
     }
 
-
-    /* =====================================================
-       BUTTON
-    ===================================================== */
-
     .buttons {
       display: flex;
-
       gap: 10px;
     }
 
@@ -177,48 +147,34 @@
       appearance: none;
 
       border: 1px solid transparent;
-
       background: var(--btn);
-
       color: var(--text);
 
       padding: 9px 14px;
 
       border-radius: 10px;
-
       cursor: pointer;
 
       font-size: 14px;
-
       font-weight: 600;
 
       text-decoration: none;
 
       display: inline-flex;
-
       align-items: center;
-
       justify-content: center;
     }
 
     .btn:hover {
       background: var(--btn-hover);
-
       border-color: #434a57;
     }
 
     .btn.secondary {
       background: transparent;
-
       border-color: #39404a;
-
       color: var(--accent);
     }
-
-
-    /* =====================================================
-       STATUS
-    ===================================================== */
 
     .status {
       width: 100%;
@@ -227,18 +183,12 @@
       margin: 50px auto;
 
       text-align: center;
-
       color: var(--muted);
     }
 
     .error {
       color: #ff7777;
     }
-
-
-    /* =====================================================
-       MOBILE
-    ===================================================== */
 
     @media (max-width: 600px) {
 
@@ -248,7 +198,6 @@
 
       h1 {
         margin-bottom: 16px;
-
         font-size: 21px;
       }
 
@@ -258,9 +207,7 @@
 
       .card {
         padding: 9px;
-
         gap: 10px;
-
         border-radius: 12px;
       }
 
@@ -268,14 +215,7 @@
         font-size: 14px;
       }
 
-      /*
-        Tetap 16:9.
-        Jangan diubah lagi di HP.
-      */
-
       .preview {
-        aspect-ratio: 16 / 9;
-
         border-radius: 8px;
       }
 
@@ -285,43 +225,12 @@
 
       .btn {
         padding: 8px 12px;
-
         font-size: 13px;
       }
     }
-
-
-    /* =====================================================
-       LANDSCAPE HP
-    ===================================================== */
-
-    @media (max-width: 900px) and (orientation: landscape) {
-
-      body {
-        padding: 8px 12px;
-      }
-
-      .gallery {
-        max-width: 900px;
-      }
-
-      .card {
-        padding: 8px;
-      }
-
-      /*
-        Tetap 16:9.
-        Tidak dipaksa menjadi fullscreen.
-      */
-
-      .preview {
-        aspect-ratio: 16 / 9;
-      }
-    }
-
   </style>
-</head>
 
+</head>
 
 <body>
 
@@ -329,96 +238,74 @@
     Video Gallery
   </h1>
 
-
   <div id="app">
-
     <div class="status">
       Memuat video...
     </div>
-
   </div>
 
 
   <script>
 
-    /* =====================================================
-       PENGATURAN
-    ===================================================== */
-
     /*
-      CUKUP GANTI NAMA FOLDER INI
-
-      Contoh:
-
-      "Manaka Hoshina"
-      "Sanae Momo"
+      =====================================================
+      PENGATURAN
+      =====================================================
     */
 
+    // GANTI NAMA FOLDER DI SINI
     const FOLDER_NAME = "Manaka Hoshina";
 
 
-    /* =====================================================
-       APPS SCRIPT
-    ===================================================== */
+    /*
+      =====================================================
+      APPS SCRIPT API BARU
+      =====================================================
+    */
 
     const API_URL =
-      "https://script.google.com/macros/s/AKfycbxo1qNQzgMW4SJ67xtxZ7istZwIvD3KK59yZDts5K2qDU1UODNXN8uXx0XqYzAwsMgh/exec";
+      "https://script.google.com/macros/s/AKfycbzDdce97adnKsxSMH4t-9LzOMLQ3ZF9VlEBFA8dtg2FXYeebls_oGEoAudewePoLbzJ/exec";
 
 
     const app =
       document.getElementById("app");
 
 
-    /* =====================================================
-       JUDUL HALAMAN
-    ===================================================== */
-
     document.getElementById("pageTitle")
       .textContent = FOLDER_NAME;
 
 
-    /* =====================================================
-       ESCAPE HTML
-    ===================================================== */
+    /*
+      =====================================================
+      ESCAPE HTML
+      =====================================================
+    */
 
     function escapeHTML(text) {
 
       return String(text)
-
         .replace(/&/g, "&amp;")
-
         .replace(/</g, "&lt;")
-
         .replace(/>/g, "&gt;")
-
         .replace(/"/g, "&quot;")
-
         .replace(/'/g, "&#039;");
 
     }
 
 
-    /* =====================================================
-       BUAT CARD VIDEO
-    ===================================================== */
+    /*
+      =====================================================
+      BUAT CARD VIDEO
+      =====================================================
+    */
 
     function createCard(video) {
-
-      /*
-        PLAYER RESMI GOOGLE DRIVE
-
-        Tetap menggunakan /preview.
-      */
 
       const drivePreview =
         "https://drive.google.com/file/d/" +
         encodeURIComponent(video.id) +
         "/preview";
 
-
-      /*
-        Link Drive biasa
-      */
 
       const driveOpen =
         "https://drive.google.com/file/d/" +
@@ -436,50 +323,32 @@
       card.innerHTML = `
 
         <div class="title">
-
           ${escapeHTML(video.title)}
-
         </div>
-
 
         <div class="preview">
 
           <div class="loading">
-
             Memuat video...
-
           </div>
 
-
           <iframe
-
             src="${drivePreview}"
-
             title="${escapeHTML(video.title)}"
-
             allow="autoplay; fullscreen"
-
             allowfullscreen>
-
           </iframe>
 
         </div>
 
-
         <div class="buttons">
 
           <a
-
             class="btn secondary"
-
             href="${driveOpen}"
-
             target="_blank"
-
             rel="noopener">
-
             Open Drive ↗
-
           </a>
 
         </div>
@@ -487,9 +356,40 @@
       `;
 
 
-      /* =====================================================
-         HILANGKAN LOADING
-      ===================================================== */
+      /*
+        =====================================================
+        SESUAIKAN BINGKAI DENGAN UKURAN VIDEO
+        =====================================================
+      */
+
+      const preview =
+        card.querySelector(".preview");
+
+
+      const width =
+        Number(video.width);
+
+
+      const height =
+        Number(video.height);
+
+
+      if (
+        width > 0 &&
+        height > 0
+      ) {
+
+        preview.style.aspectRatio =
+          width + " / " + height;
+
+      }
+
+
+      /*
+        =====================================================
+        LOADING
+        =====================================================
+      */
 
       const iframe =
         card.querySelector("iframe");
@@ -504,9 +404,7 @@
 
 
           if (loading) {
-
             loading.remove();
-
           }
 
         }
@@ -518,9 +416,11 @@
     }
 
 
-    /* =====================================================
-       TAMPILKAN FOLDER
-    ===================================================== */
+    /*
+      =====================================================
+      TAMPILKAN FOLDER
+      =====================================================
+    */
 
     function showFolder(folder) {
 
@@ -535,9 +435,7 @@
 
 
       /*
-        SEMUA FILE DITAMPILKAN.
-
-        Tidak ada filter.
+        SEMUA FILE TETAP DITAMPILKAN
       */
 
       folder.videos.forEach(
@@ -556,9 +454,11 @@
     }
 
 
-    /* =====================================================
-       LOAD GOOGLE DRIVE
-    ===================================================== */
+    /*
+      =====================================================
+      LOAD GOOGLE DRIVE
+      =====================================================
+    */
 
     function loadVideos() {
 
@@ -574,16 +474,11 @@
 
           try {
 
-            /*
-              Cari folder berdasarkan nama
-            */
-
             const folder =
               folders.find(
                 function (item) {
 
                   return (
-
                     item.name
                       .trim()
                       .toLowerCase()
@@ -593,16 +488,11 @@
                     FOLDER_NAME
                       .trim()
                       .toLowerCase()
-
                   );
 
                 }
               );
 
-
-            /*
-              Folder tidak ditemukan
-            */
 
             if (!folder) {
 
@@ -611,11 +501,9 @@
                 <div class="status error">
 
                   Folder
-
                   <b>
                     ${escapeHTML(FOLDER_NAME)}
                   </b>
-
                   tidak ditemukan.
 
                 </div>
@@ -623,13 +511,8 @@
               `;
 
               return;
-
             }
 
-
-            /*
-              Tidak ada video
-            */
 
             if (
               !folder.videos ||
@@ -647,13 +530,8 @@
               `;
 
               return;
-
             }
 
-
-            /*
-              Tampilkan semua video
-            */
 
             showFolder(folder);
 
@@ -662,7 +540,6 @@
           catch (error) {
 
             console.error(error);
-
 
             app.innerHTML = `
 
@@ -677,10 +554,6 @@
           }
 
 
-          /*
-            Bersihkan JSONP
-          */
-
           delete window[callbackName];
 
 
@@ -689,16 +562,20 @@
             script.parentNode
           ) {
 
-            script.parentNode.removeChild(script);
+            script.parentNode.removeChild(
+              script
+            );
 
           }
 
         };
 
 
-      /* =====================================================
-         JSONP
-      ===================================================== */
+      /*
+        =====================================================
+        JSONP
+        =====================================================
+      */
 
       script =
         document.createElement("script");
@@ -731,13 +608,16 @@
     }
 
 
-    /* =====================================================
-       JALANKAN
-    ===================================================== */
+    /*
+      =====================================================
+      JALANKAN
+      =====================================================
+    */
 
     loadVideos();
 
   </script>
 
 </body>
+
 </html>

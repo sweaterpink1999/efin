@@ -1,531 +1,341 @@
 <!doctype html>
 <html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Video Gallery</title>
 
-  <title>Video Gallery</title>
+    <style>
+      :root {
+        --bg: #0b0b0d;
+        --card: #151518;
+        --text: #f1f1f1;
+        --muted: #999;
+        --btn: #202024;
+        --btn-border: #303035;
+        --radius: 10px;
+      }
 
-  <style>
+      * {
+        box-sizing: border-box;
+      }
 
-    :root {
-      --bg: #0b0b0d;
-      --card: #151518;
-      --text: #f1f1f1;
-      --muted: #999;
-      --accent: #ffffff;
-      --radius: 10px;
-    }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--text);
 
-    * {
-      box-sizing: border-box;
-    }
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+      }
 
-    html {
-      background: var(--bg);
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-
-      font-family:
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-    }
-
-    /*
+      /*
       HEADER
     */
 
-    .header {
-      width: 100%;
-      padding: 18px 16px 14px;
-      text-align: center;
-    }
-
-    .header h1 {
-      margin: 0;
-
-      font-size: 22px;
-      font-weight: 700;
-
-      letter-spacing: -.3px;
-    }
-
-    /*
-      GALLERY
-    */
-
-    .gallery {
-      width: 100%;
-      max-width: 900px;
-
-      margin: 0 auto;
-
-      padding:
-        0 12px 35px;
-
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 24px;
-    }
-
-    /*
-      CARD
-    */
-
-    .card {
-      width: 100%;
-
-      background: var(--card);
-
-      border-radius: var(--radius);
-
-      overflow: hidden;
-
-      box-shadow:
-        0 4px 18px
-        rgba(0,0,0,.35);
-    }
-
-    /*
-      TITLE
-    */
-
-    .title {
-      padding:
-        13px
-        14px
-        11px;
-
-      font-size: 15px;
-
-      font-weight: 600;
-
-      line-height: 1.4;
-
-      word-break: break-word;
-    }
-
-    /*
-      PLAYER
-      16:9
-    */
-
-    .preview {
-      position: relative;
-
-      width: 100%;
-
-      aspect-ratio: 16 / 9;
-
-      background: #000;
-
-      overflow: hidden;
-    }
-
-    .preview iframe {
-      position: absolute;
-
-      inset: 0;
-
-      width: 100%;
-      height: 100%;
-
-      border: 0;
-
-      display: block;
-
-      background: #000;
-    }
-
-    /*
-      LOADING
-    */
-
-    .loading {
-      position: absolute;
-
-      inset: 0;
-
-      z-index: 2;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      background: #000;
-
-      color: #aaa;
-
-      font-size: 14px;
-
-      pointer-events: none;
-
-      transition:
-        opacity .2s ease;
-    }
-
-    /*
-      FULLSCREEN BUTTON
-    */
-
-    .fullscreen-btn {
-      position: absolute;
-
-      right: 10px;
-      bottom: 10px;
-
-      z-index: 5;
-
-      width: 42px;
-      height: 42px;
-
-      border: 0;
-
-      border-radius: 8px;
-
-      background:
-        rgba(0,0,0,.72);
-
-      color: #fff;
-
-      font-size: 21px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      cursor: pointer;
-
-      -webkit-tap-highlight-color:
-        transparent;
-    }
-
-    .fullscreen-btn:active {
-      transform: scale(.95);
-    }
-
-    /*
-      BUTTON AREA
-    */
-
-    .buttons {
-      padding:
-        10px 12px 12px;
-
-      display: flex;
-
-      gap: 8px;
-    }
-
-    .btn {
-      display: inline-flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      min-height: 38px;
-
-      padding:
-        0 14px;
-
-      border-radius: 8px;
-
-      border:
-        1px solid #303035;
-
-      background:
-        #202024;
-
-      color: #eee;
-
-      text-decoration: none;
-
-      font-size: 13px;
-
-      font-weight: 600;
-
-      -webkit-tap-highlight-color:
-        transparent;
-    }
-
-    .btn:active {
-      transform: scale(.98);
-    }
-
-    /*
-      STATUS
-    */
-
-    .status {
-      width: 100%;
-
-      max-width: 700px;
-
-      margin:
-        70px auto;
-
-      padding: 20px;
-
-      text-align: center;
-
-      color: var(--muted);
-
-      font-size: 14px;
-    }
-
-    .error {
-      color: #ff7070;
-    }
-
-    /*
-      MOBILE
-    */
-
-    @media (max-width: 600px) {
-
       .header {
-        padding:
-          15px 12px 12px;
+        padding: 18px 14px 16px;
+        text-align: center;
       }
 
       .header h1 {
-        font-size: 19px;
+        margin: 0;
+
+        font-size: 21px;
+        font-weight: 700;
       }
+
+      /*
+      GALLERY
+    */
 
       .gallery {
-        padding:
-          0 8px 25px;
+        width: 100%;
+        max-width: 900px;
 
-        gap: 18px;
+        margin: 0 auto;
+
+        padding: 0 10px 35px;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 24px;
       }
+
+      /*
+      CARD
+    */
 
       .card {
-        border-radius: 8px;
+        width: 100%;
+
+        background: var(--card);
+
+        border-radius: var(--radius);
+
+        overflow: hidden;
+
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
       }
 
+      /*
+      JUDUL
+    */
+
       .title {
-        padding:
-          11px 12px 9px;
+        padding: 12px 14px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        line-height: 1.4;
+
+        word-break: break-word;
+      }
+
+      /*
+      PLAYER 16:9
+    */
+
+      .preview {
+        position: relative;
+
+        width: 100%;
+
+        aspect-ratio: 16 / 9;
+
+        background: #000;
+
+        overflow: hidden;
+      }
+
+      .preview iframe {
+        position: absolute;
+
+        inset: 0;
+
+        width: 100%;
+        height: 100%;
+
+        border: 0;
+
+        display: block;
+
+        background: #000;
+      }
+
+      /*
+      LOADING
+    */
+
+      .loading {
+        position: absolute;
+
+        inset: 0;
+
+        z-index: 1;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background: #000;
+
+        color: #aaa;
+
+        font-size: 13px;
+
+        pointer-events: none;
+      }
+
+      /*
+      TOMBOL OPEN
+    */
+
+      .buttons {
+        padding: 9px 11px 11px;
+
+        display: flex;
+
+        gap: 8px;
+      }
+
+      .btn {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        min-height: 37px;
+
+        padding: 0 14px;
+
+        border-radius: 8px;
+
+        border: 1px solid var(--btn-border);
+
+        background: var(--btn);
+
+        color: #eee;
+
+        text-decoration: none;
+
+        font-size: 13px;
+
+        font-weight: 600;
+
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      /*
+      STATUS
+    */
+
+      .status {
+        width: 100%;
+
+        max-width: 700px;
+
+        margin: 70px auto;
+
+        padding: 20px;
+
+        text-align: center;
+
+        color: var(--muted);
 
         font-size: 14px;
       }
 
-      .buttons {
-        padding:
-          8px 10px 10px;
+      .error {
+        color: #ff7070;
       }
 
-    }
-
-
-    /*
-      FULLSCREEN STYLE
+      /*
+      MOBILE
     */
 
-    .preview:fullscreen {
+      @media (max-width: 600px) {
+        .header {
+          padding: 14px 10px;
+        }
 
-      width: 100vw;
-      height: 100vh;
+        .header h1 {
+          font-size: 18px;
+        }
 
-      aspect-ratio: auto;
+        .gallery {
+          padding: 0 6px 25px;
 
-      background: #000;
+          gap: 18px;
+        }
 
-      display: flex;
+        .card {
+          border-radius: 8px;
+        }
 
-      align-items: center;
+        .title {
+          padding: 10px 11px;
 
-      justify-content: center;
+          font-size: 13px;
+        }
 
-    }
+        .buttons {
+          padding: 8px 9px 9px;
+        }
+      }
+    </style>
+  </head>
 
-    .preview:fullscreen iframe {
+  <body>
+    <header class="header">
+      <h1 id="pageTitle">Video Gallery</h1>
+    </header>
 
-      width: 100%;
-      height: 100%;
+    <main id="app">
+      <div class="status">Memuat video...</div>
+    </main>
 
-    }
-
-    /*
-      Safari / iOS
-    */
-
-    .preview:-webkit-full-screen {
-
-      width: 100vw;
-      height: 100vh;
-
-      aspect-ratio: auto;
-
-      background: #000;
-
-    }
-
-    .preview:-webkit-full-screen iframe {
-
-      width: 100%;
-      height: 100%;
-
-    }
-
-  </style>
-
-</head>
-
-
-<body>
-
-
-  <header class="header">
-
-    <h1 id="pageTitle">
-      Video Gallery
-    </h1>
-
-  </header>
-
-
-  <main id="app">
-
-    <div class="status">
-      Memuat video...
-    </div>
-
-  </main>
-
-
-
-<script>
-
-
-/* =====================================================
+    <script>
+      /* =====================================================
    PENGATURAN
 ===================================================== */
 
-
-/*
-   UNTUK HTML MANAKA
+      /*
+   UNTUK MANAKA
 */
 
-const FOLDER_NAME =
-  "Manaka Hoshina";
+      const FOLDER_NAME = "Manaka Hoshina";
 
-
-/*
-   UNTUK HTML SANAE:
+      /*
+   UNTUK SANAE MOMO:
 
    const FOLDER_NAME =
      "Sanae Momo";
 
-   CUKUP GANTI NAMA DI ATAS
+   CUKUP GANTI NAMA DI ATAS.
 */
 
-
-/*
+      /* =====================================================
    APPS SCRIPT
-*/
+===================================================== */
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxo1qNQzgMW4SJ67xtxZ7istZwIvD3KK59yZDts5K2qDU1UODNXN8uXx0XqYzAwsMgh/exec";
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbxo1qNQzgMW4SJ67xtxZ7istZwIvD3KK59yZDts5K2qDU1UODNXN8uXx0XqYzAwsMgh/exec";
 
+      const app = document.getElementById("app");
 
-const app =
-document.getElementById("app");
+      document.getElementById("pageTitle").textContent = FOLDER_NAME;
 
-
-/*
-   Judul otomatis mengikuti folder
-*/
-
-document.getElementById(
-  "pageTitle"
-).textContent =
-  FOLDER_NAME;
-
-
-
-/* =====================================================
+      /* =====================================================
    ESCAPE HTML
 ===================================================== */
 
-function escapeHTML(text) {
+      function escapeHTML(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
 
-  return String(text)
+          .replace(/</g, "&lt;")
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
+          .replace(/>/g, "&gt;")
 
-    .replace(
-      /</g,
-      "&lt;"
-    )
+          .replace(/"/g, "&quot;")
 
-    .replace(
-      />/g,
-      "&gt;"
-    )
+          .replace(/'/g, "&#039;");
+      }
 
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-
-/* =====================================================
-   CREATE CARD
+      /* =====================================================
+   CREATE VIDEO CARD
 ===================================================== */
 
-function createCard(video) {
+      function createCard(video) {
+        const drivePreview =
+          "https://drive.google.com/file/d/" + video.id + "/preview";
 
+        const driveOpen =
+          "https://drive.google.com/file/d/" + video.id + "/view";
 
-  const drivePreview =
-    "https://drive.google.com/file/d/"
-    + video.id
-    + "/preview";
+        const card = document.createElement("article");
 
+        card.className = "card";
 
-  const driveOpen =
-    "https://drive.google.com/file/d/"
-    + video.id
-    + "/view";
-
-
-  const card =
-    document.createElement("article");
-
-
-  card.className =
-    "card";
-
-
-  card.innerHTML = `
+        card.innerHTML = `
 
     <div class="title">
 
@@ -535,7 +345,6 @@ function createCard(video) {
 
 
     <div class="preview">
-
 
       <div class="loading">
 
@@ -558,27 +367,10 @@ function createCard(video) {
 
       </iframe>
 
-
-      <button
-
-        class="fullscreen-btn"
-
-        type="button"
-
-        aria-label="Fullscreen"
-
-        title="Fullscreen">
-
-        ⛶
-
-      </button>
-
-
     </div>
 
 
     <div class="buttons">
-
 
       <a
 
@@ -594,232 +386,79 @@ function createCard(video) {
 
       </a>
 
-
     </div>
 
   `;
 
-
-  /*
-    REMOVE LOADING
+        /*
+    HILANGKAN LOADING
   */
 
-  const iframe =
-    card.querySelector(
-      "iframe"
-    );
+        const iframe = card.querySelector("iframe");
 
+        iframe.addEventListener("load", function () {
+          const loading = card.querySelector(".loading");
 
-  iframe.addEventListener(
-    "load",
-    function() {
+          if (loading) {
+            loading.remove();
+          }
+        });
 
-      const loading =
-        card.querySelector(
-          ".loading"
-        );
-
-
-      if (loading) {
-
-        loading.style.opacity =
-          "0";
-
-        setTimeout(
-          function() {
-
-            if (loading.parentNode) {
-
-              loading.remove();
-
-            }
-
-          },
-          200
-        );
-
+        return card;
       }
 
-    }
-  );
-
-
-
-  /*
-    FULLSCREEN
-  */
-
-  const fullscreenButton =
-    card.querySelector(
-      ".fullscreen-btn"
-    );
-
-
-  const preview =
-    card.querySelector(
-      ".preview"
-    );
-
-
-  fullscreenButton.addEventListener(
-    "click",
-    async function() {
-
-      try {
-
-
-        /*
-          Keluar fullscreen
-        */
-
-        if (
-          document.fullscreenElement
-        ) {
-
-          await document.exitFullscreen();
-
-          return;
-
-        }
-
-
-        /*
-          Masuk fullscreen
-        */
-
-        if (
-          preview.requestFullscreen
-        ) {
-
-          await preview.requestFullscreen();
-
-        }
-
-
-      }
-
-      catch(error) {
-
-        console.log(
-          "Fullscreen:",
-          error
-        );
-
-      }
-
-    }
-  );
-
-
-  return card;
-
-}
-
-
-
-/* =====================================================
+      /* =====================================================
    TAMPILKAN FOLDER
 ===================================================== */
 
-function showFolder(folder) {
+      function showFolder(folder) {
+        app.innerHTML = "";
 
+        const gallery = document.createElement("div");
 
-  app.innerHTML =
-    "";
+        gallery.className = "gallery";
 
-
-  const gallery =
-    document.createElement(
-      "div"
-    );
-
-
-  gallery.className =
-    "gallery";
-
-
-  /*
-     SEMUA FILE
-     DITAMPILKAN
+        /*
+    SEMUA FILE VIDEO
+    DARI APPS SCRIPT
   */
 
-  folder.videos.forEach(
-    function(video) {
+        folder.videos.forEach(function (video) {
+          gallery.appendChild(createCard(video));
+        });
 
-      gallery.appendChild(
-        createCard(video)
-      );
+        app.appendChild(gallery);
+      }
 
-    }
-  );
-
-
-  app.appendChild(
-    gallery
-  );
-
-}
-
-
-
-/* =====================================================
-   LOAD DATA
+      /* =====================================================
+   LOAD DATA GOOGLE DRIVE
 ===================================================== */
 
-function loadVideos() {
+      function loadVideos() {
+        const callbackName = "driveCallback_" + Date.now();
 
+        let script;
 
-  const callbackName =
-    "driveCallback_"
-    + Date.now();
-
-
-  let script;
-
-
-  window[callbackName] =
-    function(folders) {
-
-
-      try {
-
-
-        /*
-          Cari folder berdasarkan nama
-
-          Huruf besar/kecil tidak masalah.
+        window[callbackName] = function (folders) {
+          try {
+            /*
+          CARI FOLDER
+          BERDASARKAN NAMA
         */
 
-        const folder =
-          folders.find(
-            function(item) {
-
+            const folder = folders.find(function (item) {
               return (
-
-                item.name
-                  .trim()
-                  .toLowerCase()
-
-                ===
-
-                FOLDER_NAME
-                  .trim()
-                  .toLowerCase()
-
+                item.name.trim().toLowerCase() ===
+                FOLDER_NAME.trim().toLowerCase()
               );
+            });
 
-            }
-          );
-
-
-        /*
-          FOLDER TIDAK ADA
+            /*
+          FOLDER TIDAK DITEMUKAN
         */
 
-        if (!folder) {
-
-
-          app.innerHTML = `
+            if (!folder) {
+              app.innerHTML = `
 
             <div class="status error">
 
@@ -834,23 +473,15 @@ function loadVideos() {
 
           `;
 
+              return;
+            }
 
-          return;
-
-        }
-
-
-        /*
+            /*
           TIDAK ADA VIDEO
         */
 
-        if (
-          !folder.videos ||
-          folder.videos.length === 0
-        ) {
-
-
-          app.innerHTML = `
+            if (!folder.videos || folder.videos.length === 0) {
+              app.innerHTML = `
 
             <div class="status">
 
@@ -860,32 +491,18 @@ function loadVideos() {
 
           `;
 
+              return;
+            }
 
-          return;
-
-        }
-
-
-        /*
+            /*
           TAMPILKAN
         */
 
-        showFolder(
-          folder
-        );
+            showFolder(folder);
+          } catch (error) {
+            console.error(error);
 
-
-      }
-
-      catch(error) {
-
-
-        console.error(
-          error
-        );
-
-
-        app.innerHTML = `
+            app.innerHTML = `
 
           <div class="status error">
 
@@ -894,59 +511,29 @@ function loadVideos() {
           </div>
 
         `;
+          }
 
-      }
-
-
-      /*
-        Bersihkan JSONP
+          /*
+        BERSIHKAN JSONP
       */
 
-      delete window[
-        callbackName
-      ];
+          delete window[callbackName];
 
+          if (script && script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        };
 
-      if (
-        script &&
-        script.parentNode
-      ) {
-
-        script.parentNode
-          .removeChild(
-            script
-          );
-
-      }
-
-    };
-
-
-  /*
-    JSONP SCRIPT
+        /*
+    JSONP
   */
 
-  script =
-    document.createElement(
-      "script"
-    );
+        script = document.createElement("script");
 
+        script.src = API_URL + "?callback=" + encodeURIComponent(callbackName);
 
-  script.src =
-    API_URL
-    +
-    "?callback="
-    +
-    encodeURIComponent(
-      callbackName
-    );
-
-
-  script.onerror =
-    function() {
-
-
-      app.innerHTML = `
+        script.onerror = function () {
+          app.innerHTML = `
 
         <div class="status error">
 
@@ -956,44 +543,21 @@ function loadVideos() {
 
       `;
 
+          delete window[callbackName];
 
-      delete window[
-        callbackName
-      ];
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        };
 
-
-      if (
-        script.parentNode
-      ) {
-
-        script.parentNode
-          .removeChild(
-            script
-          );
-
+        document.body.appendChild(script);
       }
 
-    };
-
-
-  document.body.appendChild(
-    script
-  );
-
-}
-
-
-
-/* =====================================================
-   START
+      /* =====================================================
+   MULAI
 ===================================================== */
 
-loadVideos();
-
-
-</script>
-
-
-</body>
-
+      loadVideos();
+    </script>
+  </body>
 </html>

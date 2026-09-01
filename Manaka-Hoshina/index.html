@@ -46,7 +46,6 @@
 
     h1 {
       text-align: center;
-
       margin: 0 0 25px;
 
       font-size: clamp(20px, 3vw, 28px);
@@ -97,9 +96,10 @@
       word-break: break-word;
     }
 
-    /*
-      PLAYER GOOGLE DRIVE
-    */
+
+    /* =====================================================
+       PLAYER VIDEO
+    ===================================================== */
 
     .preview {
       position: relative;
@@ -107,7 +107,8 @@
       width: 100%;
 
       /*
-        Rasio desktop
+        16:9
+        Tidak lagi memakai 19:6
       */
 
       aspect-ratio: 16 / 9;
@@ -122,7 +123,8 @@
     .preview iframe {
       position: absolute;
 
-      inset: 0;
+      top: 0;
+      left: 0;
 
       width: 100%;
       height: 100%;
@@ -134,9 +136,10 @@
       background: #000;
     }
 
-    /*
-      Loading
-    */
+
+    /* =====================================================
+       LOADING
+    ===================================================== */
 
     .loading {
       position: absolute;
@@ -159,9 +162,10 @@
       pointer-events: none;
     }
 
-    /*
-      Tombol
-    */
+
+    /* =====================================================
+       BUTTON
+    ===================================================== */
 
     .buttons {
       display: flex;
@@ -193,6 +197,7 @@
       display: inline-flex;
 
       align-items: center;
+
       justify-content: center;
     }
 
@@ -210,9 +215,10 @@
       color: var(--accent);
     }
 
-    /*
-      STATUS
-    */
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
 
     .status {
       width: 100%;
@@ -229,9 +235,10 @@
       color: #ff7777;
     }
 
-    /*
-      MOBILE
-    */
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
 
     @media (max-width: 600px) {
 
@@ -261,12 +268,12 @@
         font-size: 14px;
       }
 
-      .preview {
-        /*
-          Tetap 16:9 supaya player
-          tidak terlalu gepeng di HP.
-        */
+      /*
+        Tetap 16:9.
+        Jangan diubah lagi di HP.
+      */
 
+      .preview {
         aspect-ratio: 16 / 9;
 
         border-radius: 8px;
@@ -283,9 +290,10 @@
       }
     }
 
-    /*
-      LANDSCAPE HP
-    */
+
+    /* =====================================================
+       LANDSCAPE HP
+    ===================================================== */
 
     @media (max-width: 900px) and (orientation: landscape) {
 
@@ -301,23 +309,26 @@
         padding: 8px;
       }
 
-      .preview {
-        /*
-          Jangan paksa fullscreen.
-          Biarkan player mengikuti ukuran layar.
-        */
+      /*
+        Tetap 16:9.
+        Tidak dipaksa menjadi fullscreen.
+      */
 
+      .preview {
         aspect-ratio: 16 / 9;
       }
     }
+
   </style>
 </head>
+
 
 <body>
 
   <h1 id="pageTitle">
     Video Gallery
   </h1>
+
 
   <div id="app">
 
@@ -335,7 +346,7 @@
     ===================================================== */
 
     /*
-      CUKUP GANTI INI
+      CUKUP GANTI NAMA FOLDER INI
 
       Contoh:
 
@@ -358,9 +369,9 @@
       document.getElementById("app");
 
 
-    /*
-      Judul otomatis
-    */
+    /* =====================================================
+       JUDUL HALAMAN
+    ===================================================== */
 
     document.getElementById("pageTitle")
       .textContent = FOLDER_NAME;
@@ -396,9 +407,7 @@
       /*
         PLAYER RESMI GOOGLE DRIVE
 
-        Jangan diganti ke uc?export=download
-        karena browser kamu tidak bisa
-        memutarnya sebagai HTML5 video.
+        Tetap menggunakan /preview.
       */
 
       const drivePreview =
@@ -443,14 +452,14 @@
 
 
           <iframe
+
             src="${drivePreview}"
+
             title="${escapeHTML(video.title)}"
 
             allow="autoplay; fullscreen"
 
-            allowfullscreen
-
-            loading="lazy">
+            allowfullscreen>
 
           </iframe>
 
@@ -460,6 +469,7 @@
         <div class="buttons">
 
           <a
+
             class="btn secondary"
 
             href="${driveOpen}"
@@ -525,9 +535,9 @@
 
 
       /*
-        SEMUA VIDEO DITAMPILKAN
+        SEMUA FILE DITAMPILKAN.
 
-        Tidak ada filter tambahan.
+        Tidak ada filter.
       */
 
       folder.videos.forEach(

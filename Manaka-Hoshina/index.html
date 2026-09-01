@@ -1,61 +1,79 @@
 <style>
+.drive-box {
+  width: 100%;
+  max-width: 850px;
+  margin: 10px auto;
+  padding: 28px 15px;
+  text-align: center;
+  background: linear-gradient(145deg, #18181d, #101014);
+  border: 1px solid #292930;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.drive-box h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.drive-box p {
+  margin: 7px 0 18px;
+  color: #aaa;
+  font-size: 15px;
+}
+
+.drive-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: #24242b;
+  border: 1px solid #3a3a44;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: .2s;
+}
+
+.drive-btn:hover {
+  background: #303039;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+}
+
+@media (max-width:600px) {
   .drive-box {
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 28px 20px;
-    text-align: center;
-    background: linear-gradient(145deg, #18181d, #101014);
-    border: 1px solid #292930;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    font-family: Arial, Helvetica, sans-serif;
+    width: calc(100% - 6px);
+    margin: 6px auto;
+    padding: 25px 12px;
+    border-radius: 15px;
   }
 
   .drive-box h1 {
-    margin: 0;
-    color: #fff;
-    font-size: 27px;
-    font-weight: 700;
+    font-size: 26px;
   }
 
   .drive-box p {
-    margin: 8px 0 20px;
-    color: #999;
-    font-size: 14px;
+    font-size: 15px;
+    margin: 7px 0 18px;
   }
 
   .drive-btn {
-    display: inline-block;
-    padding: 11px 18px;
-    border-radius: 11px;
-    background: #24242b;
-    border: 1px solid #3a3a44;
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    transition: 0.2s;
+    width: 100%;
+    min-height: 52px;
+    font-size: 16px;
   }
-
-  .drive-btn:hover {
-    background: #303039;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-  }
-
-  @media (max-width: 600px) {
-    .drive-box {
-      margin: 20px 8px;
-      padding: 23px 15px;
-    }
-
-    .drive-box h1 {
-      font-size: 23px;
-    }
-  }
+}
 </style>
 
 <div class="drive-box">
+
   <h1>Manaka Hoshina</h1>
 
   <p>Video Gallery</p>
@@ -64,8 +82,9 @@
     class="drive-btn"
     href="https://drive.google.com/drive/folders/1o5xtMfg8zCyar0xmkyDs5yOF8ygq1JWk?usp=sharing"
     target="_blank"
-    rel="noopener"
+    rel="noopener noreferrer"
   >
     📁 Buka Folder Google Drive
   </a>
+
 </div>

@@ -1,476 +1,856 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Video Gallery</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-      :root {
-        --bg: #0e0f12;
-        --card: #17181c;
-        --text: #e8edf2;
-        --muted: #a9b0bb;
-        --btn: #2a2e36;
-        --btn-hover: #3a404a;
-        --accent: #7aa2ff;
-        --radius: 14px;
-        --gap: 20px;
-      }
+  <title>Video Gallery</title>
 
-      * {
-        box-sizing: border-box;
-      }
+  <style>
 
-      body {
-        margin: 0;
-        padding: 24px;
+    :root {
+      --bg: #0b0b0d;
+      --card: #151518;
+      --text: #f1f1f1;
+      --muted: #999;
+      --accent: #ffffff;
+      --radius: 10px;
+    }
 
-        background: var(--bg);
-        color: var(--text);
+    * {
+      box-sizing: border-box;
+    }
 
-        font:
-          16px/1.5 system-ui,
-          -apple-system,
-          Segoe UI,
-          Roboto,
-          Ubuntu,
-          Arial;
-      }
+    html {
+      background: var(--bg);
+    }
 
-      h1 {
-        text-align: center;
-        margin: 0 0 25px;
-        font-size: clamp(20px, 3vw, 28px);
-      }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
 
-      .gallery {
-        max-width: 700px;
-        margin: 0 auto 32px;
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    }
 
-        display: flex;
-        flex-direction: column;
-
-        gap: var(--gap);
-      }
-
-      .card {
-        background: var(--card);
-
-        border-radius: var(--radius);
-
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-
-        overflow: hidden;
-
-        display: flex;
-        flex-direction: column;
-
-        gap: 12px;
-
-        padding: 14px;
-      }
-
-      .title {
-        font-weight: 600;
-        font-size: 15px;
-
-        letter-spacing: 0.2px;
-
-        word-break: break-word;
-      }
-
-      /*
-      BINGKAI VIDEO 19:6
+    /*
+      HEADER
     */
 
-      .preview {
-        width: 100%;
+    .header {
+      width: 100%;
+      padding: 18px 16px 14px;
+      text-align: center;
+    }
 
-        aspect-ratio: 19 / 6;
+    .header h1 {
+      margin: 0;
 
-        border-radius: 10px;
+      font-size: 22px;
+      font-weight: 700;
 
-        position: relative;
+      letter-spacing: -.3px;
+    }
 
-        overflow: hidden;
-
-        background: #111318;
-      }
-
-      .preview iframe {
-        width: 100%;
-        height: 100%;
-
-        border: 0;
-
-        display: block;
-
-        border-radius: 10px;
-      }
-
-      .loading {
-        position: absolute;
-
-        inset: 0;
-
-        display: grid;
-
-        place-items: center;
-
-        color: #cfd7e6;
-
-        font-size: 14px;
-
-        pointer-events: none;
-
-        z-index: 1;
-      }
-
-      .buttons {
-        display: flex;
-        gap: 10px;
-      }
-
-      .btn {
-        appearance: none;
-
-        border: 1px solid transparent;
-
-        background: var(--btn);
-
-        color: var(--text);
-
-        padding: 9px 14px;
-
-        border-radius: 10px;
-
-        cursor: pointer;
-
-        font-size: 14px;
-
-        font-weight: 600;
-
-        text-decoration: none;
-
-        display: inline-flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        gap: 8px;
-      }
-
-      .btn:hover {
-        background: var(--btn-hover);
-
-        border-color: #434a57;
-      }
-
-      .btn.secondary {
-        background: transparent;
-
-        border-color: #39404a;
-
-        color: var(--accent);
-      }
-
-      .status {
-        max-width: 700px;
-
-        margin: 50px auto;
-
-        text-align: center;
-
-        color: var(--muted);
-      }
-
-      .error {
-        color: #ff7777;
-      }
-
-      /*
-      FULLSCREEN
+    /*
+      GALLERY
     */
 
-      .fullscreen-btn {
-        position: absolute;
+    .gallery {
+      width: 100%;
+      max-width: 900px;
 
-        right: 10px;
-        bottom: 10px;
+      margin: 0 auto;
 
-        z-index: 5;
+      padding:
+        0 12px 35px;
 
-        width: 40px;
-        height: 40px;
+      display: flex;
 
-        border: 0;
+      flex-direction: column;
 
-        border-radius: 10px;
+      gap: 24px;
+    }
 
-        background: rgba(0, 0, 0, 0.75);
+    /*
+      CARD
+    */
 
-        color: white;
+    .card {
+      width: 100%;
 
-        font-size: 20px;
+      background: var(--card);
 
-        cursor: pointer;
+      border-radius: var(--radius);
 
-        display: flex;
+      overflow: hidden;
 
-        align-items: center;
+      box-shadow:
+        0 4px 18px
+        rgba(0,0,0,.35);
+    }
 
-        justify-content: center;
-      }
+    /*
+      TITLE
+    */
 
-      .fullscreen-btn:hover {
-        background: rgba(0, 0, 0, 0.9);
-      }
+    .title {
+      padding:
+        13px
+        14px
+        11px;
 
-      /*
+      font-size: 15px;
+
+      font-weight: 600;
+
+      line-height: 1.4;
+
+      word-break: break-word;
+    }
+
+    /*
+      PLAYER
+      16:9
+    */
+
+    .preview {
+      position: relative;
+
+      width: 100%;
+
+      aspect-ratio: 16 / 9;
+
+      background: #000;
+
+      overflow: hidden;
+    }
+
+    .preview iframe {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      border: 0;
+
+      display: block;
+
+      background: #000;
+    }
+
+    /*
+      LOADING
+    */
+
+    .loading {
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 2;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #000;
+
+      color: #aaa;
+
+      font-size: 14px;
+
+      pointer-events: none;
+
+      transition:
+        opacity .2s ease;
+    }
+
+    /*
+      FULLSCREEN BUTTON
+    */
+
+    .fullscreen-btn {
+      position: absolute;
+
+      right: 10px;
+      bottom: 10px;
+
+      z-index: 5;
+
+      width: 42px;
+      height: 42px;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      background:
+        rgba(0,0,0,.72);
+
+      color: #fff;
+
+      font-size: 21px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      cursor: pointer;
+
+      -webkit-tap-highlight-color:
+        transparent;
+    }
+
+    .fullscreen-btn:active {
+      transform: scale(.95);
+    }
+
+    /*
+      BUTTON AREA
+    */
+
+    .buttons {
+      padding:
+        10px 12px 12px;
+
+      display: flex;
+
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-height: 38px;
+
+      padding:
+        0 14px;
+
+      border-radius: 8px;
+
+      border:
+        1px solid #303035;
+
+      background:
+        #202024;
+
+      color: #eee;
+
+      text-decoration: none;
+
+      font-size: 13px;
+
+      font-weight: 600;
+
+      -webkit-tap-highlight-color:
+        transparent;
+    }
+
+    .btn:active {
+      transform: scale(.98);
+    }
+
+    /*
+      STATUS
+    */
+
+    .status {
+      width: 100%;
+
+      max-width: 700px;
+
+      margin:
+        70px auto;
+
+      padding: 20px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 14px;
+    }
+
+    .error {
+      color: #ff7070;
+    }
+
+    /*
       MOBILE
     */
 
-      @media (max-width: 600px) {
-        body {
-          padding: 12px;
-        }
+    @media (max-width: 600px) {
 
-        .card {
-          padding: 10px;
-        }
-
-        .gallery {
-          gap: 14px;
-        }
+      .header {
+        padding:
+          15px 12px 12px;
       }
-    </style>
-  </head>
 
-  <body>
-    <h1 id="pageTitle">Video Gallery</h1>
+      .header h1 {
+        font-size: 19px;
+      }
 
-    <div id="app">
-      <div class="status">Memuat video...</div>
+      .gallery {
+        padding:
+          0 8px 25px;
+
+        gap: 18px;
+      }
+
+      .card {
+        border-radius: 8px;
+      }
+
+      .title {
+        padding:
+          11px 12px 9px;
+
+        font-size: 14px;
+      }
+
+      .buttons {
+        padding:
+          8px 10px 10px;
+      }
+
+    }
+
+
+    /*
+      FULLSCREEN STYLE
+    */
+
+    .preview:fullscreen {
+
+      width: 100vw;
+      height: 100vh;
+
+      aspect-ratio: auto;
+
+      background: #000;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+    }
+
+    .preview:fullscreen iframe {
+
+      width: 100%;
+      height: 100%;
+
+    }
+
+    /*
+      Safari / iOS
+    */
+
+    .preview:-webkit-full-screen {
+
+      width: 100vw;
+      height: 100vh;
+
+      aspect-ratio: auto;
+
+      background: #000;
+
+    }
+
+    .preview:-webkit-full-screen iframe {
+
+      width: 100%;
+      height: 100%;
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <header class="header">
+
+    <h1 id="pageTitle">
+      Video Gallery
+    </h1>
+
+  </header>
+
+
+  <main id="app">
+
+    <div class="status">
+      Memuat video...
     </div>
 
-    <script>
-      /* =====================================================
+  </main>
+
+
+
+<script>
+
+
+/* =====================================================
    PENGATURAN
 ===================================================== */
 
-      /*
-   CUKUP GANTI NAMA INI
 
-   Manaka:
-   "Manaka Hoshina"
-
-   Sanae:
-   "Sanae Momo"
+/*
+   UNTUK HTML MANAKA
 */
 
-      const FOLDER_NAME = "Manaka Hoshina";
+const FOLDER_NAME =
+  "Manaka Hoshina";
 
-      /*
+
+/*
+   UNTUK HTML SANAE:
+
+   const FOLDER_NAME =
+     "Sanae Momo";
+
+   CUKUP GANTI NAMA DI ATAS
+*/
+
+
+/*
    APPS SCRIPT
 */
 
-      const API_URL =
-        "https://script.google.com/macros/s/AKfycbxo1qNQzgMW4SJ67xtxZ7istZwIvD3KK59yZDts5K2qDU1UODNXN8uXx0XqYzAwsMgh/exec";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxo1qNQzgMW4SJ67xtxZ7istZwIvD3KK59yZDts5K2qDU1UODNXN8uXx0XqYzAwsMgh/exec";
 
-      const app = document.getElementById("app");
 
-      /*
-   Judul halaman otomatis
+const app =
+document.getElementById("app");
+
+
+/*
+   Judul otomatis mengikuti folder
 */
 
-      document.getElementById("pageTitle").textContent = FOLDER_NAME;
+document.getElementById(
+  "pageTitle"
+).textContent =
+  FOLDER_NAME;
 
-      /* =====================================================
+
+
+/* =====================================================
    ESCAPE HTML
 ===================================================== */
 
-      function escapeHTML(text) {
-        return String(text)
-          .replace(/&/g, "&amp;")
+function escapeHTML(text) {
 
-          .replace(/</g, "&lt;")
+  return String(text)
 
-          .replace(/>/g, "&gt;")
+    .replace(
+      /&/g,
+      "&amp;"
+    )
 
-          .replace(/"/g, "&quot;")
+    .replace(
+      /</g,
+      "&lt;"
+    )
 
-          .replace(/'/g, "&#039;");
-      }
+    .replace(
+      />/g,
+      "&gt;"
+    )
 
-      /* =====================================================
-   BUAT VIDEO
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   CREATE CARD
 ===================================================== */
 
-      function createCard(video) {
-        const drivePreview =
-          "https://drive.google.com/file/d/" + video.id + "/preview";
+function createCard(video) {
 
-        const driveOpen =
-          "https://drive.google.com/file/d/" + video.id + "/view";
 
-        const card = document.createElement("div");
+  const drivePreview =
+    "https://drive.google.com/file/d/"
+    + video.id
+    + "/preview";
 
-        card.className = "card";
 
-        card.innerHTML = `
+  const driveOpen =
+    "https://drive.google.com/file/d/"
+    + video.id
+    + "/view";
+
+
+  const card =
+    document.createElement("article");
+
+
+  card.className =
+    "card";
+
+
+  card.innerHTML = `
 
     <div class="title">
+
       ${escapeHTML(video.title)}
+
     </div>
 
 
     <div class="preview">
 
+
       <div class="loading">
-        Memuat preview...
+
+        Memuat...
+
       </div>
 
 
       <iframe
+
         src="${drivePreview}"
+
         allow="fullscreen"
+
         allowfullscreen
-        loading="lazy">
+
+        loading="lazy"
+
+        referrerpolicy="no-referrer">
+
       </iframe>
 
 
       <button
+
         class="fullscreen-btn"
+
         type="button"
+
+        aria-label="Fullscreen"
+
         title="Fullscreen">
+
         ⛶
+
       </button>
+
 
     </div>
 
 
     <div class="buttons">
 
+
       <a
-        class="btn secondary"
+
+        class="btn"
+
         href="${driveOpen}"
+
         target="_blank"
+
         rel="noopener">
 
         Open Drive ↗
 
       </a>
 
+
     </div>
 
   `;
 
-        /*
-     Hilangkan loading
+
+  /*
+    REMOVE LOADING
   */
 
-        const iframe = card.querySelector("iframe");
+  const iframe =
+    card.querySelector(
+      "iframe"
+    );
 
-        iframe.addEventListener("load", function () {
-          const loading = card.querySelector(".loading");
 
-          if (loading) {
-            loading.remove();
-          }
-        });
+  iframe.addEventListener(
+    "load",
+    function() {
 
-        /*
-     FULLSCREEN
-  */
+      const loading =
+        card.querySelector(
+          ".loading"
+        );
 
-        const fullscreen = card.querySelector(".fullscreen-btn");
 
-        fullscreen.addEventListener("click", function () {
-          const preview = card.querySelector(".preview");
+      if (loading) {
 
-          if (document.fullscreenElement) {
-            document.exitFullscreen();
-          } else if (preview.requestFullscreen) {
-            preview.requestFullscreen();
-          }
-        });
+        loading.style.opacity =
+          "0";
 
-        return card;
+        setTimeout(
+          function() {
+
+            if (loading.parentNode) {
+
+              loading.remove();
+
+            }
+
+          },
+          200
+        );
+
       }
 
-      /* =====================================================
+    }
+  );
+
+
+
+  /*
+    FULLSCREEN
+  */
+
+  const fullscreenButton =
+    card.querySelector(
+      ".fullscreen-btn"
+    );
+
+
+  const preview =
+    card.querySelector(
+      ".preview"
+    );
+
+
+  fullscreenButton.addEventListener(
+    "click",
+    async function() {
+
+      try {
+
+
+        /*
+          Keluar fullscreen
+        */
+
+        if (
+          document.fullscreenElement
+        ) {
+
+          await document.exitFullscreen();
+
+          return;
+
+        }
+
+
+        /*
+          Masuk fullscreen
+        */
+
+        if (
+          preview.requestFullscreen
+        ) {
+
+          await preview.requestFullscreen();
+
+        }
+
+
+      }
+
+      catch(error) {
+
+        console.log(
+          "Fullscreen:",
+          error
+        );
+
+      }
+
+    }
+  );
+
+
+  return card;
+
+}
+
+
+
+/* =====================================================
    TAMPILKAN FOLDER
 ===================================================== */
 
-      function showFolder(folder) {
-        app.innerHTML = "";
+function showFolder(folder) {
 
-        const gallery = document.createElement("div");
 
-        gallery.className = "gallery";
+  app.innerHTML =
+    "";
 
-        /*
-     SEMUA FILE DITAMPILKAN
+
+  const gallery =
+    document.createElement(
+      "div"
+    );
+
+
+  gallery.className =
+    "gallery";
+
+
+  /*
+     SEMUA FILE
+     DITAMPILKAN
   */
 
-        folder.videos.forEach(function (video) {
-          gallery.appendChild(createCard(video));
-        });
+  folder.videos.forEach(
+    function(video) {
 
-        app.appendChild(gallery);
-      }
+      gallery.appendChild(
+        createCard(video)
+      );
 
-      /* =====================================================
-   LOAD GOOGLE DRIVE
+    }
+  );
+
+
+  app.appendChild(
+    gallery
+  );
+
+}
+
+
+
+/* =====================================================
+   LOAD DATA
 ===================================================== */
 
-      function loadVideos() {
-        const callbackName = "driveCallback_" + Date.now();
+function loadVideos() {
 
-        let script;
 
-        window[callbackName] = function (folders) {
-          try {
-            /*
-           Cari folder berdasarkan NAMA
+  const callbackName =
+    "driveCallback_"
+    + Date.now();
+
+
+  let script;
+
+
+  window[callbackName] =
+    function(folders) {
+
+
+      try {
+
+
+        /*
+          Cari folder berdasarkan nama
+
+          Huruf besar/kecil tidak masalah.
         */
 
-            const folder = folders.find(function (item) {
+        const folder =
+          folders.find(
+            function(item) {
+
               return (
-                item.name.trim().toLowerCase() ===
-                FOLDER_NAME.trim().toLowerCase()
-              );
-            });
 
-            /*
-           Folder tidak ditemukan
+                item.name
+                  .trim()
+                  .toLowerCase()
+
+                ===
+
+                FOLDER_NAME
+                  .trim()
+                  .toLowerCase()
+
+              );
+
+            }
+          );
+
+
+        /*
+          FOLDER TIDAK ADA
         */
 
-            if (!folder) {
-              app.innerHTML = `
+        if (!folder) {
+
+
+          app.innerHTML = `
 
             <div class="status error">
 
               Folder
-              <b>${escapeHTML(FOLDER_NAME)}</b>
+              <b>
+                ${escapeHTML(FOLDER_NAME)}
+              </b>
+
               tidak ditemukan.
 
             </div>
 
           `;
 
-              return;
-            }
 
-            /*
-           Tidak ada video
+          return;
+
+        }
+
+
+        /*
+          TIDAK ADA VIDEO
         */
 
-            if (!folder.videos || folder.videos.length === 0) {
-              app.innerHTML = `
+        if (
+          !folder.videos ||
+          folder.videos.length === 0
+        ) {
+
+
+          app.innerHTML = `
 
             <div class="status">
 
@@ -480,18 +860,32 @@
 
           `;
 
-              return;
-            }
 
-            /*
-           Tampilkan video
+          return;
+
+        }
+
+
+        /*
+          TAMPILKAN
         */
 
-            showFolder(folder);
-          } catch (error) {
-            console.error(error);
+        showFolder(
+          folder
+        );
 
-            app.innerHTML = `
+
+      }
+
+      catch(error) {
+
+
+        console.error(
+          error
+        );
+
+
+        app.innerHTML = `
 
           <div class="status error">
 
@@ -500,33 +894,59 @@
           </div>
 
         `;
-          }
 
-          /*
-         Bersihkan JSONP
+      }
+
+
+      /*
+        Bersihkan JSONP
       */
 
-          delete window[callbackName];
+      delete window[
+        callbackName
+      ];
 
-          if (script && script.parentNode) {
-            script.parentNode.removeChild(script);
-          }
-        };
 
-        /*
-     Buat JSONP
+      if (
+        script &&
+        script.parentNode
+      ) {
+
+        script.parentNode
+          .removeChild(
+            script
+          );
+
+      }
+
+    };
+
+
+  /*
+    JSONP SCRIPT
   */
 
-        script = document.createElement("script");
+  script =
+    document.createElement(
+      "script"
+    );
 
-        script.src = API_URL + "?callback=" + encodeURIComponent(callbackName);
 
-        /*
-     Error
-  */
+  script.src =
+    API_URL
+    +
+    "?callback="
+    +
+    encodeURIComponent(
+      callbackName
+    );
 
-        script.onerror = function () {
-          app.innerHTML = `
+
+  script.onerror =
+    function() {
+
+
+      app.innerHTML = `
 
         <div class="status error">
 
@@ -536,21 +956,44 @@
 
       `;
 
-          delete window[callbackName];
 
-          if (script.parentNode) {
-            script.parentNode.removeChild(script);
-          }
-        };
+      delete window[
+        callbackName
+      ];
 
-        document.body.appendChild(script);
+
+      if (
+        script.parentNode
+      ) {
+
+        script.parentNode
+          .removeChild(
+            script
+          );
+
       }
 
-      /* =====================================================
-   JALANKAN
+    };
+
+
+  document.body.appendChild(
+    script
+  );
+
+}
+
+
+
+/* =====================================================
+   START
 ===================================================== */
 
-      loadVideos();
-    </script>
-  </body>
+loadVideos();
+
+
+</script>
+
+
+</body>
+
 </html>

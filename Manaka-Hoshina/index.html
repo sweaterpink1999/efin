@@ -1,614 +1,71 @@
-<!doctype html>
-<html lang="id">
+<style>
+  .drive-box {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 28px 20px;
+    text-align: center;
+    background: linear-gradient(145deg, #18181d, #101014);
+    border: 1px solid #292930;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  .drive-box h1 {
+    margin: 0;
+    color: #fff;
+    font-size: 27px;
+    font-weight: 700;
+  }
 
-  <title>Video Gallery</title>
+  .drive-box p {
+    margin: 8px 0 20px;
+    color: #999;
+    font-size: 14px;
+  }
 
-  <style>
-    :root {
-      --bg: #0e0f12;
-      --card: #17181c;
-      --text: #e8edf2;
-      --muted: #a9b0bb;
-      --btn: #2a2e36;
-      --btn-hover: #3a404a;
-      --accent: #7aa2ff;
-      --radius: 14px;
-      --gap: 20px;
+  .drive-btn {
+    display: inline-block;
+    padding: 11px 18px;
+    border-radius: 11px;
+    background: #24242b;
+    border: 1px solid #3a3a44;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+
+  .drive-btn:hover {
+    background: #303039;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  @media (max-width: 600px) {
+    .drive-box {
+      margin: 20px 8px;
+      padding: 23px 15px;
     }
 
-    * {
-      box-sizing: border-box;
+    .drive-box h1 {
+      font-size: 23px;
     }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    body {
-      padding: 24px;
-      font:
-        16px/1.5 system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-    }
-
-    h1 {
-      text-align: center;
-      margin: 0 0 25px;
-      font-size: clamp(20px, 3vw, 28px);
-      line-height: 1.2;
-    }
-
-    .gallery {
-      width: 100%;
-      max-width: 700px;
-      margin: 0 auto 32px;
-
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap);
-    }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border-radius: var(--radius);
-
-      box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.35);
-
-      overflow: hidden;
-      padding: 14px;
-
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .title {
-      font-weight: 600;
-      font-size: 15px;
-      line-height: 1.4;
-      letter-spacing: 0.2px;
-      word-break: break-word;
-    }
-
-    /* PLAYER */
-
-    .preview {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-
-      background: #000;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .preview iframe {
-      position: absolute;
-      inset: 0;
-
-      width: 100%;
-      height: 100%;
-
-      border: 0;
-      display: block;
-      background: #000;
-    }
-
-    /* LOADING */
-
-    .loading {
-      position: absolute;
-      inset: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: #111318;
-      color: #cfd7e6;
-
-      font-size: 14px;
-
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* BUTTON */
-
-    .buttons {
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn {
-      appearance: none;
-
-      border: 1px solid transparent;
-      background: var(--btn);
-      color: var(--text);
-
-      padding: 9px 14px;
-
-      border-radius: 10px;
-      cursor: pointer;
-
-      font-size: 14px;
-      font-weight: 600;
-
-      text-decoration: none;
-
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn:hover {
-      background: var(--btn-hover);
-      border-color: #434a57;
-    }
-
-    .btn.secondary {
-      background: transparent;
-      border-color: #39404a;
-      color: var(--accent);
-    }
-
-    /* STATUS */
-
-    .status {
-      width: 100%;
-      max-width: 700px;
-
-      margin: 50px auto;
-
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .error {
-      color: #ff7777;
-    }
-
-    /* =========================
-       HP
-       ========================= */
-
-    @media (max-width: 600px) {
-
-      html,
-      body {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: hidden;
-      }
-
-      body {
-        padding: 0;
-      }
-
-      h1 {
-        margin: 14px 10px 16px;
-        font-size: 21px;
-      }
-
-      .gallery {
-        width: 100%;
-        max-width: none;
-        margin: 0;
-        gap: 14px;
-      }
-
-      .card {
-        width: 100%;
-        padding: 0;
-        border-radius: 0;
-
-        box-shadow: none;
-
-        gap: 0;
-      }
-
-      .title {
-        width: 100%;
-        padding: 10px;
-
-        font-size: 14px;
-      }
-
-      .preview {
-        width: 100vw;
-        max-width: 100vw;
-
-        aspect-ratio: 16 / 9;
-
-        border-radius: 0;
-      }
-
-      .preview iframe {
-        width: 100%;
-        height: 100%;
-
-        border-radius: 0;
-      }
-
-      .buttons {
-        padding: 10px;
-      }
-
-      .btn {
-        padding: 8px 12px;
-        font-size: 13px;
-      }
-    }
-  </style>
-
-</head>
-
-
-<body>
-
-  <h1 id="pageTitle">
-    Video Gallery
-  </h1>
-
-
-  <div id="app">
-
-    <div class="status">
-      Memuat video...
-    </div>
-
-  </div>
-
-
-  <script>
-
-    /* =====================================
-       NAMA FOLDER
-       ===================================== */
-
-    const FOLDER_NAME =
-      "Manaka Hoshina";
-
-
-    /* =====================================
-       API BARU
-       ===================================== */
-
-    const API_URL =
-      "https://script.google.com/macros/s/AKfycbzDdce97adnKsxSMH4t-9LzOMLQ3ZF9VlEBFA8dtg2FXYeebls_oGEoAudewePoLbzJ/exec";
-
-
-    const app =
-      document.getElementById("app");
-
-
-    document.getElementById("pageTitle")
-      .textContent = FOLDER_NAME;
-
-
-    /* =====================================
-       ESCAPE HTML
-       ===================================== */
-
-    function escapeHTML(text) {
-
-      return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* =====================================
-       BUAT CARD VIDEO
-       ===================================== */
-
-    function createCard(video) {
-
-      const drivePreview =
-        "https://drive.google.com/file/d/" +
-        encodeURIComponent(video.id) +
-        "/preview";
-
-
-      const driveOpen =
-        "https://drive.google.com/file/d/" +
-        encodeURIComponent(video.id) +
-        "/view";
-
-
-      const card =
-        document.createElement("div");
-
-
-      card.className = "card";
-
-
-      card.innerHTML = `
-
-        <div class="title">
-          ${escapeHTML(video.title)}
-        </div>
-
-        <div class="preview">
-
-          <div class="loading">
-            Memuat video...
-          </div>
-
-          <iframe
-            src="${drivePreview}"
-            title="${escapeHTML(video.title)}"
-            allow="autoplay; fullscreen"
-            allowfullscreen>
-          </iframe>
-
-        </div>
-
-        <div class="buttons">
-
-          <a
-            class="btn secondary"
-            href="${driveOpen}"
-            target="_blank"
-            rel="noopener">
-
-            Open Drive ↗
-
-          </a>
-
-        </div>
-
-      `;
-
-
-      /* =====================================
-         LOADING
-         ===================================== */
-
-      const iframe =
-        card.querySelector("iframe");
-
-
-      iframe.addEventListener(
-        "load",
-        function () {
-
-          const loading =
-            card.querySelector(".loading");
-
-
-          if (loading) {
-            loading.remove();
-          }
-
-        }
-      );
-
-
-      return card;
-
-    }
-
-
-    /* =====================================
-       TAMPILKAN FOLDER
-       ===================================== */
-
-    function showFolder(folder) {
-
-      app.innerHTML = "";
-
-
-      const gallery =
-        document.createElement("div");
-
-
-      gallery.className = "gallery";
-
-
-      /*
-        SEMUA FILE DITAMPILKAN
-      */
-
-      folder.videos.forEach(
-        function (video) {
-
-          gallery.appendChild(
-            createCard(video)
-          );
-
-        }
-      );
-
-
-      app.appendChild(gallery);
-
-    }
-
-
-    /* =====================================
-       LOAD API
-       ===================================== */
-
-    function loadVideos() {
-
-      const callbackName =
-        "driveCallback_" + Date.now();
-
-
-      let script;
-
-
-      window[callbackName] =
-        function (folders) {
-
-          try {
-
-            const folder =
-              folders.find(
-                function (item) {
-
-                  return (
-
-                    item.name
-                      .trim()
-                      .toLowerCase()
-
-                    ===
-
-                    FOLDER_NAME
-                      .trim()
-                      .toLowerCase()
-
-                  );
-
-                }
-              );
-
-
-            if (!folder) {
-
-              app.innerHTML = `
-
-                <div class="status error">
-
-                  Folder
-
-                  <b>
-                    ${escapeHTML(FOLDER_NAME)}
-                  </b>
-
-                  tidak ditemukan.
-
-                </div>
-
-              `;
-
-              return;
-            }
-
-
-            if (
-              !folder.videos ||
-              folder.videos.length === 0
-            ) {
-
-              app.innerHTML = `
-
-                <div class="status">
-
-                  Belum ada video.
-
-                </div>
-
-              `;
-
-              return;
-            }
-
-
-            showFolder(folder);
-
-          }
-
-          catch (error) {
-
-            console.error(error);
-
-
-            app.innerHTML = `
-
-              <div class="status error">
-
-                Gagal menampilkan video.
-
-              </div>
-
-            `;
-
-          }
-
-
-          delete window[callbackName];
-
-
-          if (
-            script &&
-            script.parentNode
-          ) {
-
-            script.parentNode.removeChild(
-              script
-            );
-
-          }
-
-        };
-
-
-      /* =====================================
-         JSONP
-         ===================================== */
-
-      script =
-        document.createElement("script");
-
-
-      script.src =
-        API_URL +
-        "?callback=" +
-        callbackName;
-
-
-      script.onerror =
-        function () {
-
-          app.innerHTML = `
-
-            <div class="status error">
-
-              Gagal mengambil data video.
-
-            </div>
-
-          `;
-
-        };
-
-
-      document.body.appendChild(script);
-
-    }
-
-
-    /* =====================================
-       MULAI
-       ===================================== */
-
-    loadVideos();
-
-  </script>
-
-</body>
-
-</html>
+  }
+</style>
+
+<div class="drive-box">
+  <h1>Manaka Hoshina</h1>
+
+  <p>Video Gallery</p>
+
+  <a
+    class="drive-btn"
+    href="https://drive.google.com/drive/folders/1o5xtMfg8zCyar0xmkyDs5yOF8ygq1JWk?usp=sharing"
+    target="_blank"
+    rel="noopener"
+  >
+    📁 Buka Folder Google Drive
+  </a>
+</div>

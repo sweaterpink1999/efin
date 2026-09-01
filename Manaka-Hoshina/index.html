@@ -1,89 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manaka Hoshina | Video Gallery</title>
+
 <style>
-.drive-box{
+*{
+  box-sizing:border-box !important;
+}
+
+.drive-wrapper{
   width:100% !important;
-  max-width:850px !important;
-  margin:10px auto !important;
-  padding:35px 20px !important;
-  text-align:center !important;
-  background:linear-gradient(145deg,#18181d,#101014) !important;
-  border:1px solid #303038 !important;
-  border-radius:20px !important;
-  box-shadow:0 10px 30px rgba(0,0,0,.35) !important;
+  margin:0 !important;
+  padding:10px !important;
   font-family:Arial,Helvetica,sans-serif !important;
 }
 
-.drive-box h1{
-  margin:0 0 10px !important;
+.drive-box{
+  width:100% !important;
+  max-width:900px !important;
+  margin:0 auto !important;
+  padding:35px 20px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #1b1b21,
+      #101014
+    ) !important;
+
+  border:1px solid #303038 !important;
+  border-radius:20px !important;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35) !important;
+
+  text-align:center !important;
+  overflow:hidden !important;
+}
+
+.drive-title{
+  margin:0 !important;
+  padding:0 !important;
+
   color:#fff !important;
   font-size:32px !important;
+  line-height:1.25 !important;
   font-weight:700 !important;
 }
 
-.drive-box p{
-  margin:0 0 25px !important;
-  color:#aaa !important;
+.drive-subtitle{
+  margin:10px 0 25px !important;
+  padding:0 !important;
+
+  color:#999 !important;
   font-size:17px !important;
+  line-height:1.4 !important;
 }
 
-.drive-btn{
+.drive-button{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+
   display:flex !important;
+
+  width:100% !important;
+  max-width:100% !important;
+
+  height:62px !important;
+
+  margin:0 !important;
+  padding:0 15px !important;
+
   align-items:center !important;
   justify-content:center !important;
-  width:100% !important;
-  min-height:62px !important;
-  padding:14px 20px !important;
-  background:linear-gradient(135deg,#292930,#1d1d23) !important;
-  border:1px solid #44444e !important;
+
+  border:1px solid #45454f !important;
   border-radius:14px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #303038,
+      #202026
+    ) !important;
+
   color:#fff !important;
-  text-decoration:none !important;
+
+  font-family:Arial,Helvetica,sans-serif !important;
   font-size:18px !important;
   font-weight:700 !important;
+  line-height:1 !important;
+
+  text-align:center !important;
+  white-space:nowrap !important;
+
   cursor:pointer !important;
+
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.2) !important;
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease !important;
 }
 
-.drive-btn:hover{
-  background:linear-gradient(135deg,#35353e,#24242b) !important;
-  transform:translateY(-2px);
+.drive-button:hover{
+  background:
+    linear-gradient(
+      135deg,
+      #3a3a44,
+      #292930
+    ) !important;
+
+  transform:translateY(-2px) !important;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.3) !important;
 }
+
+.drive-button:active{
+  transform:scale(.98) !important;
+}
+
+
+/* =========================
+   HP
+   ========================= */
 
 @media(max-width:600px){
 
+  .drive-wrapper{
+    width:100% !important;
+    padding:6px !important;
+  }
+
   .drive-box{
-    width:calc(100% - 8px) !important;
-    margin:6px auto !important;
-    padding:32px 14px !important;
+    width:100% !important;
+    padding:30px 14px !important;
+    border-radius:17px !important;
   }
 
-  .drive-box h1{
-    font-size:29px !important;
+  .drive-title{
+    font-size:28px !important;
   }
 
-  .drive-box p{
+  .drive-subtitle{
+    margin:8px 0 22px !important;
     font-size:16px !important;
-    margin-bottom:22px !important;
   }
 
-  .drive-btn{
-    min-height:64px !important;
-    font-size:18px !important;
+  .drive-button{
+    width:100% !important;
+    height:60px !important;
+    font-size:17px !important;
+    border-radius:13px !important;
   }
+
+}
+
+
+/* =========================
+   HP KECIL
+   ========================= */
+
+@media(max-width:380px){
+
+  .drive-wrapper{
+    padding:5px !important;
+  }
+
+  .drive-box{
+    padding:27px 12px !important;
+  }
+
+  .drive-title{
+    font-size:25px !important;
+  }
+
+  .drive-subtitle{
+    font-size:15px !important;
+  }
+
+  .drive-button{
+    height:58px !important;
+    font-size:16px !important;
+  }
+
 }
 </style>
+</head>
 
-<div class="drive-box">
+<body>
 
-  <h1>Manaka Hoshina</h1>
+<div class="drive-wrapper">
 
-  <p>Video Gallery</p>
+  <div class="drive-box">
 
-  <a
-    class="drive-btn"
-    href="https://drive.google.com/drive/folders/1o5xtMfg8zCyar0xmkyDs5yOF8ygq1JWk?usp=sharing"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    📁 Buka Folder Google Drive
-  </a>
+    <h1 class="drive-title">
+      Manaka Hoshina
+    </h1>
+
+    <p class="drive-subtitle">
+      Video Gallery
+    </p>
+
+    <button
+      type="button"
+      class="drive-button"
+      onclick="
+        window.open(
+          'https://drive.google.com/drive/folders/1o5xtMfg8zCyar0xmkyDs5yOF8ygq1JWk?usp=sharing',
+          '_blank'
+        );
+      "
+    >
+      📁&nbsp; Buka Folder Google Drive
+    </button>
+
+  </div>
 
 </div>
+
+</body>
+</html>

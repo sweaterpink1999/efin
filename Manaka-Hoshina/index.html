@@ -1,116 +1,519 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Video Gallery — Auto Preview (Play & Open)</title>
-  <style>
-    :root{
-      --bg:#0e0f12; --card:#17181c; --muted:#a9b0bb; --text:#e8edf2;
-      --btn:#2a2e36; --btn-hover:#3a404a; --accent:#7aa2ff;
-      --radius:14px; --gap:20px;
-    }
-    *{box-sizing:border-box}
-    body{ margin:0; padding:24px; background:var(--bg); color:var(--text);
-      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;}
-    h1,h2{margin:0 0 12px; text-align:center}
-    h1{font-size:clamp(20px,3vw,28px)}
-    h2{font-size:20px; color:var(--text)}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    .gallery{ 
-      max-width:700px; 
-      margin:0 auto 32px; 
-      display:flex; 
-      flex-direction:column; 
-      gap:var(--gap);
-    }
+    <title>Video Gallery</title>
 
-    .card{ background:var(--card); border-radius:var(--radius);
-      box-shadow:0 8px 24px rgba(0,0,0,.35); overflow:hidden;
-      display:flex; flex-direction:column; gap:12px; padding:14px; transition:transform .15s ease;}
-    .card:hover{ transform: translateY(-2px) }
-    .title{font-weight:600; font-size:15px; letter-spacing:.2px}
-    .preview{ width:100%; aspect-ratio:16/9; border-radius:10px; position:relative; overflow:hidden; background:linear-gradient(180deg,#1e2127,#111318);}
-    .skeleton{ position:absolute; inset:0; display:grid; place-items:center; color:#cfd7e6; font-size:14px;}
-    .skeleton::before{ content:""; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent); animation:shimmer 1.2s infinite; }
-    @keyframes shimmer{ 0%{ transform:translateX(-100%)} 100%{ transform:translateX(100%)}}
-    iframe{ width:100%; height:100%; border:0; display:block; border-radius:10px; }
-    .buttons{ display:flex; gap:10px; }
-    .btn{ appearance:none; border:1px solid transparent; background:var(--btn); color:var(--text);
-      padding:9px 14px; border-radius:10px; cursor:pointer; font-size:14px; font-weight:600;
-      transition:background .15s ease, border-color .15s ease, transform .02s ease; text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
-    .btn:hover{ background:var(--btn-hover); border-color:#434a57 }
-    .btn:active{ transform:translateY(1px) }
-    .btn.secondary{ background:transparent; border-color:#39404a; color:var(--accent) }
-  </style>
-</head>
-<body>
+    <style>
+      :root {
+        --bg: #0e0f12;
+        --card: #17181c;
+        --text: #e8edf2;
+        --muted: #a9b0bb;
+        --btn: #2a2e36;
+        --btn-hover: #3a404a;
+        --accent: #7aa2ff;
+        --radius: 14px;
+        --gap: 20px;
+      }
 
-  <!-- Section Manaka Hoshina -->
-  <section>
-    <h2>Manaka Hoshina</h2>
-    <div id="Manaka-Hoshina" class="gallery" aria-live="polite"></div>
-  </section>
+      * {
+        box-sizing: border-box;
+      }
 
-  <script>
-    // Daftar video Manaka Hoshina
-    const videosManakaHoshina = [
-  { id: "16zm5", title: "Video 1" },
-  { id: "konct", title: "Video 2" },
-  { id: "hkcfd", title: "Video 3" },
-  { id: "obtnd", title: "Video 4" },
-  { id: "dq8jv", title: "Video 5" },
-  { id: "ah3rk", title: "Video 6" },
-  { id: "cndwy", title: "Video 7" }
-];
+      body {
+        margin: 0;
+        padding: 24px;
 
-const EMBED_BASE = "https://sweaterpink.4meplayer.com/#";
+        background: var(--bg);
+        color: var(--text);
 
-    // Galeri untuk Manaka Hoshina
-    const $galleryAi = document.getElementById("Manaka-Hoshina");
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Ubuntu,
+          Arial;
+      }
 
-    function createCard({ id, title }) {
-      const src = EMBED_BASE + id;
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <div class="title">${title}</div>
-        <div class="preview" data-src="${src}">
-          <div class="skeleton">Memuat preview…</div>
-        </div>
-        <div class="buttons">
-          <a class="btn secondary" href="${src}" target="_blank" rel="noopener">Open ↗</a>
-        </div>
-      `;
-      return card;
-    }
+      h1 {
+        text-align: center;
 
-    // Render galeri
-    videosManakaHoshina.forEach(v => $galleryAi.appendChild(createCard(v)));
+        margin: 0 0 25px;
 
-    // Lazy-load preview video
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const preview = entry.target;
-        if (preview.dataset.loaded) return;
+        font-size: clamp(20px, 3vw, 28px);
+      }
 
-        const iframe = document.createElement("iframe");
-        iframe.src = preview.dataset.src;
-        iframe.allowFullscreen = true;
-        iframe.loading = "lazy";
-        iframe.addEventListener("load", () => {
-          const sk = preview.querySelector(".skeleton");
-          if (sk) sk.remove();
+      h2 {
+        text-align: center;
+
+        margin: 0 0 12px;
+
+        font-size: 20px;
+      }
+
+      .gallery {
+        max-width: 700px;
+
+        margin: 0 auto 32px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: var(--gap);
+      }
+
+      .card {
+        background: var(--card);
+
+        border-radius: var(--radius);
+
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+        overflow: hidden;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 12px;
+
+        padding: 14px;
+      }
+
+      .title {
+        font-weight: 600;
+
+        font-size: 15px;
+
+        letter-spacing: 0.2px;
+
+        word-break: break-word;
+      }
+
+      .preview {
+        width: 100%;
+
+        aspect-ratio: 16 / 9;
+
+        border-radius: 10px;
+
+        position: relative;
+
+        overflow: hidden;
+
+        background: #111318;
+      }
+
+      .skeleton {
+        position: absolute;
+
+        inset: 0;
+
+        display: grid;
+
+        place-items: center;
+
+        color: #cfd7e6;
+
+        font-size: 14px;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+
+        border: 0;
+
+        display: block;
+
+        border-radius: 10px;
+      }
+
+      .buttons {
+        display: flex;
+
+        gap: 10px;
+      }
+
+      .btn {
+        appearance: none;
+
+        border: 1px solid transparent;
+
+        background: var(--btn);
+
+        color: var(--text);
+
+        padding: 9px 14px;
+
+        border-radius: 10px;
+
+        cursor: pointer;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        text-decoration: none;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+      }
+
+      .btn:hover {
+        background: var(--btn-hover);
+
+        border-color: #434a57;
+      }
+
+      .btn.secondary {
+        background: transparent;
+
+        border-color: #39404a;
+
+        color: var(--accent);
+      }
+
+      .status {
+        max-width: 700px;
+
+        margin: 50px auto;
+
+        text-align: center;
+
+        color: var(--muted);
+      }
+
+      .error {
+        color: #ff7777;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Video Gallery</h1>
+
+    <div id="app">
+      <div class="status">Memuat video...</div>
+    </div>
+
+    <script>
+      /* =====================================================
+   GOOGLE APPS SCRIPT
+===================================================== */
+
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbxo1qNQzgMW4SJ67xtxZ7istZwIvD3KK59yZDts5K2qDU1UODNXN8uXx0XqYzAwsMgh/exec";
+
+      const app = document.getElementById("app");
+
+      /* =====================================================
+   AMANKAN JUDUL VIDEO
+===================================================== */
+
+      function escapeHTML(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+
+          .replace(/</g, "&lt;")
+
+          .replace(/>/g, "&gt;")
+
+          .replace(/"/g, "&quot;")
+
+          .replace(/'/g, "&#039;");
+      }
+
+      /* =====================================================
+   BUAT KARTU VIDEO
+===================================================== */
+
+      function createCard(video) {
+        const drivePreview =
+          "https://drive.google.com/file/d/" + video.id + "/preview";
+
+        const driveOpen =
+          "https://drive.google.com/file/d/" + video.id + "/view";
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+
+    <div class="title">
+
+      ${escapeHTML(video.title)}
+
+    </div>
+
+
+    <div
+      class="preview"
+      data-src="${drivePreview}"
+    >
+
+      <div class="skeleton">
+
+        Memuat preview…
+
+      </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+      <a
+
+        class="btn secondary"
+
+        href="${driveOpen}"
+
+        target="_blank"
+
+        rel="noopener"
+
+      >
+
+        Open ↗
+
+      </a>
+
+    </div>
+
+  `;
+
+        return card;
+      }
+
+      /* =====================================================
+   BUAT SECTION FOLDER
+===================================================== */
+
+      function createSection(folder) {
+        const section = document.createElement("section");
+
+        const title = document.createElement("h2");
+
+        title.textContent = folder.name;
+
+        section.appendChild(title);
+
+        const gallery = document.createElement("div");
+
+        gallery.className = "gallery";
+
+        /*
+     SEMUA FILE VIDEO
+     DARI APPS SCRIPT
+     AKAN DITAMPILKAN
+  */
+
+        folder.videos.forEach(function (video) {
+          gallery.appendChild(createCard(video));
         });
 
-        preview.appendChild(iframe);
-        preview.dataset.loaded = "1";
-        io.unobserve(preview);
-      });
-    }, { rootMargin: "200px 0px", threshold: 0.2 });
+        section.appendChild(gallery);
 
-    document.querySelectorAll(".preview").forEach(p => io.observe(p));
-  </script>
-</body>
+        return section;
+      }
+
+      /* =====================================================
+   LOAD DATA GOOGLE DRIVE
+   MENGGUNAKAN JSONP
+===================================================== */
+
+      function loadVideos() {
+        const callbackName = "driveCallback_" + Date.now();
+
+        let script;
+
+        window[callbackName] = function (folders) {
+          try {
+            app.innerHTML = "";
+
+            if (!Array.isArray(folders) || folders.length === 0) {
+              app.innerHTML = `
+
+            <div class="status">
+
+              Belum ada video.
+
+            </div>
+
+          `;
+
+              return;
+            }
+
+            /*
+           LOOP SEMUA FOLDER
+        */
+
+            folders.forEach(function (folder) {
+              /*
+               Kalau folder tidak punya video
+            */
+
+              if (
+                !folder.videos ||
+                !Array.isArray(folder.videos) ||
+                folder.videos.length === 0
+              ) {
+                return;
+              }
+
+              /*
+               MASUKKAN FOLDER
+            */
+
+              app.appendChild(createSection(folder));
+            });
+
+            /*
+           Aktifkan lazy loading
+        */
+
+            setupLazyLoad();
+          } catch (error) {
+            console.error(error);
+
+            app.innerHTML = `
+
+          <div class="status error">
+
+            Gagal menampilkan video.
+
+          </div>
+
+        `;
+          }
+
+          /*
+         Bersihkan callback
+      */
+
+          delete window[callbackName];
+
+          if (script && script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        };
+
+        /*
+     Buat script JSONP
+  */
+
+        script = document.createElement("script");
+
+        script.src = API_URL + "?callback=" + encodeURIComponent(callbackName);
+
+        /*
+     Kalau gagal koneksi
+  */
+
+        script.onerror = function () {
+          app.innerHTML = `
+
+        <div class="status error">
+
+          Gagal mengambil data Google Drive.
+
+        </div>
+
+      `;
+
+          delete window[callbackName];
+
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        };
+
+        document.body.appendChild(script);
+      }
+
+      /* =====================================================
+   LAZY LOAD VIDEO
+===================================================== */
+
+      function setupLazyLoad() {
+        const io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) {
+                return;
+              }
+
+              const preview = entry.target;
+
+              /*
+               Sudah dimuat?
+            */
+
+              if (preview.dataset.loaded) {
+                return;
+              }
+
+              /*
+               Buat iframe
+            */
+
+              const iframe = document.createElement("iframe");
+
+              iframe.src = preview.dataset.src;
+
+              iframe.allowFullscreen = true;
+
+              iframe.loading = "lazy";
+
+              /*
+               Hapus tulisan
+               Memuat preview
+            */
+
+              iframe.addEventListener("load", function () {
+                const skeleton = preview.querySelector(".skeleton");
+
+                if (skeleton) {
+                  skeleton.remove();
+                }
+              });
+
+              preview.appendChild(iframe);
+
+              preview.dataset.loaded = "1";
+
+              io.unobserve(preview);
+            });
+          },
+
+          {
+            rootMargin: "300px 0px",
+
+            threshold: 0.1,
+          },
+        );
+
+        document.querySelectorAll(".preview").forEach(function (preview) {
+          io.observe(preview);
+        });
+      }
+
+      /* =====================================================
+   JALANKAN
+===================================================== */
+
+      loadVideos();
+    </script>
+  </body>
 </html>

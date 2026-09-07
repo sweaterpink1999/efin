@@ -1,251 +1,220 @@
-<div class="separator" style="clear: both; text-align: center">
-  <a
-    href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhb2tBmhIEBB4IM3U6SAr8wOgGURlcdm8lP7DpZkPgXTs01zhCAzOQ8E6SjggdNQzGn3Oz5f4-AplgD0MZzgFXQ65VgX06u4rOkDyPMmqaZHvGWxHMvDNcG-FTAdEiEQFMTqCHt6T8bU8leSSGcOgd1mFfTWdkUKh8P4qtX8agvdQi6zBGjx5JbGpZHmDk/s1280/1000165616.jpg"
-    imageanchor="1"
-    style="margin-left: 1em; margin-right: 1em"
-    ><img
-      border="0"
-      data-original-height="1280"
-      data-original-width="720"
-      height="320"
-      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhb2tBmhIEBB4IM3U6SAr8wOgGURlcdm8lP7DpZkPgXTs01zhCAzOQ8E6SjggdNQzGn3Oz5f4-AplgD0MZzgFXQ65VgX06u4rOkDyPMmqaZHvGWxHMvDNcG-FTAdEiEQFMTqCHt6T8bU8leSSGcOgd1mFfTWdkUKh8P4qtX8agvdQi6zBGjx5JbGpZHmDk/s320/1000165616.jpg"
-      width="180"
-  /></a>
-</div>
-<br />
-<!-- Ganti FILE_ID jika perlu; ini sudah pakai ID dari link kamu -->
 <!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Video Gallery — Auto Preview (Play & Open)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>EFIN | Video Gallery</title>
+
     <style>
-      :root {
-        --bg: #0e0f12;
-        --card: #17181c;
-        --muted: #a9b0bb;
-        --text: #e8edf2;
-        --btn: #2a2e36;
-        --btn-hover: #3a404a;
-        --accent: #7aa2ff;
-        --radius: 14px;
-        --gap: 20px;
-      }
       * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        padding: 24px;
-        background: var(--bg);
-        color: var(--text);
-        font:
-          16px/1.5 system-ui,
-          -apple-system,
-          Segoe UI,
-          Roboto,
-          Ubuntu,
-          "Helvetica Neue",
-          Arial;
-      }
-      h1,
-      h2 {
-        margin: 0 0 12px;
-        text-align: center;
-      }
-      h1 {
-        font-size: clamp(20px, 3vw, 28px);
-      }
-      h2 {
-        font-size: 20px;
-        color: var(--text);
+        box-sizing: border-box !important;
       }
 
-      .gallery {
-        max-width: 700px;
-        margin: 0 auto 32px;
-        display: flex;
-        flex-direction: column;
-        gap: var(--gap);
+      .drive-wrapper {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 10px !important;
+        font-family: Arial, Helvetica, sans-serif !important;
       }
 
-      .card {
-        background: var(--card);
-        border-radius: var(--radius);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 14px;
-        transition: transform 0.15s ease;
+      .drive-box {
+        width: 100% !important;
+        max-width: 900px !important;
+        margin: 0 auto !important;
+        padding: 35px 20px !important;
+
+        background: linear-gradient(145deg, #1b1b21, #101014) !important;
+
+        border: 1px solid #303038 !important;
+        border-radius: 20px !important;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+
+        text-align: center !important;
+        overflow: hidden !important;
       }
-      .card:hover {
-        transform: translateY(-2px);
+
+      .drive-title {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #fff !important;
+        font-size: 32px !important;
+        line-height: 1.25 !important;
+        font-weight: 700 !important;
       }
-      .title {
-        font-weight: 600;
-        font-size: 15px;
-        letter-spacing: 0.2px;
+
+      .drive-subtitle {
+        margin: 10px 0 25px !important;
+        padding: 0 !important;
+        color: #999 !important;
+        font-size: 17px !important;
+        line-height: 1.4 !important;
       }
-      .preview {
-        width: 100%;
-        aspect-ratio: 16/9;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(180deg, #1e2127, #111318);
+
+      /* TOMBOL */
+      .drive-button {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 62px !important;
+
+        margin: 0 !important;
+        padding: 0 15px !important;
+
+        border: 1px solid #45454f !important;
+        border-radius: 14px !important;
+
+        background: linear-gradient(135deg, #303038, #202026) !important;
+
+        color: #fff !important;
+
+        font-family: Arial, Helvetica, sans-serif !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        line-height: 1 !important;
+
+        text-align: center !important;
+        white-space: nowrap !important;
+
+        cursor: pointer !important;
+
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+
+        transition: 0.2s !important;
       }
-      .skeleton {
-        position: absolute;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        color: #cfd7e6;
-        font-size: 14px;
+
+      .drive-button:hover {
+        background: linear-gradient(135deg, #3a3a44, #292930) !important;
+
+        transform: translateY(-2px) !important;
       }
-      .skeleton::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.06),
-          transparent
-        );
-        animation: shimmer 1.2s infinite;
+
+      /* TOMBOL SALIN */
+      .copy-button {
+        margin-top: 12px !important;
+
+        background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+
+        border-color: #3b82f6 !important;
       }
-      @keyframes shimmer {
-        0% {
-          transform: translateX(-100%);
+
+      .copy-button:hover {
+        background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+      }
+
+      /* =========================
+   HP
+   ========================= */
+
+      @media (max-width: 600px) {
+        .drive-wrapper {
+          width: 100% !important;
+          padding: 6px !important;
         }
-        100% {
-          transform: translateX(100%);
+
+        .drive-box {
+          width: 100% !important;
+          padding: 30px 14px !important;
+          border-radius: 17px !important;
+        }
+
+        .drive-title {
+          font-size: 28px !important;
+        }
+
+        .drive-subtitle {
+          margin: 8px 0 22px !important;
+          font-size: 16px !important;
+        }
+
+        .drive-button {
+          width: 100% !important;
+          height: 60px !important;
+          font-size: 17px !important;
+          border-radius: 13px !important;
         }
       }
-      iframe {
-        width: 100%;
-        height: 100%;
-        border: 0;
-        display: block;
-        border-radius: 10px;
-      }
-      .buttons {
-        display: flex;
-        gap: 10px;
-      }
-      .btn {
-        appearance: none;
-        border: 1px solid transparent;
-        background: var(--btn);
-        color: var(--text);
-        padding: 9px 14px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 600;
-        transition:
-          background 0.15s ease,
-          border-color 0.15s ease,
-          transform 0.02s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .btn:hover {
-        background: var(--btn-hover);
-        border-color: #434a57;
-      }
-      .btn:active {
-        transform: translateY(1px);
-      }
-      .btn.secondary {
-        background: transparent;
-        border-color: #39404a;
-        color: var(--accent);
+
+      /* =========================
+   HP KECIL
+   ========================= */
+
+      @media (max-width: 380px) {
+        .drive-wrapper {
+          padding: 5px !important;
+        }
+
+        .drive-box {
+          padding: 27px 12px !important;
+        }
+
+        .drive-title {
+          font-size: 25px !important;
+        }
+
+        .drive-subtitle {
+          font-size: 15px !important;
+        }
+
+        .drive-button {
+          height: 58px !important;
+          font-size: 16px !important;
+        }
       }
     </style>
   </head>
+
   <body>
-    <!-- Section Efin -->
-    <section>
-      <h2>Efin</h2>
-      <div id="Efin" class="gallery" aria-live="polite"></div>
-    </section>
+    <div class="drive-wrapper">
+      <div class="drive-box">
+        <h1 class="drive-title">EFIN</h1>
 
-    <script>
-      // Daftar video Efin
-      const videosEfin = [
-        { id: "vized", title: "Video 1" },
-        { id: "8mw55", title: "Video 2" },
-        { id: "6ltqy", title: "Video 3" },
-        { id: "ahy6n", title: "Video 4" },
-        { id: "hkslh", title: "Video 5" },
-        { id: "r36gs", title: "Video 6" },
-        { id: "nth8r", title: "Video 7" },
-        { id: "9vmtg", title: "Video 8" },
-        { id: "fu531", title: "Video 9" },
-        { id: "hkswg", title: "Video 10" },
-        { id: "5jvla", title: "Video 11" },
-        { id: "5jvld", title: "Video 12" },
-        { id: "6lt9c", title: "Video 13" },
-        { id: "xyozq", title: "Video 14" },
-        { id: "ysbpv", title: "Video 15" },
-        { id: "iwpyw", title: "Video 16" },
-      ];
-      const EMBED_BASE = "https://sweaterpink.4meplayer.com/#";
+        <p class="drive-subtitle">Video Gallery</p>
 
-      // Galeri untuk Efin
-      const $galleryAi = document.getElementById("Efin");
+        <!-- BUKA FOLDER -->
+        <button
+          type="button"
+          class="drive-button"
+          onclick="
+            window.open(
+              'https://drive.google.com/drive/folders/17cmZ4r9STWSnUih5JIUny_l8Vl1rJIpH?usp=sharing',
+              '_blank',
+            )
+          "
+        >
+          📁&nbsp; Buka Folder Google Drive
+        </button>
 
-      function createCard({ id, title }) {
-        const src = EMBED_BASE + id;
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-        <div class="title">${title}</div>
-        <div class="preview" data-src="${src}">
-          <div class="skeleton">Memuat preview…</div>
-        </div>
-        <div class="buttons">
-          <a class="btn secondary" href="${src}" target="_blank" rel="noopener">Open ↗</a>
-        </div>
-      `;
-        return card;
-      }
-
-      // Render galeri
-      videosEfin.forEach((v) => $galleryAi.appendChild(createCard(v)));
-
-      // Lazy-load preview video
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            const preview = entry.target;
-            if (preview.dataset.loaded) return;
-
-            const iframe = document.createElement("iframe");
-            iframe.src = preview.dataset.src;
-            iframe.allowFullscreen = true;
-            iframe.loading = "lazy";
-            iframe.addEventListener("load", () => {
-              const sk = preview.querySelector(".skeleton");
-              if (sk) sk.remove();
-            });
-
-            preview.appendChild(iframe);
-            preview.dataset.loaded = "1";
-            io.unobserve(preview);
-          });
-        },
-        { rootMargin: "200px 0px", threshold: 0.2 },
-      );
-
-      document.querySelectorAll(".preview").forEach((p) => io.observe(p));
-    </script>
+        <!-- SALIN URL -->
+        <button
+          type="button"
+          class="drive-button copy-button"
+          onclick="
+            navigator.clipboard
+              .writeText(
+                'https://drive.google.com/drive/folders/17cmZ4r9STWSnUih5JIUny_l8Vl1rJIpH?usp=sharing',
+              )
+              .then(
+                function () {
+                  this.innerHTML = '✅ URL Berhasil Disalin!';
+                  setTimeout(function () {
+                    document.querySelector('.copy-button').innerHTML =
+                      '📋 Salin URL untuk Browser';
+                  }, 2000);
+                }.bind(this),
+              )
+          "
+        >
+          📋&nbsp; Salin URL untuk Browser
+        </button>
+      </div>
+    </div>
   </body>
 </html>

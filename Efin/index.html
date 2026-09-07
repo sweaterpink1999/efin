@@ -94,10 +94,29 @@
         main {
           padding: 10px 8px 30px;
         }
-        .grid {
+
+        /* HP: video 1 kolom agar tombol kontrol/fullscreen jelas */
+        #videos {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        /* Gambar tetap 2 kolom di HP */
+        #images {
           grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 8px;
         }
+
+        #videos .media {
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          min-height: 0;
+        }
+
+        #videos video {
+          display: block;
+        }
+
         .name {
           font-size: 11px;
           padding: 7px 8px 9px;
@@ -107,6 +126,50 @@
         .grid {
           grid-template-columns: 1fr;
         }
+      }
+
+      /* Fullscreen image viewer */
+      .image-lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.94);
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .image-lightbox.open {
+        display: flex;
+      }
+      .image-lightbox img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 4px;
+        user-select: none;
+      }
+      .lightbox-close {
+        position: fixed;
+        top: 12px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        font-size: 30px;
+        line-height: 44px;
+        cursor: pointer;
+      }
+      .lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+      body.lightbox-open {
+        overflow: hidden;
       }
     </style>
   </head>
@@ -130,6 +193,13 @@
       <h2>📷 Gambar</h2>
       <div id="images" class="grid"></div>
     </main>
+
+    <div id="imageLightbox" class="image-lightbox" aria-hidden="true">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">
+        ×
+      </button>
+      <img id="lightboxImage" src="" alt="" />
+    </div>
 
     <script>
       /*
@@ -385,7 +455,7 @@ CONTOH:
               .map(
                 (x) => `
     <article class="card">
-      <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy">
+      <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy" onclick="openImage(this.src, this.alt)">
       <div class="name">${esc(x.name)}</div>
     </article>`,
               )
@@ -409,6 +479,40 @@ CONTOH:
         document.getElementById("count").textContent =
           `${im.length} gambar • ${vi.length} video`;
       }
+
+      function openImage(src, alt) {
+        const box = document.getElementById("imageLightbox");
+        const image = document.getElementById("lightboxImage");
+        image.src = src;
+        image.alt = alt || "";
+        box.classList.add("open");
+        box.setAttribute("aria-hidden", "false");
+        document.body.classList.add("lightbox-open");
+      }
+
+      function closeImage() {
+        const box = document.getElementById("imageLightbox");
+        const image = document.getElementById("lightboxImage");
+        box.classList.remove("open");
+        box.setAttribute("aria-hidden", "true");
+        image.src = "";
+        document.body.classList.remove("lightbox-open");
+      }
+
+      document
+        .getElementById("lightboxClose")
+        .addEventListener("click", closeImage);
+
+      document
+        .getElementById("imageLightbox")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeImage();
+        });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeImage();
+      });
+
       document.getElementById("search").addEventListener("input", render);
       render();
     </script>

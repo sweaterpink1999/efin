@@ -1,220 +1,416 @@
 <!doctype html>
 <html lang="id">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>EFIN | Video Gallery</title>
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EFIN</title>
     <style>
       * {
-        box-sizing: border-box !important;
+        box-sizing: border-box;
       }
-
-      .drive-wrapper {
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 10px !important;
-        font-family: Arial, Helvetica, sans-serif !important;
+      body {
+        margin: 0;
+        background: #111;
+        color: #eee;
+        font-family: Arial, sans-serif;
       }
-
-      .drive-box {
-        width: 100% !important;
-        max-width: 900px !important;
-        margin: 0 auto !important;
-        padding: 35px 20px !important;
-
-        background: linear-gradient(145deg, #1b1b21, #101014) !important;
-
-        border: 1px solid #303038 !important;
-        border-radius: 20px !important;
-
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
-
-        text-align: center !important;
-        overflow: hidden !important;
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #181818;
+        border-bottom: 1px solid #333;
+        padding: 14px;
       }
-
-      .drive-title {
-        margin: 0 !important;
-        padding: 0 !important;
-        color: #fff !important;
-        font-size: 32px !important;
-        line-height: 1.25 !important;
-        font-weight: 700 !important;
+      .head {
+        max-width: 1400px;
+        margin: auto;
       }
-
-      .drive-subtitle {
-        margin: 10px 0 25px !important;
-        padding: 0 !important;
-        color: #999 !important;
-        font-size: 17px !important;
-        line-height: 1.4 !important;
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 4vw, 30px);
       }
-
-      /* TOMBOL */
-      .drive-button {
-        appearance: none !important;
-        -webkit-appearance: none !important;
-
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 62px !important;
-
-        margin: 0 !important;
-        padding: 0 15px !important;
-
-        border: 1px solid #45454f !important;
-        border-radius: 14px !important;
-
-        background: linear-gradient(135deg, #303038, #202026) !important;
-
-        color: #fff !important;
-
-        font-family: Arial, Helvetica, sans-serif !important;
-        font-size: 18px !important;
-        font-weight: 700 !important;
-        line-height: 1 !important;
-
-        text-align: center !important;
-        white-space: nowrap !important;
-
-        cursor: pointer !important;
-
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
-
-        transition: 0.2s !important;
+      .search {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #444;
+        border-radius: 8px;
+        background: #222;
+        color: #fff;
+        font-size: 15px;
       }
-
-      .drive-button:hover {
-        background: linear-gradient(135deg, #3a3a44, #292930) !important;
-
-        transform: translateY(-2px) !important;
+      main {
+        max-width: 1400px;
+        margin: auto;
+        padding: 16px 14px 40px;
       }
-
-      /* TOMBOL SALIN */
-      .copy-button {
-        margin-top: 12px !important;
-
-        background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
-
-        border-color: #3b82f6 !important;
+      h2 {
+        font-size: clamp(18px, 3vw, 23px);
+        margin: 24px 0 12px;
       }
-
-      .copy-button:hover {
-        background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+      .count {
+        color: #999;
+        font-size: 13px;
+        margin-bottom: 10px;
       }
-
-      /* =========================
-   HP
-   ========================= */
-
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 14px;
+      }
+      .card {
+        background: #1b1b1b;
+        border: 1px solid #303030;
+        border-radius: 9px;
+        overflow: hidden;
+        min-width: 0;
+      }
+      .media {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        background: #000;
+        object-fit: contain;
+      }
+      img.media {
+        object-fit: cover;
+        cursor: pointer;
+      }
+      .name {
+        padding: 9px 10px 11px;
+        font-size: 13px;
+        line-height: 1.35;
+        word-break: break-word;
+      }
+      .empty {
+        padding: 25px;
+        color: #888;
+      }
       @media (max-width: 600px) {
-        .drive-wrapper {
-          width: 100% !important;
-          padding: 6px !important;
+        header {
+          padding: 10px 8px;
         }
-
-        .drive-box {
-          width: 100% !important;
-          padding: 30px 14px !important;
-          border-radius: 17px !important;
+        main {
+          padding: 10px 8px 30px;
         }
-
-        .drive-title {
-          font-size: 28px !important;
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
         }
-
-        .drive-subtitle {
-          margin: 8px 0 22px !important;
-          font-size: 16px !important;
-        }
-
-        .drive-button {
-          width: 100% !important;
-          height: 60px !important;
-          font-size: 17px !important;
-          border-radius: 13px !important;
+        .name {
+          font-size: 11px;
+          padding: 7px 8px 9px;
         }
       }
-
-      /* =========================
-   HP KECIL
-   ========================= */
-
-      @media (max-width: 380px) {
-        .drive-wrapper {
-          padding: 5px !important;
-        }
-
-        .drive-box {
-          padding: 27px 12px !important;
-        }
-
-        .drive-title {
-          font-size: 25px !important;
-        }
-
-        .drive-subtitle {
-          font-size: 15px !important;
-        }
-
-        .drive-button {
-          height: 58px !important;
-          font-size: 16px !important;
+      @media (max-width: 360px) {
+        .grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
-
   <body>
-    <div class="drive-wrapper">
-      <div class="drive-box">
-        <h1 class="drive-title">EFIN</h1>
-
-        <p class="drive-subtitle">Video Gallery</p>
-
-        <!-- BUKA FOLDER -->
-        <button
-          type="button"
-          class="drive-button"
-          onclick="
-            window.open(
-              'https://drive.google.com/drive/folders/17cmZ4r9STWSnUih5JIUny_l8Vl1rJIpH?usp=sharing',
-              '_blank',
-            )
-          "
-        >
-          📁&nbsp; Buka Folder Google Drive
-        </button>
-
-        <!-- SALIN URL -->
-        <button
-          type="button"
-          class="drive-button copy-button"
-          onclick="
-            navigator.clipboard
-              .writeText(
-                'https://drive.google.com/drive/folders/17cmZ4r9STWSnUih5JIUny_l8Vl1rJIpH?usp=sharing',
-              )
-              .then(
-                function () {
-                  this.innerHTML = '✅ URL Berhasil Disalin!';
-                  setTimeout(function () {
-                    document.querySelector('.copy-button').innerHTML =
-                      '📋 Salin URL untuk Browser';
-                  }, 2000);
-                }.bind(this),
-              )
-          "
-        >
-          📋&nbsp; Salin URL untuk Browser
-        </button>
+    <header>
+      <div class="head">
+        <h1>EFIN</h1>
+        <input
+          id="search"
+          class="search"
+          type="search"
+          placeholder="Cari gambar atau video..."
+        />
       </div>
-    </div>
+    </header>
+
+    <main>
+      <div id="count" class="count"></div>
+      <h2>🎬 Video</h2>
+      <div id="videos" class="grid"></div>
+      <h2>📷 Gambar</h2>
+      <div id="images" class="grid"></div>
+    </main>
+
+    <script>
+      /*
+=========================================================
+CARA EDIT / TAMBAH FILE
+=========================================================
+Folder R2 yang dipakai: EFIN
+
+Untuk mengganti JUDUL yang tampil:
+  name: "Judul yang kamu mau"
+
+Untuk mengganti file:
+  file: "nama-file-persis-di-R2.mp4"
+
+Untuk menambah file, copy satu baris lalu ubah name + file.
+URL R2 dibuat otomatis, jadi tidak perlu menulis URL panjang.
+
+CONTOH:
+  { name: "Video Baru", file: "video-baru.mp4" },
+=========================================================
+*/
+
+      const R2_BASE =
+        "https://pub-78c754fb607647a9b352da52a7749dfa.r2.dev/EFIN/";
+
+      const images = [
+        {
+          name: "IMG_20260907_062825_968",
+          file: "IMG_20260907_062825_968.jpg",
+        },
+        {
+          name: "IMG_20260907_062849_442",
+          file: "IMG_20260907_062849_442.jpg",
+        },
+        {
+          name: "IMG_20260907_062912_312",
+          file: "IMG_20260907_062912_312.jpg",
+        },
+        {
+          name: "IMG_20260907_062912_652",
+          file: "IMG_20260907_062912_652.jpg",
+        },
+        {
+          name: "IMG_20260907_063135_134",
+          file: "IMG_20260907_063135_134.jpg",
+        },
+        {
+          name: "IMG_20260907_063207_923",
+          file: "IMG_20260907_063207_923.jpg",
+        },
+        {
+          name: "IMG_20260907_063208_664",
+          file: "IMG_20260907_063208_664.jpg",
+        },
+        {
+          name: "IMG_20260907_063216_325",
+          file: "IMG_20260907_063216_325.jpg",
+        },
+        {
+          name: "IMG_20260907_063217_029",
+          file: "IMG_20260907_063217_029.jpg",
+        },
+        {
+          name: "IMG_20260907_063217_084",
+          file: "IMG_20260907_063217_084.jpg",
+        },
+        {
+          name: "IMG_20260907_063222_873",
+          file: "IMG_20260907_063222_873.jpg",
+        },
+        {
+          name: "IMG_20260907_063226_473",
+          file: "IMG_20260907_063226_473.jpg",
+        },
+        {
+          name: "IMG_20260907_063227_036",
+          file: "IMG_20260907_063227_036.jpg",
+        },
+        {
+          name: "IMG_20260907_063230_788",
+          file: "IMG_20260907_063230_788.jpg",
+        },
+        {
+          name: "IMG_20260907_063234_149",
+          file: "IMG_20260907_063234_149.jpg",
+        },
+        {
+          name: "IMG_20260907_063244_990",
+          file: "IMG_20260907_063244_990.jpg",
+        },
+        {
+          name: "IMG_20260907_063247_039",
+          file: "IMG_20260907_063247_039.jpg",
+        },
+        {
+          name: "IMG_20260907_063248_085",
+          file: "IMG_20260907_063248_085.jpg",
+        },
+        {
+          name: "IMG_20260907_063256_314",
+          file: "IMG_20260907_063256_314.jpg",
+        },
+        {
+          name: "IMG_20260907_063432_722",
+          file: "IMG_20260907_063432_722.jpg",
+        },
+        {
+          name: "IMG_20260907_063437_124",
+          file: "IMG_20260907_063437_124.jpg",
+        },
+        {
+          name: "IMG_20260907_063440_296",
+          file: "IMG_20260907_063440_296.jpg",
+        },
+        {
+          name: "IMG_20260907_063441_598",
+          file: "IMG_20260907_063441_598.jpg",
+        },
+        {
+          name: "IMG_20260907_063537_284",
+          file: "IMG_20260907_063537_284.jpg",
+        },
+        {
+          name: "IMG_20260907_063548_823",
+          file: "IMG_20260907_063548_823.jpg",
+        },
+        {
+          name: "IMG_20260907_063549_338",
+          file: "IMG_20260907_063549_338.jpg",
+        },
+        {
+          name: "IMG_20260907_063549_360",
+          file: "IMG_20260907_063549_360.jpg",
+        },
+        {
+          name: "IMG_20260907_063549_543",
+          file: "IMG_20260907_063549_543.jpg",
+        },
+        {
+          name: "IMG_20260907_063552_076",
+          file: "IMG_20260907_063552_076.jpg",
+        },
+      ];
+
+      const videos = [
+        { name: "5_6082407524953229603", file: "5_6082407524953229603.mp4" },
+        { name: "5_6082407524953229621", file: "5_6082407524953229621.mp4" },
+        { name: "5_6082407524953229624", file: "5_6082407524953229624.mp4" },
+        { name: "5_6091464713332328810", file: "5_6091464713332328810.mp4" },
+        { name: "5_6091464713332328811", file: "5_6091464713332328811.mp4" },
+        { name: "5_6215189269292517143", file: "5_6215189269292517143.mp4" },
+        { name: "5_6215189269292517144", file: "5_6215189269292517144.mp4" },
+        { name: "5_6235775300945317037", file: "5_6235775300945317037.mp4" },
+        { name: "5_6235775300945317063", file: "5_6235775300945317063.mp4" },
+        { name: "5_6244650691948709602", file: "5_6244650691948709602.mp4" },
+        { name: "5_6244650691948709603", file: "5_6244650691948709603.mp4" },
+        { name: "5_6244650691948709604", file: "5_6244650691948709604.mp4" },
+        { name: "5_6289603687979419890", file: "5_6289603687979419890.mp4" },
+        { name: "5_6289603687979419891", file: "5_6289603687979419891.mp4" },
+        { name: "5_6298336400169241029", file: "5_6298336400169241029.mp4" },
+        { name: "5_6298336400169241030", file: "5_6298336400169241030.mp4" },
+        { name: "5_6298336400169241031", file: "5_6298336400169241031.mp4" },
+        { name: "5_6336618199592732540", file: "5_6336618199592732540.mp4" },
+        { name: "5_6336618199592732541", file: "5_6336618199592732541.mp4" },
+        { name: "5_6336618199592732634", file: "5_6336618199592732634.mp4" },
+        { name: "5_6338869999406417895", file: "5_6338869999406417895.mp4" },
+
+        {
+          name: "VID_20260907_062912_195",
+          file: "VID_20260907_062912_195.mp4",
+        },
+        {
+          name: "VID_20260907_063236_192",
+          file: "VID_20260907_063236_192.mp4",
+        },
+        {
+          name: "VID_20260907_063242_914",
+          file: "VID_20260907_063242_914.mp4",
+        },
+        {
+          name: "VID_20260907_063252_542",
+          file: "VID_20260907_063252_542.mp4",
+        },
+        {
+          name: "VID_20260907_063254_235",
+          file: "VID_20260907_063254_235.mp4",
+        },
+        {
+          name: "VID_20260907_063257_681",
+          file: "VID_20260907_063257_681.mp4",
+        },
+        {
+          name: "VID_20260907_063300_168",
+          file: "VID_20260907_063300_168.mp4",
+        },
+        {
+          name: "VID_20260907_063537_018",
+          file: "VID_20260907_063537_018.mp4",
+        },
+        {
+          name: "VID_20260907_063537_557",
+          file: "VID_20260907_063537_557.mp4",
+        },
+        {
+          name: "VID_20260907_063537_693",
+          file: "VID_20260907_063537_693.mp4",
+        },
+        {
+          name: "VID_20260907_063537_838",
+          file: "VID_20260907_063537_838.mp4",
+        },
+        {
+          name: "VID_20260907_063545_081",
+          file: "VID_20260907_063545_081.mp4",
+        },
+
+        { name: "efin ai 2", file: "efin ai 2.mp4" },
+        { name: "efin ai 3", file: "efin ai 3.mp4" },
+        { name: "evin ai 1", file: "evin ai 1.mp4" },
+        { name: "lv_0_20260406101246", file: "lv_0_20260406101246.mp4" },
+      ];
+
+      function url(file) {
+        return R2_BASE + encodeURIComponent(file).replace(/%2F/g, "/");
+      }
+      function esc(s) {
+        return s.replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[c],
+        );
+      }
+      function match(x, q) {
+        return (
+          !q ||
+          x.name.toLowerCase().includes(q) ||
+          x.file.toLowerCase().includes(q)
+        );
+      }
+      function render() {
+        const q = document.getElementById("search").value.trim().toLowerCase();
+        const im = images.filter((x) => match(x, q));
+        const vi = videos.filter((x) => match(x, q));
+
+        document.getElementById("images").innerHTML = im.length
+          ? im
+              .map(
+                (x) => `
+    <article class="card">
+      <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy">
+      <div class="name">${esc(x.name)}</div>
+    </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada gambar.</div>';
+
+        document.getElementById("videos").innerHTML = vi.length
+          ? vi
+              .map(
+                (x) => `
+    <article class="card">
+      <video class="media" controls preload="metadata" playsinline>
+        <source src="${url(x.file)}" type="video/mp4">
+      </video>
+      <div class="name">${esc(x.name)}</div>
+    </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada video.</div>';
+
+        document.getElementById("count").textContent =
+          `${im.length} gambar • ${vi.length} video`;
+      }
+      document.getElementById("search").addEventListener("input", render);
+      render();
+    </script>
   </body>
 </html>

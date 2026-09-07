@@ -1,253 +1,267 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manaka Hoshina</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #111;
+        color: #eee;
+        font-family: Arial, sans-serif;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #181818;
+        border-bottom: 1px solid #333;
+        padding: 14px;
+      }
+      .head {
+        max-width: 1400px;
+        margin: auto;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 4vw, 30px);
+      }
+      .search {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #444;
+        border-radius: 8px;
+        background: #222;
+        color: #fff;
+        font-size: 15px;
+      }
+      main {
+        max-width: 1400px;
+        margin: auto;
+        padding: 16px 14px 40px;
+      }
+      h2 {
+        font-size: clamp(18px, 3vw, 23px);
+        margin: 24px 0 12px;
+      }
+      .count {
+        color: #999;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 14px;
+      }
+      .card {
+        background: #1b1b1b;
+        border: 1px solid #303030;
+        border-radius: 9px;
+        overflow: hidden;
+        min-width: 0;
+      }
+      .media {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        background: #000;
+        object-fit: contain;
+      }
+      .name {
+        padding: 9px 10px 11px;
+        font-size: 13px;
+        line-height: 1.35;
+        word-break: break-word;
+      }
+      .empty {
+        padding: 25px;
+        color: #888;
+      }
+      @media (max-width: 600px) {
+        header {
+          padding: 10px 8px;
+        }
+        main {
+          padding: 10px 8px 30px;
+        }
+        #videos {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        #videos .media {
+          width: 100%;
+          aspect-ratio: 16/9;
+          min-height: 0;
+        }
+        #videos video {
+          display: block;
+        }
+        .name {
+          font-size: 11px;
+          padding: 7px 8px 9px;
+        }
+      }
+      @media (max-width: 360px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="head">
+        <h1>Manaka Hoshina</h1>
+        <input
+          id="search"
+          class="search"
+          type="search"
+          placeholder="Cari gambar atau video..."
+        />
+      </div>
+    </header>
 
-<title>Manaka Hoshina | Video Gallery</title>
+    <main>
+      <div id="count" class="count"></div>
+      <h2>🎬 Video</h2>
+      <div id="videos" class="grid"></div>
+      <h2>📷 Gambar</h2>
+      <div id="images" class="grid"></div>
+    </main>
 
-<style>
-*{
-  box-sizing:border-box !important;
-}
+    <script>
+      /*
+=========================================================
+CARA MENAMBAH GAMBAR
+=========================================================
+1. Upload gambar ke R2:
+   R2 → video → Manaka Hoshina
 
-.drive-wrapper{
-  width:100% !important;
-  margin:0 !important;
-  padding:10px !important;
-  font-family:Arial,Helvetica,sans-serif !important;
-}
+2. Masukkan gambar di bagian const images di bawah.
 
-.drive-box{
-  width:100% !important;
-  max-width:900px !important;
-  margin:0 auto !important;
-  padding:35px 20px !important;
+Contoh:
+  {
+    name: "Gambar 1",
+    file: "gambar1.jpg"
+  },
 
-  background:linear-gradient(
-    145deg,
-    #1b1b21,
-    #101014
-  ) !important;
+Nama file pada bagian "file" harus SAMA PERSIS dengan
+nama file yang ada di R2.
 
-  border:1px solid #303038 !important;
-  border-radius:20px !important;
+URL R2 tidak perlu ditulis. HTML akan membuat URL
+secara otomatis dari nama file.
+=========================================================
+*/
 
-  box-shadow:0 10px 30px rgba(0,0,0,.35) !important;
+      const R2_BASE =
+        "https://pub-78c754fb607647a9b352da52a7749dfa.r2.dev/Manaka%20Hoshina/";
 
-  text-align:center !important;
-  overflow:hidden !important;
-}
+      const images = [
+        // TAMBAH GAMBAR DI SINI
+        // { name: "Gambar 1", file: "gambar1.jpg" },
+        // { name: "Gambar 2", file: "gambar2.jpg" },
+      ];
 
-.drive-title{
-  margin:0 !important;
-  padding:0 !important;
-  color:#fff !important;
-  font-size:32px !important;
-  line-height:1.25 !important;
-  font-weight:700 !important;
-}
+      const videos = [
+        {
+          name: "VID_20250827_041547_403_1_converted",
+          file: "VID_20250827_041547_403_1_converted.mp4",
+        },
+        {
+          name: "VID_20250827_050441_578_1_converted",
+          file: "VID_20250827_050441_578_1_converted.mp4",
+        },
+        {
+          name: "VID_20250827_050702_342_converted",
+          file: "VID_20250827_050702_342_converted.mp4",
+        },
+        {
+          name: "VID_20250827_050725_548_converted",
+          file: "VID_20250827_050725_548_converted.mp4",
+        },
+        {
+          name: "VID_20250827_050729_216_converted",
+          file: "VID_20250827_050729_216_converted.mp4",
+        },
+        {
+          name: "VID_20250827_050732_843_converted",
+          file: "VID_20250827_050732_843_converted.mp4",
+        },
+        {
+          name: "VID_20250827_050734_655_converted",
+          file: "VID_20250827_050734_655_converted.mp4",
+        },
+      ];
 
-.drive-subtitle{
-  margin:10px 0 25px !important;
-  padding:0 !important;
-  color:#999 !important;
-  font-size:17px !important;
-  line-height:1.4 !important;
-}
+      function url(file) {
+        return R2_BASE + encodeURIComponent(file).replace(/%2F/g, "/");
+      }
 
-/* TOMBOL */
-.drive-button{
-  appearance:none !important;
-  -webkit-appearance:none !important;
-
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-
-  width:100% !important;
-  max-width:100% !important;
-  height:62px !important;
-
-  margin:0 !important;
-  padding:0 15px !important;
-
-  border:1px solid #45454f !important;
-  border-radius:14px !important;
-
-  background:linear-gradient(
-    135deg,
-    #303038,
-    #202026
-  ) !important;
-
-  color:#fff !important;
-
-  font-family:Arial,Helvetica,sans-serif !important;
-  font-size:18px !important;
-  font-weight:700 !important;
-  line-height:1 !important;
-
-  text-align:center !important;
-  white-space:nowrap !important;
-
-  cursor:pointer !important;
-
-  box-shadow:0 5px 15px rgba(0,0,0,.2) !important;
-
-  transition:.2s !important;
-}
-
-.drive-button:hover{
-  background:linear-gradient(
-    135deg,
-    #3a3a44,
-    #292930
-  ) !important;
-
-  transform:translateY(-2px) !important;
-}
-
-/* TOMBOL SALIN */
-.copy-button{
-  margin-top:12px !important;
-
-  background:linear-gradient(
-    135deg,
-    #2563eb,
-    #1d4ed8
-  ) !important;
-
-  border-color:#3b82f6 !important;
-}
-
-.copy-button:hover{
-  background:linear-gradient(
-    135deg,
-    #3b82f6,
-    #2563eb
-  ) !important;
-}
-
-
-/* =========================
-   HP
-   ========================= */
-
-@media(max-width:600px){
-
-  .drive-wrapper{
-    width:100% !important;
-    padding:6px !important;
-  }
-
-  .drive-box{
-    width:100% !important;
-    padding:30px 14px !important;
-    border-radius:17px !important;
-  }
-
-  .drive-title{
-    font-size:28px !important;
-  }
-
-  .drive-subtitle{
-    margin:8px 0 22px !important;
-    font-size:16px !important;
-  }
-
-  .drive-button{
-    width:100% !important;
-    height:60px !important;
-    font-size:17px !important;
-    border-radius:13px !important;
-  }
-
-}
-
-
-/* =========================
-   HP KECIL
-   ========================= */
-
-@media(max-width:380px){
-
-  .drive-wrapper{
-    padding:5px !important;
-  }
-
-  .drive-box{
-    padding:27px 12px !important;
-  }
-
-  .drive-title{
-    font-size:25px !important;
-  }
-
-  .drive-subtitle{
-    font-size:15px !important;
-  }
-
-  .drive-button{
-    height:58px !important;
-    font-size:16px !important;
-  }
-
-}
-</style>
-</head>
-
-<body>
-
-<div class="drive-wrapper">
-
-  <div class="drive-box">
-
-    <h1 class="drive-title">
-      Manaka Hoshina
-    </h1>
-
-    <p class="drive-subtitle">
-      Video Gallery
-    </p>
-
-
-    <!-- BUKA FOLDER -->
-    <button
-      type="button"
-      class="drive-button"
-      onclick="
-        window.open(
-          'https://drive.google.com/drive/folders/1o5xtMfg8zCyar0xmkyDs5yOF8ygq1JWk?usp=sharing',
-          '_blank'
+      function esc(s) {
+        return s.replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[c],
         );
-      "
-    >
-      📁&nbsp; Buka Folder Google Drive
-    </button>
+      }
 
+      function match(x, q) {
+        return (
+          !q ||
+          x.name.toLowerCase().includes(q) ||
+          x.file.toLowerCase().includes(q)
+        );
+      }
 
-    <!-- SALIN URL -->
-    <button
-      type="button"
-      class="drive-button copy-button"
-      onclick="
-        navigator.clipboard.writeText(
-          'https://drive.google.com/drive/folders/1o5xtMfg8zCyar0xmkyDs5yOF8ygq1JWk?usp=sharing'
-        ).then(function(){
-          this.innerHTML='✅ URL Berhasil Disalin!';
-          setTimeout(function(){
-            document.querySelector('.copy-button').innerHTML='📋 Salin URL untuk Browser';
-          },2000);
-        }.bind(this));
-      "
-    >
-      📋&nbsp; Salin URL untuk Browser
-    </button>
+      function render() {
+        const q = document.getElementById("search").value.trim().toLowerCase();
+        const im = images.filter((x) => match(x, q));
+        const vi = videos.filter((x) => match(x, q));
 
-  </div>
+        document.getElementById("images").innerHTML = im.length
+          ? im
+              .map(
+                (x) => `
+            <article class="card">
+              <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy">
+              <div class="name">${esc(x.name)}</div>
+            </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada gambar.</div>';
 
-</div>
+        document.getElementById("videos").innerHTML = vi.length
+          ? vi
+              .map(
+                (x) => `
+            <article class="card">
+              <video class="media" controls preload="metadata" playsinline>
+                <source src="${url(x.file)}" type="video/mp4">
+              </video>
+              <div class="name">${esc(x.name)}</div>
+            </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada video.</div>';
 
-</body>
+        document.getElementById("count").textContent =
+          `${im.length} gambar • ${vi.length} video`;
+      }
+
+      document.getElementById("search").addEventListener("input", render);
+      render();
+    </script>
+  </body>
 </html>

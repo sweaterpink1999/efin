@@ -1,112 +1,247 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Video Gallery — Auto Preview (Play & Open)</title>
-  <style>
-    :root{
-      --bg:#0e0f12; --card:#17181c; --muted:#a9b0bb; --text:#e8edf2;
-      --btn:#2a2e36; --btn-hover:#3a404a; --accent:#7aa2ff;
-      --radius:14px; --gap:20px;
-    }
-    *{box-sizing:border-box}
-    body{ margin:0; padding:24px; background:var(--bg); color:var(--text);
-      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;}
-    h1,h2{margin:0 0 12px; text-align:center}
-    h1{font-size:clamp(20px,3vw,28px)}
-    h2{font-size:20px; color:var(--text)}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BbwThaixxx-Kumpulan</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #111;
+        color: #eee;
+        font-family: Arial, sans-serif;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #181818;
+        border-bottom: 1px solid #333;
+        padding: 14px;
+      }
+      .head {
+        max-width: 1400px;
+        margin: auto;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 4vw, 30px);
+      }
+      .search {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #444;
+        border-radius: 8px;
+        background: #222;
+        color: #fff;
+        font-size: 15px;
+      }
+      main {
+        max-width: 1400px;
+        margin: auto;
+        padding: 16px 14px 40px;
+      }
+      h2 {
+        font-size: clamp(18px, 3vw, 23px);
+        margin: 24px 0 12px;
+      }
+      .count {
+        color: #999;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 14px;
+      }
+      .card {
+        background: #1b1b1b;
+        border: 1px solid #303030;
+        border-radius: 9px;
+        overflow: hidden;
+        min-width: 0;
+      }
+      .media {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        background: #000;
+        object-fit: contain;
+      }
+      .name {
+        padding: 9px 10px 11px;
+        font-size: 13px;
+        line-height: 1.35;
+        word-break: break-word;
+      }
+      .empty {
+        padding: 25px;
+        color: #888;
+      }
+      @media (max-width: 600px) {
+        header {
+          padding: 10px 8px;
+        }
+        main {
+          padding: 10px 8px 30px;
+        }
+        #videos {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        #videos .media {
+          width: 100%;
+          aspect-ratio: 16/9;
+          min-height: 0;
+        }
+        #videos video {
+          display: block;
+        }
+        .name {
+          font-size: 11px;
+          padding: 7px 8px 9px;
+        }
+      }
+      @media (max-width: 360px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="head">
+        <h1>BbwThaixxx-Kumpulan</h1>
+        <input
+          id="search"
+          class="search"
+          type="search"
+          placeholder="Cari gambar atau video..."
+        />
+      </div>
+    </header>
 
-    .gallery{ 
-      max-width:700px; 
-      margin:0 auto 32px; 
-      display:flex; 
-      flex-direction:column; 
-      gap:var(--gap);
-    }
+    <main>
+      <div id="count" class="count"></div>
+      <h2>🎬 Video</h2>
+      <div id="videos" class="grid"></div>
+      <h2>📷 Gambar</h2>
+      <div id="images" class="grid"></div>
+    </main>
 
-    .card{ background:var(--card); border-radius:var(--radius);
-      box-shadow:0 8px 24px rgba(0,0,0,.35); overflow:hidden;
-      display:flex; flex-direction:column; gap:12px; padding:14px; transition:transform .15s ease;}
-    .card:hover{ transform: translateY(-2px) }
-    .title{font-weight:600; font-size:15px; letter-spacing:.2px}
-    .preview{ width:100%; aspect-ratio:16/9; border-radius:10px; position:relative; overflow:hidden; background:linear-gradient(180deg,#1e2127,#111318);}
-    .skeleton{ position:absolute; inset:0; display:grid; place-items:center; color:#cfd7e6; font-size:14px;}
-    .skeleton::before{ content:""; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent); animation:shimmer 1.2s infinite; }
-    @keyframes shimmer{ 0%{ transform:translateX(-100%)} 100%{ transform:translateX(100%)}}
-    iframe{ width:100%; height:100%; border:0; display:block; border-radius:10px; }
-    .buttons{ display:flex; gap:10px; }
-    .btn{ appearance:none; border:1px solid transparent; background:var(--btn); color:var(--text);
-      padding:9px 14px; border-radius:10px; cursor:pointer; font-size:14px; font-weight:600;
-      transition:background .15s ease, border-color .15s ease, transform .02s ease; text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
-    .btn:hover{ background:var(--btn-hover); border-color:#434a57 }
-    .btn:active{ transform:translateY(1px) }
-    .btn.secondary{ background:transparent; border-color:#39404a; color:var(--accent) }
-  </style>
-</head>
-<body>
+    <script>
+      /*
+=========================================================
+CARA MENAMBAH GAMBAR
+=========================================================
+1. Upload gambar ke R2:
+   R2 → video → BbwThaixxx-Kumpulan
 
-  <!-- Section BbwThaixxxKumpulan -->
-  <section>
-    <h2>BbwThaixxx-Kumpulan</h2>
-    <div id="BbwThaixxxKumpulan" class="gallery" aria-live="polite"></div>
-  </section>
+2. Masukkan gambar di bagian const images di bawah.
 
-  <script>
-    // Daftar video BbwThaixxxKumpulan
-    const videosBbwThaixxxKumpulan = [
-      { id: "g59i3", title: "Video 1" },
-      { id: "dq3ar", title: "Video 2" }
-    ];
+Contoh:
+  {
+    name: "Gambar 1",
+    file: "gambar1.jpg"
+  },
 
+Nama file pada bagian "file" harus SAMA PERSIS dengan
+nama file yang ada di R2.
 
-    const EMBED_BASE = "https://sweaterpink.4meplayer.com/#";
+URL R2 tidak perlu ditulis. HTML akan membuat URL
+secara otomatis dari nama file.
+=========================================================
+*/
 
-    // Galeri untuk BbwThaixxxKumpulan
-    const $galleryBbwThaixxxKumpulan = document.getElementById("BbwThaixxxKumpulan");
+      const R2_BASE =
+        "https://pub-78c754fb607647a9b352da52a7749dfa.r2.dev/BbwThaixxx-Kumpulan/";
 
-    function createCard({ id, title }) {
-      const src = EMBED_BASE + id;
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <div class="title">${title}</div>
-        <div class="preview" data-src="${src}">
-          <div class="skeleton">Memuat preview…</div>
-        </div>
-        <div class="buttons">
-          <a class="btn secondary" href="${src}" target="_blank" rel="noopener">Open ↗</a>
-        </div>
-      `;
-      return card;
-    }
+      const images = [
+        // TAMBAH GAMBAR DI SINI
+        // { name: "Gambar 1", file: "gambar1.jpg" },
+        // { name: "Gambar 2", file: "gambar2.jpg" },
+      ];
 
-    // Render galeri
-    videosBbwThaixxxKumpulan.forEach(v => $galleryBbwThaixxxKumpulan.appendChild(createCard(v)));
+      const videos = [
+        {
+          name: "0311",
+          file: "0311.mp4",
+        },
+        {
+          name: "BbwThaixxx Kumpulan 2K",
+          file: "BbwThaixxx Kumpulan 2K.mp4",
+        },
+      ];
 
-    // Lazy-load preview video
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const preview = entry.target;
-        if (preview.dataset.loaded) return;
+      function url(file) {
+        return R2_BASE + encodeURIComponent(file).replace(/%2F/g, "/");
+      }
 
-        const iframe = document.createElement("iframe");
-        iframe.src = preview.dataset.src;
-        iframe.allowFullscreen = true;
-        iframe.loading = "lazy";
-        iframe.addEventListener("load", () => {
-          const sk = preview.querySelector(".skeleton");
-          if (sk) sk.remove();
-        });
+      function esc(s) {
+        return s.replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[c],
+        );
+      }
 
-        preview.appendChild(iframe);
-        preview.dataset.loaded = "1";
-        io.unobserve(preview);
-      });
-    }, { rootMargin: "200px 0px", threshold: 0.2 });
+      function match(x, q) {
+        return (
+          !q ||
+          x.name.toLowerCase().includes(q) ||
+          x.file.toLowerCase().includes(q)
+        );
+      }
 
-    document.querySelectorAll(".preview").forEach(p => io.observe(p));
-  </script>
-</body>
+      function render() {
+        const q = document.getElementById("search").value.trim().toLowerCase();
+        const im = images.filter((x) => match(x, q));
+        const vi = videos.filter((x) => match(x, q));
+
+        document.getElementById("images").innerHTML = im.length
+          ? im
+              .map(
+                (x) => `
+            <article class="card">
+              <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy">
+              <div class="name">${esc(x.name)}</div>
+            </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada gambar.</div>';
+
+        document.getElementById("videos").innerHTML = vi.length
+          ? vi
+              .map(
+                (x) => `
+            <article class="card">
+              <video class="media" controls preload="metadata" playsinline>
+                <source src="${url(x.file)}" type="video/mp4">
+              </video>
+              <div class="name">${esc(x.name)}</div>
+            </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada video.</div>';
+
+        document.getElementById("count").textContent =
+          `${im.length} gambar • ${vi.length} video`;
+      }
+
+      document.getElementById("search").addEventListener("input", render);
+      render();
+    </script>
+  </body>
 </html>

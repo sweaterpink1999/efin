@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manaka Hoshina</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #111;
+        color: #eee;
+        font-family: Arial, sans-serif;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #181818;
+        border-bottom: 1px solid #333;
+        padding: 14px;
+      }
+      .head {
+        max-width: 1400px;
+        margin: auto;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 4vw, 30px);
+      }
+      .search {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #444;
+        border-radius: 8px;
+        background: #222;
+        color: #fff;
+        font-size: 15px;
+      }
+      main {
+        max-width: 1400px;
+        margin: auto;
+        padding: 16px 14px 40px;
+      }
+      h2 {
+        font-size: clamp(18px, 3vw, 23px);
+        margin: 24px 0 12px;
+      }
+      .count {
+        color: #999;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 14px;
+      }
+      .card {
+        background: #1b1b1b;
+        border: 1px solid #303030;
+        border-radius: 9px;
+        overflow: hidden;
+        min-width: 0;
+      }
+      .media {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        background: #000;
+        object-fit: contain;
+      }
+      .name {
+        padding: 9px 10px 11px;
+        font-size: 13px;
+        line-height: 1.35;
+        word-break: break-word;
+      }
+      .empty {
+        padding: 25px;
+        color: #888;
+      }
+      @media (max-width: 600px) {
+        header {
+          padding: 10px 8px;
+        }
+        main {
+          padding: 10px 8px 30px;
+        }
+        #videos {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        #videos .media {
+          width: 100%;
+          aspect-ratio: 16/9;
+          min-height: 0;
+        }
+        #videos video {
+          display: block;
+        }
+        .name {
+          font-size: 11px;
+          padding: 7px 8px 9px;
+        }
+      }
+      @media (max-width: 360px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="head">
+        <h1>Manaka Hoshina</h1>
+        <input
+          id="search"
+          class="search"
+          type="search"
+          placeholder="Cari gambar atau video..."
+        />
+      </div>
+    </header>
+
+    <main>
+      <div id="count" class="count"></div>
+      <h2>🎬 Video</h2>
+      <div id="videos" class="grid"></div>
+      <h2>📷 Gambar</h2>
+      <div id="images" class="grid"></div>
+    </main>
+
+    <script>
+      /*
+=========================================================
+CARA MENAMBAH GAMBAR
+=========================================================
+1. Upload gambar ke R2:
+   R2 → video → Manaka Hoshina
+
+2. Masukkan gambar di bagian const images di bawah.
+
+Contoh:
+  {
+    name: "Gambar 1",
+    file: "gambar1.jpg"
+  },
+
+Nama file pada bagian "file" harus SAMA PERSIS dengan
+nama file yang ada di R2.
+
+URL R2 tidak perlu ditulis. HTML akan membuat URL
+secara otomatis dari nama file.
+=========================================================
+*/
+
+      const R2_BASE =
+        "https://pub-78c754fb607647a9b352da52a7749dfa.r2.dev/SAHAR%20REDGIFS/";
+
+      const images = [
+        // TAMBAH GAMBAR DI SINI
+        // { name: "Gambar 1", file: "gambar1.jpg" },
+        // { name: "Gambar 2", file: "gambar2.jpg" },
+      ];
+
+      const videos = [
+        {
+          name: "automaticsourarkshell.mp4",
+          file: "automaticsourarkshell.mp4",
+        },
+        {
+          name: "celebratedblindduckbillplatypus.mp4",
+          file: "celebratedblindduckbillplatypus.mp4",
+        },
+        {
+          name: "concernedintrepidmeadowlark.mp4",
+          file: "concernedintrepidmeadowlark.mp4",
+        },
+        {
+          name: "creativedetailedfowl.mp4",
+          file: "creativedetailedfowl.mp4",
+        },
+        {
+          name: "dangerousdecentelephantseal.mp4",
+          file: "dangerousdecentelephantseal.mp4",
+        },
+        {
+          name: "dismalworthynorthernpike.mp4",
+          file: "dismalworthynorthernpike.mp4",
+        },
+        {
+          name: "distortedsmallibisbill.mp4",
+          file: "distortedsmallibisbill.mp4",
+        },
+        {
+          name: "faintboringhammerheadbird.mp4",
+          file: "faintboringhammerheadbird.mp4",
+        },
+        {
+          name: "favorablenegligiblegerenuk.mp4",
+          file: "favorablenegligiblegerenuk.mp4",
+        },
+        {
+          name: "ficklekeengalapagospenguin.mp4",
+          file: "ficklekeengalapagospenguin.mp4",
+        },
+        {
+          name: "frizzyexaltednightheron.mp4",
+          file: "frizzyexaltednightheron.mp4",
+        },
+        {
+          name: "frozenlavishalbertosaurus.mp4",
+          file: "frozenlavishalbertosaurus.mp4",
+        },
+        {
+          name: "giganticgrippingcatbird.mp4",
+          file: "giganticgrippingcatbird.mp4",
+        },
+        {
+          name: "homelydisfiguredmuntjac.mp4",
+          file: "homelydisfiguredmuntjac.mp4",
+        },
+        {
+          name: "lightpinkattachedcanadagoose.mp4",
+          file: "lightpinkattachedcanadagoose.mp4",
+        },
+        {
+          name: "lovingsmugwildcat.mp4",
+          file: "lovingsmugwildcat.mp4",
+        },
+        {
+          name: "miserabletenderrainbowtrout.mp4",
+          file: "miserabletenderrainbowtrout.mp4",
+        },
+        {
+          name: "physicalilliteratetortoise.mp4",
+          file: "physicalilliteratetortoise.mp4",
+        },
+        {
+          name: "severalselfishwrasse.mp4",
+          file: "severalselfishwrasse.mp4",
+        },
+        {
+          name: "shadowydearestboutu.mp4",
+          file: "shadowydearestboutu.mp4",
+        },
+        {
+          name: "shadyspicyfreshwatereel.mp4",
+          file: "shadyspicyfreshwatereel.mp4",
+        },
+        {
+          name: "siennauglykudu.mp4",
+          file: "siennauglykudu.mp4",
+        },
+        {
+          name: "triflingdigitalyak.mp4",
+          file: "triflingdigitalyak.mp4",
+        },
+        {
+          name: "victorioussubduedbongo.mp4",
+          file: "victorioussubduedbongo.mp4",
+        },
+        {
+          name: "vivaciousdarkmagentaearwig.mp4",
+          file: "vivaciousdarkmagentaearwig.mp4",
+        },
+      ];
+
+      function url(file) {
+        return R2_BASE + encodeURIComponent(file).replace(/%2F/g, "/");
+      }
+
+      function esc(s) {
+        return s.replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[c],
+        );
+      }
+
+      function match(x, q) {
+        return (
+          !q ||
+          x.name.toLowerCase().includes(q) ||
+          x.file.toLowerCase().includes(q)
+        );
+      }
+
+      function render() {
+        const q = document.getElementById("search").value.trim().toLowerCase();
+        const im = images.filter((x) => match(x, q));
+        const vi = videos.filter((x) => match(x, q));
+
+        document.getElementById("images").innerHTML = im.length
+          ? im
+              .map(
+                (x) => `
+            <article class="card">
+              <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy">
+              <div class="name">${esc(x.name)}</div>
+            </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada gambar.</div>';
+
+        document.getElementById("videos").innerHTML = vi.length
+          ? vi
+              .map(
+                (x) => `
+            <article class="card">
+              <video class="media" controls preload="metadata" playsinline>
+                <source src="${url(x.file)}" type="video/mp4">
+              </video>
+              <div class="name">${esc(x.name)}</div>
+            </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada video.</div>';
+
+        document.getElementById("count").textContent =
+          `${im.length} gambar • ${vi.length} video`;
+      }
+
+      document.getElementById("search").addEventListener("input", render);
+      render();
+    </script>
+  </body>
+</html>

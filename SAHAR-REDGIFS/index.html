@@ -4,16 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Manaka Hoshina</title>
+
     <style>
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
         background: #111;
         color: #eee;
         font-family: Arial, sans-serif;
       }
+
       header {
         position: sticky;
         top: 0;
@@ -22,14 +25,17 @@
         border-bottom: 1px solid #333;
         padding: 14px;
       }
+
       .head {
         max-width: 1400px;
         margin: auto;
       }
+
       h1 {
         margin: 0 0 12px;
         font-size: clamp(22px, 4vw, 30px);
       }
+
       .search {
         width: 100%;
         padding: 12px;
@@ -39,25 +45,30 @@
         color: #fff;
         font-size: 15px;
       }
+
       main {
         max-width: 1400px;
         margin: auto;
         padding: 16px 14px 40px;
       }
+
       h2 {
         font-size: clamp(18px, 3vw, 23px);
         margin: 24px 0 12px;
       }
+
       .count {
         color: #999;
         font-size: 13px;
         margin-bottom: 10px;
       }
+
       .grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 14px;
       }
+
       .card {
         background: #1b1b1b;
         border: 1px solid #303030;
@@ -65,48 +76,68 @@
         overflow: hidden;
         min-width: 0;
       }
+
       .media {
         display: block;
         width: 100%;
         height: auto;
-        aspect-ratio: 16/9;
+        aspect-ratio: 16 / 9;
         background: #000;
         object-fit: contain;
       }
+
       .name {
         padding: 9px 10px 11px;
         font-size: 13px;
         line-height: 1.35;
         word-break: break-word;
       }
+
       .empty {
         padding: 25px;
         color: #888;
       }
+
+      /* Penanda video yang sedang aktif */
+      #videos .card.active-video {
+        border-color: #ff4fa3;
+      }
+
+      /* Area video mendukung swipe vertikal */
+      #videos .media {
+        touch-action: pan-y;
+      }
+
       @media (max-width: 600px) {
         header {
           padding: 10px 8px;
         }
+
         main {
           padding: 10px 8px 30px;
         }
+
         #videos {
           grid-template-columns: 1fr;
           gap: 12px;
         }
+
         #videos .media {
           width: 100%;
-          aspect-ratio: 16/9;
+          aspect-ratio: 16 / 9;
           min-height: 0;
         }
+
         #videos video {
           display: block;
         }
+
         .name {
           font-size: 11px;
           padding: 7px 8px 9px;
         }
       }
+
       @media (max-width: 360px) {
         .grid {
           grid-template-columns: 1fr;
@@ -114,6 +145,7 @@
       }
     </style>
   </head>
+
   <body>
     <header>
       <div class="head">
@@ -129,35 +161,27 @@
 
     <main>
       <div id="count" class="count"></div>
+
       <h2>🎬 Video</h2>
       <div id="videos" class="grid"></div>
+
       <h2>📷 Gambar</h2>
       <div id="images" class="grid"></div>
     </main>
 
     <script>
       /*
-=========================================================
-CARA MENAMBAH GAMBAR
-=========================================================
-1. Upload gambar ke R2:
-   R2 → video → Manaka Hoshina
+    =========================================================
+    CARA MENAMBAH GAMBAR
+    =========================================================
+    Upload gambar ke R2, lalu tambahkan ke const images.
 
-2. Masukkan gambar di bagian const images di bawah.
+    Contoh:
+    { name: "Gambar 1", file: "gambar1.jpg" }
 
-Contoh:
-  {
-    name: "Gambar 1",
-    file: "gambar1.jpg"
-  },
-
-Nama file pada bagian "file" harus SAMA PERSIS dengan
-nama file yang ada di R2.
-
-URL R2 tidak perlu ditulis. HTML akan membuat URL
-secara otomatis dari nama file.
-=========================================================
-*/
+    Nama file harus sama persis dengan nama file di R2.
+    =========================================================
+    */
 
       const R2_BASE =
         "https://pub-78c754fb607647a9b352da52a7749dfa.r2.dev/SAHAR%20REDGIFS/";
@@ -181,10 +205,7 @@ secara otomatis dari nama file.
           name: "concernedintrepidmeadowlark.mp4",
           file: "concernedintrepidmeadowlark.mp4",
         },
-        {
-          name: "creativedetailedfowl.mp4",
-          file: "creativedetailedfowl.mp4",
-        },
+        { name: "creativedetailedfowl.mp4", file: "creativedetailedfowl.mp4" },
         {
           name: "dangerousdecentelephantseal.mp4",
           file: "dangerousdecentelephantseal.mp4",
@@ -229,10 +250,7 @@ secara otomatis dari nama file.
           name: "lightpinkattachedcanadagoose.mp4",
           file: "lightpinkattachedcanadagoose.mp4",
         },
-        {
-          name: "lovingsmugwildcat.mp4",
-          file: "lovingsmugwildcat.mp4",
-        },
+        { name: "lovingsmugwildcat.mp4", file: "lovingsmugwildcat.mp4" },
         {
           name: "miserabletenderrainbowtrout.mp4",
           file: "miserabletenderrainbowtrout.mp4",
@@ -241,26 +259,14 @@ secara otomatis dari nama file.
           name: "physicalilliteratetortoise.mp4",
           file: "physicalilliteratetortoise.mp4",
         },
-        {
-          name: "severalselfishwrasse.mp4",
-          file: "severalselfishwrasse.mp4",
-        },
-        {
-          name: "shadowydearestboutu.mp4",
-          file: "shadowydearestboutu.mp4",
-        },
+        { name: "severalselfishwrasse.mp4", file: "severalselfishwrasse.mp4" },
+        { name: "shadowydearestboutu.mp4", file: "shadowydearestboutu.mp4" },
         {
           name: "shadyspicyfreshwatereel.mp4",
           file: "shadyspicyfreshwatereel.mp4",
         },
-        {
-          name: "siennauglykudu.mp4",
-          file: "siennauglykudu.mp4",
-        },
-        {
-          name: "triflingdigitalyak.mp4",
-          file: "triflingdigitalyak.mp4",
-        },
+        { name: "siennauglykudu.mp4", file: "siennauglykudu.mp4" },
+        { name: "triflingdigitalyak.mp4", file: "triflingdigitalyak.mp4" },
         {
           name: "victorioussubduedbongo.mp4",
           file: "victorioussubduedbongo.mp4",
@@ -297,8 +303,78 @@ secara otomatis dari nama file.
         );
       }
 
+      let activeVideo = null;
+      let navigationBusy = false;
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      const videoContainer = document.getElementById("videos");
+
+      function getVideoList() {
+        return [...videoContainer.querySelectorAll("video")];
+      }
+
+      function setActive(video, autoplay = true) {
+        if (!video || !video.isConnected) return;
+
+        getVideoList().forEach((v) => {
+          if (v !== video) v.pause();
+          v.closest(".card")?.classList.toggle("active-video", v === video);
+        });
+
+        activeVideo = video;
+
+        if (autoplay) {
+          video.play().catch(() => {
+            // Pada perangkat tertentu, browser bisa meminta
+            // pengguna menekan tombol Play secara manual.
+          });
+        }
+      }
+
+      function goToVideo(direction) {
+        if (navigationBusy) return;
+
+        const list = getVideoList();
+        if (!list.length) return;
+
+        let index = list.indexOf(activeVideo);
+
+        if (index < 0) {
+          index = list.findIndex((v) => !v.paused && !v.ended);
+        }
+
+        // Jika belum ada video aktif, mulai dari video pertama
+        // atau terakhir sesuai arah navigasi.
+        if (index < 0) {
+          index = direction > 0 ? -1 : list.length;
+        }
+
+        const nextIndex = index + direction;
+
+        if (nextIndex < 0 || nextIndex >= list.length) return;
+
+        navigationBusy = true;
+
+        const current = activeVideo;
+        if (current) current.pause();
+
+        const next = list[nextIndex];
+        setActive(next, true);
+
+        next.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+
+        setTimeout(() => {
+          navigationBusy = false;
+        }, 650);
+      }
+
       function render() {
         const q = document.getElementById("search").value.trim().toLowerCase();
+
         const im = images.filter((x) => match(x, q));
         const vi = videos.filter((x) => match(x, q));
 
@@ -307,32 +383,107 @@ secara otomatis dari nama file.
               .map(
                 (x) => `
             <article class="card">
-              <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy">
+              <img
+                class="media"
+                src="${url(x.file)}"
+                alt="${esc(x.name)}"
+                loading="lazy"
+              >
               <div class="name">${esc(x.name)}</div>
-            </article>`,
+            </article>
+          `,
               )
               .join("")
           : '<div class="empty">Tidak ada gambar.</div>';
 
-        document.getElementById("videos").innerHTML = vi.length
+        videoContainer.innerHTML = vi.length
           ? vi
               .map(
                 (x) => `
             <article class="card">
-              <video class="media" controls preload="metadata" playsinline>
+              <video
+                class="media"
+                controls
+                preload="metadata"
+                playsinline
+              >
                 <source src="${url(x.file)}" type="video/mp4">
               </video>
               <div class="name">${esc(x.name)}</div>
-            </article>`,
+            </article>
+          `,
               )
               .join("")
           : '<div class="empty">Tidak ada video.</div>';
+
+        activeVideo = null;
 
         document.getElementById("count").textContent =
           `${im.length} gambar • ${vi.length} video`;
       }
 
+      // Pencarian tetap berfungsi
       document.getElementById("search").addEventListener("input", render);
+
+      // Klik Play pada video akan menjadikannya video aktif
+      videoContainer.addEventListener(
+        "play",
+        (e) => {
+          if (e.target.tagName === "VIDEO") {
+            setActive(e.target, false);
+          }
+        },
+        true,
+      );
+
+      // Scroll roda mouse untuk berpindah video.
+      // Hanya aktif saat pointer berada di area video.
+      videoContainer.addEventListener(
+        "wheel",
+        (e) => {
+          if (Math.abs(e.deltaY) < 15) return;
+
+          const targetVideo = e.target.closest?.("video");
+          if (!targetVideo) return;
+
+          e.preventDefault();
+          goToVideo(e.deltaY > 0 ? 1 : -1);
+        },
+        { passive: false },
+      );
+
+      // Swipe vertikal di HP
+      videoContainer.addEventListener(
+        "touchstart",
+        (e) => {
+          if (!e.touches.length) return;
+
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        },
+        { passive: true },
+      );
+
+      videoContainer.addEventListener(
+        "touchend",
+        (e) => {
+          if (!e.changedTouches.length) return;
+
+          const dx = e.changedTouches[0].clientX - touchStartX;
+          const dy = e.changedTouches[0].clientY - touchStartY;
+
+          // Pastikan gerakan dominan vertikal
+          if (Math.abs(dy) < 60 || Math.abs(dy) < Math.abs(dx) * 1.2) {
+            return;
+          }
+
+          // Swipe ke atas = berikutnya
+          // Swipe ke bawah = sebelumnya
+          goToVideo(dy < 0 ? 1 : -1);
+        },
+        { passive: true },
+      );
+
       render();
     </script>
   </body>

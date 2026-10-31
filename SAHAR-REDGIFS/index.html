@@ -1,312 +1,339 @@
-
 <!doctype html>
 <html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Manaka Hoshina</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manaka Hoshina</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #111;
+        color: #eee;
+        font-family: Arial, sans-serif;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #181818;
+        border-bottom: 1px solid #333;
+        padding: 14px;
+      }
+      .head {
+        max-width: 1400px;
+        margin: auto;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 4vw, 30px);
+      }
+      .search {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #444;
+        border-radius: 8px;
+        background: #222;
+        color: #fff;
+        font-size: 15px;
+      }
+      main {
+        max-width: 1400px;
+        margin: auto;
+        padding: 16px 14px 40px;
+      }
+      h2 {
+        font-size: clamp(18px, 3vw, 23px);
+        margin: 24px 0 12px;
+      }
+      .count {
+        color: #999;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 14px;
+      }
+      .card {
+        background: #1b1b1b;
+        border: 1px solid #303030;
+        border-radius: 9px;
+        overflow: hidden;
+        min-width: 0;
+      }
+      .media {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        background: #000;
+        object-fit: contain;
+      }
+      .name {
+        padding: 9px 10px 11px;
+        font-size: 13px;
+        line-height: 1.35;
+        word-break: break-word;
+      }
+      .empty {
+        padding: 25px;
+        color: #888;
+      }
+      @media (max-width: 600px) {
+        header {
+          padding: 10px 8px;
+        }
+        main {
+          padding: 10px 8px 30px;
+        }
+        #videos {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        #videos .media {
+          width: 100%;
+          aspect-ratio: 16/9;
+          min-height: 0;
+        }
+        #videos video {
+          display: block;
+        }
+        .name {
+          font-size: 11px;
+          padding: 7px 8px 9px;
+        }
+      }
+      @media (max-width: 360px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="head">
+        <h1>Manaka Hoshina</h1>
+        <input
+          id="search"
+          class="search"
+          type="search"
+          placeholder="Cari gambar atau video..."
+        />
+      </div>
+    </header>
 
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#111;color:#eee;font-family:Arial,sans-serif}
-header{position:sticky;top:0;z-index:10;background:#181818;border-bottom:1px solid #333;padding:14px}
-.head,main{max-width:1400px;margin:auto}
-h1{margin:0 0 12px;font-size:clamp(22px,4vw,30px)}
-.search{width:100%;padding:12px;border:1px solid #444;border-radius:8px;background:#222;color:#fff;font-size:15px}
-main{padding:16px 14px 40px}
-h2{font-size:clamp(18px,3vw,23px);margin:24px 0 12px}
-.count{color:#999;font-size:13px;margin-bottom:10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-.card{background:#1b1b1b;border:1px solid #303030;border-radius:9px;overflow:hidden;min-width:0}
-.media{display:block;width:100%;aspect-ratio:16/9;background:#000;object-fit:contain}
-.name{padding:9px 10px 11px;font-size:13px;line-height:1.35;word-break:break-word}
-.empty{padding:25px;color:#888}
-.card video{cursor:pointer}
+    <main>
+      <div id="count" class="count"></div>
+      <h2>🎬 Video</h2>
+      <div id="videos" class="grid"></div>
+      <h2>📷 Gambar</h2>
+      <div id="images" class="grid"></div>
+    </main>
 
-/* PEMUTAR FULLSCREEN */
-#player{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:#000;
-  color:#fff;
-  overflow:hidden;
-  touch-action:pan-x;
-}
-#player.show{display:block}
-#player video{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  background:#000;
-}
-#closePlayer,#prevVideo,#nextVideo,#playPause{
-  position:absolute;
-  z-index:3;
-  border:0;
-  border-radius:50%;
-  width:46px;
-  height:46px;
-  background:#222b;
-  color:#fff;
-  font-size:24px;
-  cursor:pointer;
-}
-#closePlayer{top:18px;left:14px}
-#prevVideo{top:40%;right:14px}
-#nextVideo{top:52%;right:14px}
-#playPause{bottom:28px;right:14px}
-#videoTitle{
-  position:absolute;
-  bottom:30px;
-  left:14px;
-  right:75px;
-  z-index:3;
-  font-size:14px;
-  overflow-wrap:anywhere;
-  text-shadow:0 1px 4px #000;
-  pointer-events:none;
-}
-#videoPosition{
-  position:absolute;
-  top:28px;
-  right:14px;
-  z-index:3;
-  font-size:13px;
-  background:#222b;
-  padding:8px 12px;
-  border-radius:20px;
-}
-@media(max-width:600px){
- header{padding:10px 8px}
- main{padding:10px 8px 30px}
- #videos{grid-template-columns:1fr;gap:12px}
- .name{font-size:11px;padding:7px 8px 9px}
- #closePlayer,#prevVideo,#nextVideo,#playPause{width:42px;height:42px}
-}
-</style>
-</head>
+    <script>
+      /*
+=========================================================
+CARA MENAMBAH GAMBAR
+=========================================================
+1. Upload gambar ke R2:
+   R2 → video → Manaka Hoshina
 
-<body>
-<header>
-  <div class="head">
-    <h1>Manaka Hoshina</h1>
-    <input id="search" class="search" type="search" placeholder="Cari gambar atau video...">
-  </div>
-</header>
+2. Masukkan gambar di bagian const images di bawah.
 
-<main>
-  <div id="count" class="count"></div>
-  <h2>🎬 Video</h2>
-  <div id="videos" class="grid"></div>
-  <h2>📷 Gambar</h2>
-  <div id="images" class="grid"></div>
-</main>
+Contoh:
+  {
+    name: "Gambar 1",
+    file: "gambar1.jpg"
+  },
 
-<div id="player" aria-label="Pemutar video fullscreen">
-  <video id="fullVideo" playsinline controls></video>
-  <button id="closePlayer" aria-label="Tutup">×</button>
-  <div id="videoPosition"></div>
-  <button id="prevVideo" aria-label="Video sebelumnya">↑</button>
-  <button id="nextVideo" aria-label="Video berikutnya">↓</button>
-  <button id="playPause" aria-label="Putar atau jeda">Ⅱ</button>
-  <div id="videoTitle"></div>
-</div>
+Nama file pada bagian "file" harus SAMA PERSIS dengan
+nama file yang ada di R2.
 
-<script>
-const R2_BASE =
-"https://pub-78c754fb607647a9b352da52a7749dfa.r2.dev/SAHAR%20REDGIFS/";
+URL R2 tidak perlu ditulis. HTML akan membuat URL
+secara otomatis dari nama file.
+=========================================================
+*/
 
-const images = [
-  // Tambahkan gambar:
-  // { name:"Gambar 1", file:"gambar1.jpg" },
-];
+      const R2_BASE =
+        "https://pub-78c754fb607647a9b352da52a7749dfa.r2.dev/SAHAR%20REDGIFS/";
 
-const videos = [
-{ name:"automaticsourarkshell.mp4",file:"automaticsourarkshell.mp4" },
-{ name:"celebratedblindduckbillplatypus.mp4",file:"celebratedblindduckbillplatypus.mp4" },
-{ name:"concernedintrepidmeadowlark.mp4",file:"concernedintrepidmeadowlark.mp4" },
-{ name:"creativedetailedfowl.mp4",file:"creativedetailedfowl.mp4" },
-{ name:"dangerousdecentelephantseal.mp4",file:"dangerousdecentelephantseal.mp4" },
-{ name:"dismalworthynorthernpike.mp4",file:"dismalworthynorthernpike.mp4" },
-{ name:"distortedsmallibisbill.mp4",file:"distortedsmallibisbill.mp4" },
-{ name:"faintboringhammerheadbird.mp4",file:"faintboringhammerheadbird.mp4" },
-{ name:"favorablenegligiblegerenuk.mp4",file:"favorablenegligiblegerenuk.mp4" },
-{ name:"ficklekeengalapagospenguin.mp4",file:"ficklekeengalapagospenguin.mp4" },
-{ name:"frizzyexaltednightheron.mp4",file:"frizzyexaltednightheron.mp4" },
-{ name:"frozenlavishalbertosaurus.mp4",file:"frozenlavishalbertosaurus.mp4" },
-{ name:"giganticgrippingcatbird.mp4",file:"giganticgrippingcatbird.mp4" },
-{ name:"homelydisfiguredmuntjac.mp4",file:"homelydisfiguredmuntjac.mp4" },
-{ name:"lightpinkattachedcanadagoose.mp4",file:"lightpinkattachedcanadagoose.mp4" },
-{ name:"lovingsmugwildcat.mp4",file:"lovingsmugwildcat.mp4" },
-{ name:"miserabletenderrainbowtrout.mp4",file:"miserabletenderrainbowtrout.mp4" },
-{ name:"physicalilliteratetortoise.mp4",file:"physicalilliteratetortoise.mp4" },
-{ name:"severalselfishwrasse.mp4",file:"severalselfishwrasse.mp4" },
-{ name:"shadowydearestboutu.mp4",file:"shadowydearestboutu.mp4" },
-{ name:"shadyspicyfreshwatereel.mp4",file:"shadyspicyfreshwatereel.mp4" },
-{ name:"siennauglykudu.mp4",file:"siennauglykudu.mp4" },
-{ name:"triflingdigitalyak.mp4",file:"triflingdigitalyak.mp4" },
-{ name:"victorioussubduedbongo.mp4",file:"victorioussubduedbongo.mp4" },
-{ name:"vivaciousdarkmagentaearwig.mp4",file:"vivaciousdarkmagentaearwig.mp4" }
-];
+      const images = [
+        // TAMBAH GAMBAR DI SINI
+        // { name: "Gambar 1", file: "gambar1.jpg" },
+        // { name: "Gambar 2", file: "gambar2.jpg" },
+      ];
 
-function url(file){
-  return R2_BASE + encodeURIComponent(file).replace(/%2F/g,"/");
-}
+      const videos = [
+        {
+          name: "automaticsourarkshell.mp4",
+          file: "automaticsourarkshell.mp4",
+        },
+        {
+          name: "celebratedblindduckbillplatypus.mp4",
+          file: "celebratedblindduckbillplatypus.mp4",
+        },
+        {
+          name: "concernedintrepidmeadowlark.mp4",
+          file: "concernedintrepidmeadowlark.mp4",
+        },
+        {
+          name: "creativedetailedfowl.mp4",
+          file: "creativedetailedfowl.mp4",
+        },
+        {
+          name: "dangerousdecentelephantseal.mp4",
+          file: "dangerousdecentelephantseal.mp4",
+        },
+        {
+          name: "dismalworthynorthernpike.mp4",
+          file: "dismalworthynorthernpike.mp4",
+        },
+        {
+          name: "distortedsmallibisbill.mp4",
+          file: "distortedsmallibisbill.mp4",
+        },
+        {
+          name: "faintboringhammerheadbird.mp4",
+          file: "faintboringhammerheadbird.mp4",
+        },
+        {
+          name: "favorablenegligiblegerenuk.mp4",
+          file: "favorablenegligiblegerenuk.mp4",
+        },
+        {
+          name: "ficklekeengalapagospenguin.mp4",
+          file: "ficklekeengalapagospenguin.mp4",
+        },
+        {
+          name: "frizzyexaltednightheron.mp4",
+          file: "frizzyexaltednightheron.mp4",
+        },
+        {
+          name: "frozenlavishalbertosaurus.mp4",
+          file: "frozenlavishalbertosaurus.mp4",
+        },
+        {
+          name: "giganticgrippingcatbird.mp4",
+          file: "giganticgrippingcatbird.mp4",
+        },
+        {
+          name: "homelydisfiguredmuntjac.mp4",
+          file: "homelydisfiguredmuntjac.mp4",
+        },
+        {
+          name: "lightpinkattachedcanadagoose.mp4",
+          file: "lightpinkattachedcanadagoose.mp4",
+        },
+        {
+          name: "lovingsmugwildcat.mp4",
+          file: "lovingsmugwildcat.mp4",
+        },
+        {
+          name: "miserabletenderrainbowtrout.mp4",
+          file: "miserabletenderrainbowtrout.mp4",
+        },
+        {
+          name: "physicalilliteratetortoise.mp4",
+          file: "physicalilliteratetortoise.mp4",
+        },
+        {
+          name: "severalselfishwrasse.mp4",
+          file: "severalselfishwrasse.mp4",
+        },
+        {
+          name: "shadowydearestboutu.mp4",
+          file: "shadowydearestboutu.mp4",
+        },
+        {
+          name: "shadyspicyfreshwatereel.mp4",
+          file: "shadyspicyfreshwatereel.mp4",
+        },
+        {
+          name: "siennauglykudu.mp4",
+          file: "siennauglykudu.mp4",
+        },
+        {
+          name: "triflingdigitalyak.mp4",
+          file: "triflingdigitalyak.mp4",
+        },
+        {
+          name: "victorioussubduedbongo.mp4",
+          file: "victorioussubduedbongo.mp4",
+        },
+        {
+          name: "vivaciousdarkmagentaearwig.mp4",
+          file: "vivaciousdarkmagentaearwig.mp4",
+        },
+      ];
 
-function esc(s){
-  return s.replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  })[c]);
-}
+      function url(file) {
+        return R2_BASE + encodeURIComponent(file).replace(/%2F/g, "/");
+      }
 
-function match(x,q){
-  return !q || x.name.toLowerCase().includes(q) ||
-    x.file.toLowerCase().includes(q);
-}
+      function esc(s) {
+        return s.replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[c],
+        );
+      }
 
-const videoGrid=document.getElementById("videos");
-const player=document.getElementById("player");
-const fullVideo=document.getElementById("fullVideo");
-const videoTitle=document.getElementById("videoTitle");
-const videoPosition=document.getElementById("videoPosition");
+      function match(x, q) {
+        return (
+          !q ||
+          x.name.toLowerCase().includes(q) ||
+          x.file.toLowerCase().includes(q)
+        );
+      }
 
-let filteredVideos=[];
-let currentIndex=0;
-let touchY=0;
-let changing=false;
+      function render() {
+        const q = document.getElementById("search").value.trim().toLowerCase();
+        const im = images.filter((x) => match(x, q));
+        const vi = videos.filter((x) => match(x, q));
 
-function render(){
-  const q=document.getElementById("search").value.trim().toLowerCase();
-  const im=images.filter(x=>match(x,q));
-  filteredVideos=videos.filter(x=>match(x,q));
+        document.getElementById("images").innerHTML = im.length
+          ? im
+              .map(
+                (x) => `
+            <article class="card">
+              <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy">
+              <div class="name">${esc(x.name)}</div>
+            </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada gambar.</div>';
 
-  document.getElementById("images").innerHTML=im.length
-    ? im.map(x=>`
-      <article class="card">
-        <img class="media" src="${url(x.file)}" alt="${esc(x.name)}" loading="lazy">
-        <div class="name">${esc(x.name)}</div>
-      </article>`).join("")
-    : '<div class="empty">Tidak ada gambar.</div>';
+        document.getElementById("videos").innerHTML = vi.length
+          ? vi
+              .map(
+                (x) => `
+            <article class="card">
+              <video class="media" controls preload="metadata" playsinline>
+                <source src="${url(x.file)}" type="video/mp4">
+              </video>
+              <div class="name">${esc(x.name)}</div>
+            </article>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada video.</div>';
 
-  videoGrid.innerHTML=filteredVideos.length
-    ? filteredVideos.map((x,i)=>`
-      <article class="card">
-        <video class="media" controls preload="metadata" playsinline
-          data-index="${i}">
-          <source src="${url(x.file)}" type="video/mp4">
-        </video>
-        <div class="name">${esc(x.name)}</div>
-      </article>`).join("")
-    : '<div class="empty">Tidak ada video.</div>';
+        document.getElementById("count").textContent =
+          `${im.length} gambar • ${vi.length} video`;
+      }
 
-  document.getElementById("count").textContent=
-    `${im.length} gambar • ${filteredVideos.length} video`;
-}
-
-function openPlayer(index){
-  if(index<0 || index>=filteredVideos.length)return;
-
-  currentIndex=index;
-  const item=filteredVideos[currentIndex];
-
-  // Hentikan video kecil pada daftar
-  videoGrid.querySelectorAll("video").forEach(v=>v.pause());
-
-  fullVideo.pause();
-  fullVideo.src=url(item.file);
-  fullVideo.load();
-
-  player.classList.add("show");
-  document.body.style.overflow="hidden";
-
-  videoTitle.textContent=item.name;
-  videoPosition.textContent=
-    `${currentIndex+1} / ${filteredVideos.length}`;
-
-  fullVideo.play().catch(()=>{
-    // Jika autoplay diblokir, tekan tombol Play.
-  });
-}
-
-function changeVideo(direction){
-  if(changing || !filteredVideos.length)return;
-
-  const next=currentIndex+direction;
-  if(next<0 || next>=filteredVideos.length)return;
-
-  changing=true;
-  openPlayer(next);
-
-  setTimeout(()=>{changing=false;},350);
-}
-
-function closePlayer(){
-  fullVideo.pause();
-  fullVideo.removeAttribute("src");
-  fullVideo.load();
-  player.classList.remove("show");
-  document.body.style.overflow="";
-}
-
-videoGrid.addEventListener("click",e=>{
-  const video=e.target.closest("video");
-  if(video)openPlayer(Number(video.dataset.index));
-});
-
-document.getElementById("search").addEventListener("input",()=>{
-  if(player.classList.contains("show"))closePlayer();
-  render();
-});
-
-document.getElementById("closePlayer").addEventListener("click",closePlayer);
-document.getElementById("prevVideo").addEventListener("click",()=>changeVideo(-1));
-document.getElementById("nextVideo").addEventListener("click",()=>changeVideo(1));
-
-document.getElementById("playPause").addEventListener("click",()=>{
-  if(fullVideo.paused){
-    fullVideo.play().catch(()=>{});
-  }else{
-    fullVideo.pause();
-  }
-});
-
-fullVideo.addEventListener("play",()=>{
-  document.getElementById("playPause").textContent="Ⅱ";
-});
-
-fullVideo.addEventListener("pause",()=>{
-  document.getElementById("playPause").textContent="▶";
-});
-
-fullVideo.addEventListener("ended",()=>{
-  if(currentIndex<filteredVideos.length-1){
-    changeVideo(1);
-  }
-});
-
-// Swipe atas/bawah di area video fullscreen
-player.addEventListener("touchstart",e=>{
-  if(e.touches.length)touchY=e.touches[0].clientY;
-},{passive:true});
-
-player.addEventListener("touchend",e=>{
-  if(!e.changedTouches.length)return;
-  const diff=touchY-e.changedTouches[0].clientY;
-  if(Math.abs(diff)<60)return;
-  changeVideo(diff>0?1:-1);
-},{passive:true});
-
-// Keyboard: panah atas/bawah dan Escape
-document.addEventListener("keydown",e=>{
-  if(!player.classList.contains("show"))return;
-  if(e.key==="ArrowDown")changeVideo(1);
-  if(e.key==="ArrowUp")changeVideo(-1);
-  if(e.key==="Escape")closePlayer();
-});
-
-render();
-</script>
-</body>
+      document.getElementById("search").addEventListener("input", render);
+      render();
+    </script>
+  </body>
 </html>
